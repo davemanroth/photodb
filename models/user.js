@@ -1,8 +1,10 @@
 var db = require('../db');
-var User = db.mongoose.model('User', db.SchemaUser);
+var User = mongoose.model('User', db.UserSchema, 'users');
 
+/*
 module.exports.RetrieveAll = RetrieveAll;
 
 function RetrieveAll(callback) {
 	User.find({}, callback);
 }
+*/

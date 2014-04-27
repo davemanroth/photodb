@@ -9,6 +9,7 @@ var http = require('http');
 var path = require('path');
 var User = require('./models/user');
 
+
 //db
 /*
 var mongoose = require('mongoose');
@@ -40,16 +41,28 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 
 app.get('/api/user/all', function(req, res) {
+	User.find({}, function(err, result) {
+		if(err) {
+			throw err;
+		}
+		else {
+			res.send(result);
+		}
+	});
+});
+
+/*
+app.get('/api/user/all', function(req, res) {
 	User.RetrieveAll(function(err, success) {
 		if(err) {
 			throw err;
-			console.log('Connection unsuccessful');
 		}
 		else {
 			res.send(success);
 		}
 	});
 });
+*/
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

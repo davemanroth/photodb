@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var User = new Schema({
+var UserSchema = new Schema({
 	username: {type: String, required: true},
 	password: {type: String, required: true},
 	join_date: {type: Date, required: true},
@@ -13,9 +13,8 @@ var User = new Schema({
 	//groups: [groupSchema],
 	//critiques: [critiqueSchema],
 	//photos: [photoSchema]
-});	
+}, {collection: 'users'});	
 
-module.exports.mongoose = mongoose;
-module.exports.SchemaUser = User;
+module.exports = UserSchema;
 
 mongoose.connect('mongodb://localhost/photodb');
