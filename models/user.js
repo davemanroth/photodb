@@ -1,5 +1,8 @@
-var db = require('../db');
-var User = mongoose.model('User', db.UserSchema, 'users');
+var schema = require('../schema');
+
+var UserModel = schema.mongoose.model('UserModel', schema.User, 'users');
+
+module.exports = UserModel;
 
 /*
 module.exports.RetrieveAll = RetrieveAll;

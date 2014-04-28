@@ -7,18 +7,11 @@ var express = require('express');
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
-var User = require('./models/user');
 
-
-//db
-/*
+// db
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/photodb');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback() {
-});
-*/
+mongoose.connect('mongodb://localhost:27017/photodb');
+var User = require('./models/user');
 
 var app = express();
 
@@ -50,19 +43,6 @@ app.get('/api/user/all', function(req, res) {
 		}
 	});
 });
-
-/*
-app.get('/api/user/all', function(req, res) {
-	User.RetrieveAll(function(err, success) {
-		if(err) {
-			throw err;
-		}
-		else {
-			res.send(success);
-		}
-	});
-});
-*/
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
