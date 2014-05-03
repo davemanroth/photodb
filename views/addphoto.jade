@@ -1,0 +1,13 @@
+extends layout
+
+block content
+	h1= title
+	form(action="", method="post", enctype="multipart/form-data")
+		label(for="title") Enter a title for your photo:
+		input(type="text" name="title")
+		label(for="camera") Select which camera you used:
+		input(type="text" name="title")
+		label Photo:
+		input(type="file", name="photo")
+		br
+		input(type="submit")

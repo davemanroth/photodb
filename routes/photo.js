@@ -2,4 +2,8 @@
  * Photo router
  */
 var mongoose = require('mongoose');
-var User = mongoose.model('Photo');
+var Photo = mongoose.model('Photo');
+
+exports.photoAddForm = function (req, res) {
+	res.render('addphoto', {title: 'Upload a photo'});
+}
