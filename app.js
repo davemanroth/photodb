@@ -13,10 +13,20 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/photodb');
 
 // models
+/*
 var user = require('./models/user').User;
 var photo = require('./model/photo').Photo;
 var critique = require('./model/critique').Critique;
 var group = require('./model/group').Group;
+*/
+
+// route files
+var user = require('./routes/user');
+/*
+var photo = require('./routes/photo');
+var critique = require('./routes/critique');
+var group = require('./routes/group');
+*/
 
 var app = express();
 
@@ -36,8 +46,14 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+// routes
 app.get('/', routes.index);
+app.get('/users/all', user.listAll);
+app.get('/users/:userid', user.listOne);
+app.get('/signup', user.createForm);
+app.post('/signup', user.createAction);
 
+/*
 app.get('/api/user/all', function(req, res) {
 	User.find({}, function(err, result) {
 		if(err) {
@@ -48,6 +64,7 @@ app.get('/api/user/all', function(req, res) {
 		}
 	});
 });
+*/
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

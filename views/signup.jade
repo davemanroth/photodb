@@ -1,0 +1,26 @@
+extends layout
+
+block content
+
+	h1= title
+	
+	form(id="signup", method="post", action="")
+		label(for="first_name") Please enter your first name
+		input(type="text", name="first_name", id="first_name")
+		br
+		label(for="last_name") Please enter your last name
+		input(type="text", name="last_name", id="last_name")
+		br
+		label(for="username") Please choose a username
+		input(type="text", name="username", id="username")
+		br
+		label(for="password") Please choose a password
+		input(type="password", name="password", id="password")
+		br
+		label(for="email") Please enter a valid email address
+		input(type="text", name="email", id="email")
+		br
+		label(for="bio") Tell us a little bit about yourself
+		textArea
+		br
+		input(type="submit", value="submit")
