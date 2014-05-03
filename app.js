@@ -11,7 +11,12 @@ var path = require('path');
 // db
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/photodb');
-var User = require('./models/user');
+
+// models
+var user = require('./models/user').User;
+var photo = require('./model/photo').Photo;
+var critique = require('./model/critique').Critique;
+var group = require('./model/group').Group;
 
 var app = express();
 
