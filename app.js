@@ -32,7 +32,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
-app.user(express.cookieParser());
+app.use(express.cookieParser());
 app.use(express.session({secret: 'inLf87hr43h&hreo29fLHEuwh200fdHlaqQ'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -49,7 +49,7 @@ app.get('/signup', user.createForm);
 app.post('/signup', user.createAction);
 
 app.get('/addphoto', photo.photoAddForm);
-app.post('/addphoto', photo.photoAddAction);
+//app.post('/addphoto', photo.photoAddAction);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
