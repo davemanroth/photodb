@@ -6,13 +6,14 @@ var Category = require('../models/category').Category;
 var fs = require('fs');
 
 exports.photoAddForm = function (req, res) {
-	var categories = '';
-	Category.find({}, {sort: {name : 1}}, function (err, cats) {
+	Category.find({}, function (err, categories) {
 		if (!err) {
-			categories = cats;
+			res.render('addphoto', {title: 'Upload a photo', categories: categories});
+		}
+		else {
+			console.log(err);
 		}
 	});
-	res.render('addphoto', {title: 'Upload a photo'}, {categories: categories});
 }
 
 exports.photoAddAction = function (req, res, next) {
@@ -30,12 +31,12 @@ exports.photoAddAction = function (req, res, next) {
 		shutter: req.body.shutter,
 		fstop: req.body.fstop,
 		iso: req.body.iso,
-		flash: req.body.flash,
+		flash: req.body.flash
+	});
 
-
-	fs.rename(tmpPath, uploadDir, function(err){
-		if(err){ next(err); }
-		fs.unlink(tmpPath, function(){
+	fs.rename(tmpPath, uploadDir, function (err) {
+		if (err) { next(err); }
+		fs.unlink(tmpPath, function () {
 			console.log('Image uploaded to ' + uploadDir);
 		});
 	});

@@ -14,8 +14,8 @@ block content
 		label(for="category") Select categories
 		br
 		select(name="category" multiple)
-			each category in categories
-				option(value="#{category}") #{category}
+			for category in categories
+				option(value="#{category.name}") #{category.name}
 		br
 		label(for="camera") Enter your camera make/model
 		br
@@ -35,10 +35,8 @@ block content
 		br
 		label(for="flash") Did you use flash?
 		br
-		input(type="radio" name="flash" value="yes")
-		| Yes
-		input(type="radio" name="flash" value="no")
-		| No
+		input(type="checkbox" name="flash")
+		| Flash used
 		br
 		label(for="writeup") Tell us a little about this photo
 		br
@@ -46,9 +44,7 @@ block content
 		br
 		label(for="access") Did you want to restrict viewing access to this photo?
 		br
-		input(type="radio" name="access" value="yes")
-		| Yes
-		input(type="radio" name="access" value="no")
-		| No
+		input(type="checkbox" name="access")
+		| Restrict access
 		br
 		input(type="submit")

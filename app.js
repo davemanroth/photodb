@@ -49,7 +49,7 @@ app.get('/signup', user.createForm);
 app.post('/signup', user.createAction);
 
 app.get('/addphoto', photo.photoAddForm);
-//app.post('/addphoto', photo.photoAddAction);
+app.post('/addphoto', photo.photoAddAction);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
