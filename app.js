@@ -31,9 +31,9 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(app.router);
 app.use(express.cookieParser());
 app.use(express.session({secret: 'inLf87hr43h&hreo29fLHEuwh200fdHlaqQ'}));
+app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
@@ -48,8 +48,10 @@ app.post('/login', user.login);
 app.get('/signup', user.signupForm);
 app.post('/signup', user.signupAction);
 
+// Photos
 app.get('/addphoto', photo.photoAddForm);
 app.post('/addphoto', photo.photoAddAction);
+app.get('/photos', photo.allPhotos);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

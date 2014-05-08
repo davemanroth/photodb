@@ -5,6 +5,7 @@ var Photo = require('../models/photo').Photo;
 var Category = require('../models/category').Category;
 var fs = require('fs');
 
+// Form to add a photo
 exports.photoAddForm = function (req, res) {
 	Category.find({}, function (err, categories) {
 		if (!err) {
@@ -16,10 +17,11 @@ exports.photoAddForm = function (req, res) {
 	});
 }
 
+// Process add photo form, add data to db
 exports.photoAddAction = function (req, res, next) {
 	var submitted = req.files.photo;
 	var tmpPath = submitted.path;
-	var uploadDir = './public/photo_uploads/' + submitted.name;
+	var uploadDir = '/photo_uploads/' + submitted.name;
 	Photo.create({
 		title: req.body.title,
 		category: req.body.category,
@@ -39,5 +41,17 @@ exports.photoAddAction = function (req, res, next) {
 		fs.unlink(tmpPath, function () {
 			console.log('Image uploaded to ' + uploadDir);
 		});
+	});
+}
+
+// Photo gallery
+exports.allPhotos = function (req, res) {
+	Photo.find({}, function (err, photos) {
+		if(!err) {
+			res.render('gallery', {title: 'Photo gallery', photos: photos});
+		}
+		else {
+			console.log(err);
+		}
 	});
 }

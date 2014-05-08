@@ -1,0 +1,7 @@
+extends layout
+
+block content
+	h1= title
+	for photo in photos
+		p
+			img(src="#{photo.path}")
