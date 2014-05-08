@@ -43,10 +43,10 @@ if ('development' == app.get('env')) {
 
 // routes
 app.get('/', routes.index);
-app.get('/users/all', user.listAll);
-app.get('/users/:userid', user.listOne);
-app.get('/signup', user.createForm);
-app.post('/signup', user.createAction);
+//app.get('/profile', user.profile);
+app.post('/login', user.login);
+app.get('/signup', user.signupForm);
+app.post('/signup', user.signupAction);
 
 app.get('/addphoto', photo.photoAddForm);
 app.post('/addphoto', photo.photoAddAction);

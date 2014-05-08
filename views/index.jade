@@ -1,4 +1,17 @@
 extends layout
 
 block content
-  h1= title
+	h1= title
+	p(id="loggedin" style="display:none")
+	div(id="signin")
+		label(for="username") Username:
+		br
+		input(type="text" name="username" id="username")
+		br
+		label(for="password") Password:
+		br
+		input(type="password" name="password" id="password")
+		br
+		input(id="submit" type="submit" value="Log in")
+
+	script(src="/javascripts/login.js")
