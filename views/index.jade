@@ -2,8 +2,15 @@ extends layout
 
 block content
 	h1= title
-	p(id="loggedin" style="display:none")
-	div(id="signin")
+	- var loginVis, logoutVis
+	if username
+		- loginVis = 'display:none', logoutVis = 'display:block'
+	else
+		- logoutVis = 'display:none', loginVis = 'display:block'
+
+	div(id="logoutDiv" style="#{logoutVis}")
+		input(id="logout" type="submit" value="Log out")
+	div(id="loginDiv" style="#{loginVis}")
 		label(for="username") Username:
 		br
 		input(type="text" name="username" id="username")
@@ -12,6 +19,6 @@ block content
 		br
 		input(type="password" name="password" id="password")
 		br
-		input(id="submit" type="submit" value="Log in")
+		input(id="login" type="submit" value="Log in")
 
 	script(src="/javascripts/login.js")

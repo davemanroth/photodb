@@ -4,6 +4,7 @@
  */
 
 var express = require('express');
+var MongoStore = require('connect-mongo')(express);
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
@@ -31,8 +32,14 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.cookieParser());
-app.use(express.session({secret: 'inLf87hr43h&hreo29fLHEuwh200fdHlaqQ'}));
+app.use(express.cookieParser('Ihfe33hlPIBDuhasdh923auhwuf'));
+app.use(express.session({
+	store: new MongoStore({
+		db: 'photodb',
+		host: '127.0.0.1',
+		port: 27017
+	})
+}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -45,6 +52,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 //app.get('/profile', user.profile);
 app.post('/login', user.login);
+app.get('/logout', user.logout);
 app.get('/signup', user.signupForm);
 app.post('/signup', user.signupAction);
 

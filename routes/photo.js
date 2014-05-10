@@ -9,7 +9,11 @@ var fs = require('fs');
 exports.photoAddForm = function (req, res) {
 	Category.find({}, function (err, categories) {
 		if (!err) {
-			res.render('addphoto', {title: 'Upload a photo', categories: categories});
+			res.render('addphoto', {
+				title: 'Upload a photo', 
+				categories: categories,
+				userid: req.session.userid
+			});
 		}
 		else {
 			console.log(err);
