@@ -10,8 +10,10 @@ exports.login = function (req, res) {
 		password: req.body.password
 	}, function (err, data) {
 		if (!err) {
-			req.session.username = data[0].username;
-			req.session.userid = data[0]._id;
+			if (data != '') {
+				req.session.username = data[0].username;
+				req.session.userid = data[0]._id;
+			}
 			res.json(data);
 		}
 		else {

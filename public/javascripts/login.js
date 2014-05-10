@@ -2,28 +2,19 @@
 	var login = $('#login'), loggedIn = $('#loggedin'),
                logout = $('#logout'), loginDiv = $('#loginDiv'), 
                logoutDiv = $('#logoutDiv');
+	
+	var error = function (mssg) {
+		var err = '<h3>Error!</h3>';
+		err += '<p>' + mssg + '</p>';
+		$('#mssg').append(err).fadeIn();
+	}
 
 	logout.on('click', function (e) {
 		window.location.href = '/logout';
-		/*
-		$.ajax({
-			url: '/logout',
-			type: 'get',
-			success: function (data) {
-				console.log('SUCCESS!!');
-			}
-			error: function () {
-				console.log('ERROR!');
-			}
-		});
-		*/
 	});
 
 	login.on('click', function (e) {
 		var username = $('#username').val(), password = $('#password').val();
-		//console.log(strings);
-		/*
-		*/
 		$.ajax({
 			url: '/login',
 			type: 'post',
@@ -33,15 +24,14 @@
 				console.log(data.error);
 			},
 			success: function (data) {
-				/*
-				var message = '';
-				if(isValid(data)) {
-					message = 'Welcome, ' + data[0].username + '!'
-				} else {
-					message = 'There is a problem with your username and password. Please try again';
+				if (data == '') {
+					error('No user by that name, please try again');
 				}
-				loggedIn.show().append(message);
-				*/
+				else {
+					$('#mssg').hide();
+					loginDiv.hide();
+					logoutDiv.show();
+				}
 			}
 		});
 

@@ -25,10 +25,11 @@ exports.photoAddForm = function (req, res) {
 exports.photoAddAction = function (req, res, next) {
 	var submitted = req.files.photo;
 	var tmpPath = submitted.path;
-	var uploadDir = '/photo_uploads/' + submitted.name;
+	var uploadDir = './photo_uploads/' + submitted.name;
 	Photo.create({
 		title: req.body.title,
 		category: req.body.category,
+		author: req.session.userid,
 		path: uploadDir,
 		writeup: req.body.writeup,
 		date_uploaded: Date.now(),
