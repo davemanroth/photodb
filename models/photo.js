@@ -8,6 +8,7 @@ var PhotoSchema = new Schema({
 	title: {type: String, required: true},
 	author: {type: Schema.Types.ObjectId, ref: 'User'},
 	path: {type: String, required: true},
+	thumb: {type: String, required: true},
 	date_uploaded: {type: Date, default: Date.now},
 	camera: {type: String},
 	shutter: {type: String},

@@ -3,7 +3,13 @@
  */
 var Photo = require('../models/photo').Photo;
 var Category = require('../models/category').Category;
+//var easyimage = require('easyimage');
+var gm = require('gm').subClass({ imageMagick: true });;
 var fs = require('fs');
+
+var thumbName = function (oldName) {
+	return oldName.split('.').join('_thumb.');
+}
 
 // Form to add a photo
 exports.photoAddForm = function (req, res) {
@@ -25,12 +31,16 @@ exports.photoAddForm = function (req, res) {
 exports.photoAddAction = function (req, res, next) {
 	var submitted = req.files.photo;
 	var tmpPath = submitted.path;
-	var uploadDir = './photo_uploads/' + submitted.name;
+	var fullRes = '/photo_uploads/' + submitted.name;
+	var thumb = '/photo_uploads/thumbs' + thumbName(submitted.name);
+	var fullResDir = './public' + fullRes;
+	var thumbDir = './public/photo_uploads/thumbs/' + thumb;
 	Photo.create({
 		title: req.body.title,
 		category: req.body.category,
 		author: req.session.userid,
-		path: uploadDir,
+		path: fullRes,
+		thumb: thumb,
 		writeup: req.body.writeup,
 		date_uploaded: Date.now(),
 		access: req.body.access,
@@ -41,12 +51,31 @@ exports.photoAddAction = function (req, res, next) {
 		flash: req.body.flash
 	});
 
-	fs.rename(tmpPath, uploadDir, function (err) {
+	// Move file from temporary upload dir to photo_uploads dir
+	fs.rename(tmpPath, fullResDir, function (err) {
 		if (err) { next(err); }
 		fs.unlink(tmpPath, function () {
-			console.log('Image uploaded to ' + uploadDir);
+			console.log('Image uploaded to ' + fullResDir);
 		});
 	});
+
+	// Thumbnail creation
+	gm(fullResDir).resize(220, 180).write(thumbDir, function (err) {
+		if (!err) {
+			console.log('Thumbnail successfully created!');
+		}
+		else {
+			console.log(err);
+		}
+	});
+	/*
+	easyimg.rescrop({
+		src: fullResDir, 
+		dst: thumbDir,
+		width: 220,
+		height: 180,
+		cropwidth: 
+	*/
 }
 
 // Photo gallery
