@@ -32,9 +32,9 @@ exports.photoAddAction = function (req, res, next) {
 	var submitted = req.files.photo;
 	var tmpPath = submitted.path;
 	var fullRes = '/photo_uploads/' + submitted.name;
-	var thumb = '/photo_uploads/thumbs' + thumbName(submitted.name);
+	var thumb = '/photo_uploads/thumbs/' + thumbName(submitted.name);
 	var fullResDir = './public' + fullRes;
-	var thumbDir = './public/photo_uploads/thumbs/' + thumb;
+	var thumbDir = './public' + thumb;
 	Photo.create({
 		title: req.body.title,
 		category: req.body.category,

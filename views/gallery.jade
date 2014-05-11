@@ -3,5 +3,7 @@ extends layout
 block content
 	h1= title
 	for photo in photos
-		p
-			img(src="#{photo.path}")
+		div#photo-thumb.photothumb
+			a(href="#{photo.path}")
+				img(src="#{photo.thumb}")
+			p: strong= photo.title

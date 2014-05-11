@@ -8,8 +8,6 @@ var MongoStore = require('connect-mongo')(express);
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
-var easyimage = require('easyimage');
-var fs = require('fs');
 
 // db
 var mongoose = require('mongoose');
