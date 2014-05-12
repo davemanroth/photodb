@@ -68,14 +68,6 @@ exports.photoAddAction = function (req, res, next) {
 			console.log(err);
 		}
 	});
-	/*
-	easyimg.rescrop({
-		src: fullResDir, 
-		dst: thumbDir,
-		width: 220,
-		height: 180,
-		cropwidth: 
-	*/
 }
 
 // Photo gallery
@@ -83,6 +75,18 @@ exports.allPhotos = function (req, res) {
 	Photo.find({}, function (err, photos) {
 		if(!err) {
 			res.render('gallery', {title: 'Photo gallery', photos: photos});
+		}
+		else {
+			console.log(err);
+		}
+	});
+}
+
+exports.detail = function (req, res) {
+	var id = req.params.photoid;
+	Photo.find({_id: id}, function (err, photo) {
+		if(!err) {
+			res.render('detail', {title: photo.title, photo: photo});
 		}
 		else {
 			console.log(err);

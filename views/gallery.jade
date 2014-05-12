@@ -4,6 +4,6 @@ block content
 	h1= title
 	for photo in photos
 		div#photo-thumb.photothumb
-			a(href="#{photo.path}")
+			a(href="/photos/#{photo._id}")
 				img(src="#{photo.thumb}")
 			p: strong= photo.title
