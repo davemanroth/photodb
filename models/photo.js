@@ -2,9 +2,11 @@
  * Photo model
  */
 var mongoose = require('mongoose');
+var shortid = require('shortid');
 var Schema = mongoose.Schema;
 
 var PhotoSchema = new Schema({
+	_id: {type: String, default: shortid.generate()},
 	title: {type: String, required: true},
 	author: {type: Schema.Types.ObjectId, ref: 'User'},
 	path: {type: String, required: true},
