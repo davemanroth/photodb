@@ -2,6 +2,8 @@
  * User router
  */
 var User = require('../models/user').User;
+var gm = require('gm').subClass({ imageMagick: true });;
+var fs = require('fs');
 
 exports.login = function (req, res) {
 	//console.log(req.body.username);
@@ -57,7 +59,7 @@ exports.signupAction = function (req, res) {
 }
 
 /*
-exports.listAll = function (req, res) {
+exports.allUsers = function (req, res) {
 	User.find({}, function (err, users) {
 		if(err) {
 			console.log('Error: ' + err);
@@ -67,5 +69,16 @@ exports.listAll = function (req, res) {
 		}
 	});
 };
-*/
 
+exports.profile = function (req, res) {
+	var username = req.params.username;
+	User.find({username: username}, function (err, user) {
+		if(!err) {
+			res.render('profile', {user: user[0]});
+		}
+		else {
+			console.log(err);
+		}
+	});
+}	
+*/

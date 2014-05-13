@@ -49,17 +49,21 @@ if ('development' == app.get('env')) {
 
 // routes
 app.get('/', routes.index);
-//app.get('/profile', user.profile);
+
+// User
 app.post('/login', user.login);
 app.get('/logout', user.logout);
 app.get('/signup', user.signupForm);
 app.post('/signup', user.signupAction);
+//app.get('/users', user.allUsers);
+//app.get('/users/:username', user.profile);
 
 // Photos
 app.get('/addphoto', photo.photoAddForm);
 app.post('/addphoto', photo.photoAddAction);
 app.get('/photos', photo.allPhotos);
 app.get('/photos/:photoid', photo.photoDetail);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
