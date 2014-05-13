@@ -1,0 +1,20 @@
+extends layout
+
+block content
+	title= photo.title
+	header
+		h1= photo.title
+		p= photo.author.username
+		p= photo.date_uploaded
+	img(src="#{photo.path}")
+	div.specs
+		h2 Specifications
+		ul 
+			li: | <strong>Camera:</strong> #{photo.camera}
+			li: | <strong>Shutter:</strong> #{photo.shutter}
+			li: | <strong>fstop:</strong> #{photo.fstop}
+			li: | <strong>iso:</strong> #{photo.iso}
+			
+	div.about
+		h2 About photo
+		p= photo.writeup

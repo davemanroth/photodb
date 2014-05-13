@@ -82,14 +82,16 @@ exports.allPhotos = function (req, res) {
 	});
 }
 
-exports.detail = function (req, res) {
+exports.photoDetail = function (req, res) {
 	var id = req.params.photoid;
-	Photo.find({_id: id}, function (err, photo) {
+	Photo.find({_id: id})
+		   .populate('author', 'username')
+			 .exec(function (err, photo) {
 		if(!err) {
-			res.render('detail', {title: photo.title, photo: photo});
+			res.render('detail', {photo: photo[0]});
 		}
 		else {
-			console.log(err);
+			console.log('ERROR: ' + err);
 		}
 	});
 }

@@ -14,7 +14,7 @@ var UserSchema = new Schema({
 	bio: {type: String, required: false},
 	groups: [{type: Schema.Types.ObjectId, ref: 'Group'}],
 	critiques: [{type: Schema.Types.ObjectId, ref: 'Critique'}],
-	photos: [{type: Schema.Types.ObjectId, ref: 'Photo'}],
+	photos: [{type: String, ref: 'Photo'}],
 }, {collection: 'users'});
 
 var User = mongoose.model('User', UserSchema);
