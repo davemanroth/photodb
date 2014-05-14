@@ -69,7 +69,10 @@ exports.allUsers = function (req, res) {
 		}
 	});
 };
+*/
 
+/*
+*/
 exports.profile = function (req, res) {
 	var username = req.params.username;
 	User.find({username: username}, function (err, user) {
@@ -81,4 +84,3 @@ exports.profile = function (req, res) {
 		}
 	});
 }	
-*/

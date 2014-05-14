@@ -55,8 +55,8 @@ app.post('/login', user.login);
 app.get('/logout', user.logout);
 app.get('/signup', user.signupForm);
 app.post('/signup', user.signupAction);
+app.get('/users/:username', user.profile);
 //app.get('/users', user.allUsers);
-//app.get('/users/:username', user.profile);
 
 // Photos
 app.get('/addphoto', photo.photoAddForm);
