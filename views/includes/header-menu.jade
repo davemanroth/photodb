@@ -1,0 +1,8 @@
+header
+nav
+	ul
+		li: a(href="/") Home
+		li: a(href="/photos") Browse photos
+		li: a(href="/addphoto") Submit a photo
+		- if (session.username)
+			li: a(href="/users/#{session.username}") My account

@@ -6,3 +6,7 @@ body {
 a {
   color: #00B7FF;
 }
+
+nav li{float:left; display:block; padding:5px 10px;}
+nav ul{padding:0;}
+nav ul:after{content:""; display:block; clear:both;}
