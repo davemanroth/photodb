@@ -1,0 +1,16 @@
+div#feedback-form.feedback-form
+	h2 Feedback submission
+	div#close.close X
+	label(for="like") What do you like about the photo? (limit xxx characters)
+	br
+	textarea#like(name="like")
+	br
+	label(for="improved") What could be improved? (limit xxx characters)
+	br
+	textarea#improved(name="improved")
+	br
+	input(type="checkbox" name="visual") 
+	| Add visual feedback?
+	br
+	button#cancel Cancel
+	button#submit-feedback Submit feedback

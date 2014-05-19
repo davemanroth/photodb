@@ -7,6 +7,7 @@ block content
 		p= photo.author.username
 		p= photo.date_uploaded
 	img(src="#{photo.path}")
+	div#feedback.feedback
 	div.specs
 		h2 Specifications
 		ul 
@@ -22,6 +23,6 @@ block content
 		h2 Feedback
 		button#crit-sub.submit Submit a critique
 	div#critique-area
-	if(photo.critiques.length === 0) 
+	- if(photo.critiques.length === 0) 
 		p There are no critiques yet
-	
+	script(src="/javascripts/feedback.js")

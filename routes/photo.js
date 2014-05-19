@@ -95,3 +95,4 @@ exports.photoDetail = function (req, res) {
 		}
 	});
 }
+

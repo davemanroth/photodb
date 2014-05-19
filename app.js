@@ -16,8 +16,8 @@ mongoose.connect('mongodb://localhost:27017/photodb');
 // route files
 var user = require('./routes/user');
 var photo = require('./routes/photo');
-/*
 var critique = require('./routes/critique');
+/*
 var group = require('./routes/group');
 */
 
@@ -68,6 +68,8 @@ app.post('/addphoto', photo.photoAddAction);
 app.get('/photos', photo.allPhotos);
 app.get('/photos/:photoid', photo.photoDetail);
 
+// Critiques
+app.get('/critique/add', critique.showFeedbackForm);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
