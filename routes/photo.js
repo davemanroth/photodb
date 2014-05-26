@@ -2,6 +2,7 @@
  * Photo router
  */
 var Photo = require('../models/photo').Photo;
+var Critique = require('../models/critique').Critique;
 var Category = require('../models/category').Category;
 //var easyimage = require('easyimage');
 var gm = require('gm').subClass({ imageMagick: true });;
@@ -88,10 +89,25 @@ exports.photoDetail = function (req, res) {
 		   .populate('author', 'username')
 			 .exec(function (err, photo) {
 		if(!err) {
-			res.render('detail', {photo: photo[0]});
+			photo = photo[0];
+			if(photo.critiques.length != 0) {
+				Critique.find({photoid: photo._id})
+				        .populate('userid', 'username')
+				        .exec(function (err, crits) {
+					if(!err) {
+						res.render('detail', {photo: photo, critiques: crits});
+					}
+					else {
+						console.log(err);
+					}
+				});
+			}
+			else {
+				res.render('detail', {photo: photo});
+			}
 		}
 		else {
-			console.log('ERROR: ' + err);
+			console.log(err);
 		}
 	});
 }
