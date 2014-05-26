@@ -25,4 +25,5 @@ block content
 	div#critique-area
 	- if(photo.critiques.length === 0) 
 		p There are no critiques yet
+	input(type="hidden" id="photoid" value="#{photo._id}")
 	script(src="/javascripts/feedback.js")

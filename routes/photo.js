@@ -12,7 +12,7 @@ var thumbName = function (oldName) {
 }
 
 // Form to add a photo
-exports.photoAddForm = function (req, res) {
+exports.photoForm = function (req, res) {
 	Category.find({}, function (err, categories) {
 		if (!err) {
 			res.render('addphoto', {
@@ -28,7 +28,7 @@ exports.photoAddForm = function (req, res) {
 }
 
 // Process add photo form, add data to db
-exports.photoAddAction = function (req, res, next) {
+exports.photoSubmit = function (req, res, next) {
 	var submitted = req.files.photo;
 	var tmpPath = submitted.path;
 	var fullRes = '/photo_uploads/' + submitted.name;

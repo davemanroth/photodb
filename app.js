@@ -63,13 +63,14 @@ app.get('/users/:username', user.profile);
 //app.get('/users', user.allUsers);
 
 // Photos
-app.get('/addphoto', photo.photoAddForm);
-app.post('/addphoto', photo.photoAddAction);
+app.get('/addphoto', photo.photoForm);
+app.post('/addphoto', photo.photoSubmit);
 app.get('/photos', photo.allPhotos);
 app.get('/photos/:photoid', photo.photoDetail);
 
 // Critiques
-app.get('/critique/add', critique.showFeedbackForm);
+app.get('/critique/add', critique.feedbackForm);
+app.post('/critique/add', critique.feedbackSubmit);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

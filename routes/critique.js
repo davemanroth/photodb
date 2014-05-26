@@ -2,18 +2,48 @@
  * Critique router
  */
 var Photo = require('../models/photo').Photo;
-var Category = require('../models/category').Category;
 var Critique = require('../models/critique').Critique;
 //var easyimage = require('easyimage');
 //var gm = require('gm').subClass({ imageMagick: true });;
-var fs = require('fs');
+//var fs = require('fs');
 
-var thumbName = function (oldName) {
-	return oldName.split('.').join('_thumb.');
+exports.feedbackForm = function (req, res) {
+	res.render('partials/feedback');
 }
 
-exports.showFeedbackForm = function (req, res) {
-	res.render('partials/feedback');
+exports.feedbackSubmit = function (req, res) {
+	//console.log(req.body);
+	Critique.create({
+		userid: req.session.userid,
+		photoid: req.body.photoid,
+		like: req.body.like,
+		improved: req.body.improved
+	}, function (err, crit) {
+			if(!err) {
+				Photo.findOne({
+					_id: req.body.photoid}, function (err, photo) {
+						if(!err) {
+							photo.critiques.push(crit._id);
+							photo.save(function (err, photo) {
+								if(!err) {
+									console.log('Photo record updated');
+								}
+								else {
+									console.log(err);
+								}
+							});//Photo save
+						}
+						else {
+							console.log(err);
+						}
+					}// Photo find
+				);
+				console.log('Critique created');
+			}
+			else {
+				console.log(err);
+			}
+	});// Crit create
 }
 
 /*
