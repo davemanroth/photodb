@@ -1,5 +1,6 @@
 (function ($) {
 	var feedback = $('#feedback');
+	var critArea = $('#critique-area');
 	$('#crit-sub').on('click', function () {
 		$.ajax({
 			url: '/critique/add',
@@ -30,18 +31,32 @@
 			$.ajax({
 				url: '/critique/add',
 				type: 'post',
+				dataType: 'json',
 				data: {like: like, improved: improved, photoid: photoid},
 				success: function (resp) {
 					if(resp.error) {
 						console.log(resp.error);
 					}
 					else {
-						console.log(data);
+						var crit = addCritique(like, improved, resp.user, resp.date);
+						//console.log(crit);
+						critArea.prepend(crit);
 						$(feedback).children().remove();
 					}
 				}
 			});
 		});
+	}	
+	
+	var addCritique = function (like, improved, user, date) {
+		var output = '<div class="critique">';
+		output += '<p class="question">What do you like about the photo?<br />';
+		output += like + '</p>';
+		output += '<p class="question">What could be improved?<br />';
+		output += improved + '</p>';
+		output += '<p class="author">' + user + ', ' + date + '</p>';
+		output += '</div>';
+		return output;
 	}
 
 })(jQuery);

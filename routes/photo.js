@@ -2,6 +2,7 @@
  * Photo router
  */
 var Photo = require('../models/photo').Photo;
+var User = require('../models/user').User;
 var Critique = require('../models/critique').Critique;
 var Category = require('../models/category').Category;
 //var easyimage = require('easyimage');
@@ -36,6 +37,7 @@ exports.photoSubmit = function (req, res, next) {
 	var thumb = '/photo_uploads/thumbs/' + thumbName(submitted.name);
 	var fullResDir = './public' + fullRes;
 	var thumbDir = './public' + thumb;
+	
 	Photo.create({
 		title: req.body.title,
 		category: req.body.category,
@@ -51,8 +53,27 @@ exports.photoSubmit = function (req, res, next) {
 		iso: req.body.iso,
 		flash: req.body.flash
 	});
+	/*
+	var newPhoto = new Photo({
+		title: req.body.title,
+		category: req.body.category,
+		author: req.session.userid,
+		path: fullRes,
+		thumb: thumb,
+		writeup: req.body.writeup,
+		date_uploaded: Date.now(),
+		access: req.body.access,
+		camera: req.body.camera,
+		shutter: req.body.shutter,
+		fstop: req.body.fstop,
+		iso: req.body.iso,
+		flash: req.body.flash
+	});
 
-	// Move file from temporary upload dir to photo_uploads dir
+	newPhoto.save( function (err, photo) {
+		if(!err) {
+	*/
+		// Move file from temporary upload dir to photo_uploads dir
 	fs.rename(tmpPath, fullResDir, function (err) {
 		if (err) { next(err); }
 		fs.unlink(tmpPath, function () {
@@ -93,6 +114,7 @@ exports.photoDetail = function (req, res) {
 			if(photo.critiques.length != 0) {
 				Critique.find({photoid: photo._id})
 				        .populate('userid', 'username')
+								.sort('-date_posted')
 				        .exec(function (err, crits) {
 					if(!err) {
 						res.render('detail', {photo: photo, critiques: crits});

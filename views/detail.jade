@@ -23,15 +23,13 @@ block content
 		h2 Feedback
 		button#crit-sub.submit Submit a critique
 	div#critique-area
-	- if(photo.critiques.length === 0) 
-		p There are no critiques yet
-	- else
-		each critique in critiques
-			div.critique
-				p.question What do you like about the photo?<br />
-				| #{critique.like}
-				p.question What could be improved?<br />
-				| #{critique.improved}
-				p.author -#{critique.userid.username}, #{critique.date_posted}
+		- if(photo.critiques.length === 0) 
+			p There are no critiques yet
+		- else
+			each critique in critiques
+				div.critique
+					p.question What do you like about the photo?<br /> #{critique.like}
+					p.question What could be improved?<br /> #{critique.improved}
+					p.author -#{critique.userid.username}, #{critique.date_posted}
 	input(type="hidden" id="photoid" value="#{photo._id}")
 	script(src="/javascripts/feedback.js")

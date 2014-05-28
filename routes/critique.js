@@ -38,6 +38,7 @@ exports.feedbackSubmit = function (req, res) {
 						}
 					}// Photo find
 				);
+				res.json({user: req.session.username, date: Date.now});
 				console.log('Critique created');
 			}
 			else {
