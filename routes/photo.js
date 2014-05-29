@@ -38,6 +38,7 @@ exports.photoSubmit = function (req, res, next) {
 	var fullResDir = './public' + fullRes;
 	var thumbDir = './public' + thumb;
 	
+	/*
 	Photo.create({
 		title: req.body.title,
 		category: req.body.category,
@@ -53,7 +54,7 @@ exports.photoSubmit = function (req, res, next) {
 		iso: req.body.iso,
 		flash: req.body.flash
 	});
-	/*
+	*/
 	var newPhoto = new Photo({
 		title: req.body.title,
 		category: req.body.category,
@@ -72,8 +73,14 @@ exports.photoSubmit = function (req, res, next) {
 
 	newPhoto.save( function (err, photo) {
 		if(!err) {
-	*/
-		// Move file from temporary upload dir to photo_uploads dir
+			User.addToArray('photos', req.session.username, photo._id);
+		}
+		else {
+			console.log(err);
+		}
+	});
+	
+// Move file from temporary upload dir to photo_uploads dir
 	fs.rename(tmpPath, fullResDir, function (err) {
 		if (err) { next(err); }
 		fs.unlink(tmpPath, function () {
@@ -81,7 +88,7 @@ exports.photoSubmit = function (req, res, next) {
 		});
 	});
 
-	// Thumbnail creation
+// Thumbnail creation
 	gm(fullResDir).resize(220, 180).write(thumbDir, function (err) {
 		if (!err) {
 			console.log('Thumbnail successfully created!');

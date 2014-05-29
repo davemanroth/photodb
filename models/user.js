@@ -19,5 +19,37 @@ var UserSchema = new Schema({
 	photos: [{type: String, ref: 'Photo'}],
 }, {collection: 'users'});
 
+UserSchema.statics.addToArray = function (arrayName, username, id) {
+	this.find({username: username}, function (err, user) {
+		if(!err) {
+			user = user[0];
+			//console.log(user);
+			switch (arrayName) {
+				case 'groups' :
+					user.groups.push(id);
+					break;
+				case 'critiques' :
+					user.critiques.push(id);
+					break;
+				case 'photos' :
+					user.photos.push(id);
+					break;
+			}
+			user.save(function (err, user) {
+				if(!err) {
+					console.log('User updated!');
+				}
+				else {
+					console.log(err);
+				}
+			});
+		}
+		else {
+			console.log(err);
+		}
+	});
+}
+
+
 var User = mongoose.model('User', UserSchema);
 module.exports = {User: User};
