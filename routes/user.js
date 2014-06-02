@@ -30,9 +30,6 @@ exports.logout = function (req, res) {
 	res.redirect('/');
 }
 
-exports.profile = function (req, res){
-};
-
 exports.signupForm = function (req, res) {
 	res.render('signup', {title: 'User signup'});
 };
