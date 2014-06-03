@@ -3,7 +3,7 @@ extends layout
 block content
 	title= user.username
 	h1= user.username
-	p= user
+	// p= user
 	h2 Profile
 	#profile
 		#profile-pic
@@ -23,3 +23,12 @@ block content
 		button: | Create a group
 		button: | Withdraw from a group
 	h2 Photos
+	#photo-buttons
+		button: | Add a photo
+		button: | Remove a photo
+	if(user.photos.length > 0)
+		for photo in user.photos
+			div#photo-thumb.photothumb
+				a(href="/photos/#{photo._id}")
+					img(src="#{photo.thumb}")
+				p: strong= photo.title

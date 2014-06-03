@@ -72,7 +72,9 @@ exports.allUsers = function (req, res) {
 */
 exports.profile = function (req, res) {
 	var username = req.params.username;
-	User.find({username: username}, function (err, user) {
+	User.find({username: username})
+		  .populate('photos', 'title path thumb')
+			.exec(function (err, user) {
 		if(!err) {
 			res.render('profile', {user: user[0]});
 		}
