@@ -24,5 +24,26 @@ var PhotoSchema = new Schema({
 	category: [String],
 }, {collection: 'photos'});	
 
+PhotoSchema.statics.addToArray = function (arrayName, photoid, critid) {
+	this.find({_id: photoid}, function (err, photo) {
+		if(!err) {
+			photo = photo[0];
+			photo.critiques.push(critid);
+			photo.save(function (err, photo) {
+				if(!err) {
+					console.log('Photo updated!');
+				}
+				else {
+					console.log(err);
+				}
+			});
+		}
+		else {
+			console.log(err);
+		}
+	});
+}
+
+
 var Photo = mongoose.model('Photo', PhotoSchema);
 module.exports = {Photo: Photo};;

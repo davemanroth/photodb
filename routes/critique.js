@@ -13,38 +13,21 @@ exports.feedbackForm = function (req, res) {
 
 exports.feedbackSubmit = function (req, res) {
 	//console.log(req.body);
-	Critique.create({
+	var newCrit = new Critique({
 		userid: req.session.userid,
 		photoid: req.body.photoid,
 		like: req.body.like,
 		improved: req.body.improved
-	}, function (err, crit) {
-			if(!err) {
-				Photo.findOne({
-					_id: req.body.photoid}, function (err, photo) {
-						if(!err) {
-							photo.critiques.push(crit._id);
-							photo.save(function (err, photo) {
-								if(!err) {
-									console.log('Photo record updated');
-								}
-								else {
-									console.log(err);
-								}
-							});//Photo save
-						}
-						else {
-							console.log(err);
-						}
-					}// Photo find
-				);
-				res.json({user: req.session.username, date: Date.now});
-				console.log('Critique created');
-			}
-			else {
-				console.log(err);
-			}
-	});// Crit create
+	});
+	
+	newCrit.save( function (err, crit) {
+		if(!err) {
+			Photo.addToArray('critique', req.body.photoid, crit._id);
+		}
+		else {
+			console.log(err);
+		}
+	});
 }
 
 /*
