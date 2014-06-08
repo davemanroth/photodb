@@ -20,30 +20,27 @@ var PhotoSchema = new Schema({
 	writeup: {type: String, required: true},
 	access: {type: Boolean, default: false},
 	views: {type: Number, required: true, default: 0},
-	critiques: [{type: Schema.Types.ObjectId, ref: 'Critique'}],
+	critiques: [CritiqueSchema],
 	category: [String],
 }, {collection: 'photos'});	
 
-PhotoSchema.statics.addToArray = function (arrayName, photoid, critid) {
-	this.find({_id: photoid}, function (err, photo) {
-		if(!err) {
-			photo = photo[0];
-			photo.critiques.push(critid);
-			photo.save(function (err, photo) {
-				if(!err) {
-					console.log('Photo updated!');
-				}
-				else {
-					console.log(err);
-				}
-			});
-		}
-		else {
-			console.log(err);
-		}
-	});
-}
+/**
+ * critique subdocument
+ */
+var CritiqueSchema = new Schema({
+	username: {type: String, ref: 'User'},
+	date_posted: {type: Date, default: Date.now},
+	like: {type: String, required: true},
+	improved: {type: String, required: true},
+	details: [DetailSchema]
+}, {collection: 'critiques'});
 
+// details subdocument
+var DetailSchema = new Schema({
+	xCoord: {type: Number, required: true},
+	yCoord: {type: Number, required: true},
+	notes: {type: String, required: true}
+});
 
 var Photo = mongoose.model('Photo', PhotoSchema);
 module.exports = {Photo: Photo};;

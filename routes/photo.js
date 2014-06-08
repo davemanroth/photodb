@@ -38,23 +38,6 @@ exports.photoSubmit = function (req, res, next) {
 	var fullResDir = './public' + fullRes;
 	var thumbDir = './public' + thumb;
 	
-	/*
-	Photo.create({
-		title: req.body.title,
-		category: req.body.category,
-		author: req.session.userid,
-		path: fullRes,
-		thumb: thumb,
-		writeup: req.body.writeup,
-		date_uploaded: Date.now(),
-		access: req.body.access,
-		camera: req.body.camera,
-		shutter: req.body.shutter,
-		fstop: req.body.fstop,
-		iso: req.body.iso,
-		flash: req.body.flash
-	});
-	*/
 	var newPhoto = new Photo({
 		title: req.body.title,
 		category: req.body.category,
@@ -114,30 +97,15 @@ exports.allPhotos = function (req, res) {
 exports.photoDetail = function (req, res) {
 	var id = req.params.photoid;
 	Photo.find({_id: id})
-		   .populate('author', 'username')
-			 .exec(function (err, photo) {
-		if(!err) {
-			photo = photo[0];
-			if(photo.critiques.length != 0) {
-				Critique.find({photoid: photo._id})
-				        .populate('userid', 'username')
-								.sort('-date_posted')
-				        .exec(function (err, crits) {
-					if(!err) {
-						res.render('detail', {photo: photo, critiques: crits});
-					}
-					else {
-						console.log(err);
-					}
-				});
-			}
-			else {
+		.populate('author', 'username')
+		.exec(function (err, photo) {
+			if(!err) {
+				photo = photo[0];
 				res.render('detail', {photo: photo});
 			}
-		}
-		else {
-			console.log(err);
-		}
+			else {
+				console.log(err);
+			}
 	});
 }
 
