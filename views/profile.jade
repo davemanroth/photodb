@@ -4,7 +4,7 @@ block content
 	title= user.username
 	h1= user.username
 	// p= user
-	h2 Profile
+	h2 My profile
 	#profile
 		#profile-pic
 			p: img(alt="placeholder image" src="#{user.self_portrait}")
@@ -14,7 +14,7 @@ block content
 			p Last name <br /> #{user.last_name}
 			p Email <br /> #{user.email}
 		// #bio
-	h2 Groups
+	h2 My groups
 	if(user.groups.length > 0)
 		for group in user.groups
 			.group= group
@@ -22,7 +22,7 @@ block content
 		button: | Join a group
 		button: | Create a group
 		button: | Withdraw from a group
-	h2 Photos
+	h2 My photos
 	#photo-buttons
 		button: | Add a photo
 		button: | Remove a photo

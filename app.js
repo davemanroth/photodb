@@ -15,6 +15,7 @@ mongoose.connect('mongodb://localhost:27017/photodb');
 
 // route files
 var user = require('./routes/user');
+var group = require('./routes/group');
 var photo = require('./routes/photo');
 var critique = require('./routes/critique');
 /*
@@ -61,6 +62,9 @@ app.get('/signup', user.signupForm);
 app.post('/signup', user.signupAction);
 app.get('/users/:username', user.profile);
 //app.get('/users', user.allUsers);
+
+// Groups
+app.get('/groups', group.listGroups);
 
 // Photos
 app.get('/addphoto', photo.photoForm);
