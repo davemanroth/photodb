@@ -33,7 +33,7 @@ var CritiqueSchema = new Schema({
 	like: {type: String, required: true},
 	improved: {type: String, required: true},
 	details: [DetailSchema]
-}, {collection: 'critiques'});
+});
 
 // details subdocument
 var DetailSchema = new Schema({

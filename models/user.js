@@ -17,7 +17,14 @@ var UserSchema = new Schema({
 	groups: [{type: Schema.Types.ObjectId, ref: 'Group'}],
 	critiques: [{type: Schema.Types.ObjectId, ref: 'Critique'}],
 	photos: [{type: String, ref: 'Photo'}],
+	messages: [MessageSchema],
 }, {collection: 'users'});
+
+var MessageSchema = new Schema({
+	from: {type: String, ref: 'User'},
+	text: {type: String, required: true},
+	date_sent: {type: Date, default: Date.now}
+});
 
 /*
  * Static method to push a group, photo, or critique id to the appropriate
