@@ -3,7 +3,6 @@
  */
 var Photo = require('../models/photo').Photo;
 var User = require('../models/user').User;
-var Critique = require('../models/critique').Critique;
 var Category = require('../models/category').Category;
 //var easyimage = require('easyimage');
 var gm = require('gm').subClass({ imageMagick: true });;

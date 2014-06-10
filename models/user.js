@@ -15,7 +15,7 @@ var UserSchema = new Schema({
 	self_portrait: {type: String, default: '/images/default_portrait.jpg'},
 	bio: {type: String, required: false},
 	groups: [{type: Schema.Types.ObjectId, ref: 'Group'}],
-	critiques: [{type: Schema.Types.ObjectId, ref: 'Critique'}],
+	critiques: [{type: String, ref: 'Photo'}],
 	photos: [{type: String, ref: 'Photo'}],
 	messages: [MessageSchema],
 }, {collection: 'users'});

@@ -1,6 +1,5 @@
 /**
  * critique model
- */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -22,3 +21,4 @@ var DetailSchema = new Schema({
 
 var Critique = mongoose.model('Critique', CritiqueSchema);
 module.exports = {Critique: Critique};
+ */

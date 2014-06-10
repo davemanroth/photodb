@@ -2,6 +2,7 @@
  * Critique router
  */
 var Photo = require('../models/photo').Photo;
+var User = require('../models/user').User;
 
 exports.feedbackForm = function (req, res) {
 	res.render('partials/feedback');
@@ -24,7 +25,7 @@ exports.feedbackSubmit = function (req, res) {
 					console.log(err);
 				}
 				else {
-					User.addToArray('critiques', req.session.userid, photo.critiques._id);
+					User.addToArray('critiques', req.session.username, photo._id);
 					console.log('Added critique to ' + req.session.username + '\'s account');
 				}
 			});
