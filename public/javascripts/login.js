@@ -20,7 +20,7 @@
 			type: 'post',
 			dataType: 'json',
 			data: {username: username, password: password},
-			error: function () {
+			error: function (data) {
 				console.log(data.error);
 			},
 			success: function (data) {
@@ -31,6 +31,10 @@
 					$('#mssg').hide();
 					loginDiv.hide();
 					logoutDiv.show();
+// This is a simple fix for refreshing page to get up to date data.
+// May change this sometim in the future in favor of something that 
+// does not reload the whole page.
+					window.location.reload();
 				}
 			}
 		});

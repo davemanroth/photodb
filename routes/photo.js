@@ -4,7 +4,6 @@
 var Photo = require('../models/photo').Photo;
 var User = require('../models/user').User;
 var Category = require('../models/category').Category;
-//var easyimage = require('easyimage');
 var gm = require('gm').subClass({ imageMagick: true });;
 var fs = require('fs');
 
