@@ -4,8 +4,8 @@ block content
 	title= photo.title
 	header
 		h1= photo.title
-		p= photo.author.username
-		p= photo.date_uploaded
+		p: a(href="users/#{photo.author.username}") #{photo.author.username}
+		p Uploaded: #{humanize.date(reformat, photo.date_uploaded)}
 	img(src="#{photo.path}")
 	div#feedback.feedback
 	div.specs
@@ -30,6 +30,8 @@ block content
 				div.critique
 					p.question What do you like about the photo?<br /> #{critique.like}
 					p.question What could be improved?<br /> #{critique.improved}
-					p.author -#{critique.username}, #{critique.date_posted}
+					p.author - 
+						a(href="/users/#{critique.username}") #{critique.username},
+						|  #{humanize.date(reformat, critique.date_posted)}
 	input(type="hidden" id="photoid" value="#{photo._id}")
 	script(src="/javascripts/feedback.js")

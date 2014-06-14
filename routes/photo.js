@@ -6,6 +6,7 @@ var User = require('../models/user').User;
 var Category = require('../models/category').Category;
 var gm = require('gm').subClass({ imageMagick: true });;
 var fs = require('fs');
+var humanize = require('humanize');
 
 var thumbName = function (oldName) {
 	return oldName.split('.').join('_thumb.');
@@ -99,7 +100,7 @@ exports.photoDetail = function (req, res) {
 		.exec(function (err, photo) {
 			if(!err) {
 				photo = photo[0];
-				res.render('detail', {photo: photo});
+				res.render('detail', {photo: photo, humanize:humanize});
 			}
 			else {
 				console.log(err);
