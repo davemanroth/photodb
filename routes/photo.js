@@ -95,16 +95,25 @@ exports.allPhotos = function (req, res) {
 
 exports.photoDetail = function (req, res) {
 	var id = req.params.photoid;
-	Photo.find({_id: id})
-		.populate('author', 'username')
-		.exec(function (err, photo) {
-			if(!err) {
-				photo = photo[0];
-				res.render('detail', {photo: photo, humanize:humanize});
-			}
-			else {
-				console.log(err);
-			}
+	Photo.findByIdAndUpdate({_id: id}, {$inc: {views: 1} }, function (err, photo) {
+		if(!err) {
+			Photo.findById({_id: photo._id})
+			.populate('author', 'username')
+			.exec(function (err, photo) {
+			console.log(photo);
+				if(!err) {
+					res.render('detail', {photo: photo, humanize:humanize});
+				}
+				else {
+					console.log(err);
+				}
+			});
+				/*
+				*/
+		}
+		else {
+			console.log(err);
+		}
 	});
 }
 
