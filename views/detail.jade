@@ -4,7 +4,7 @@ block content
 	title= photo.title
 	header
 		h1= photo.title
-		p: a(href="users/#{photo.author.username}") #{photo.author.username}
+		p: a(href="/users/#{photo.author.username}") #{photo.author.username}
 		p Uploaded: #{humanize.date(reformat, photo.date_uploaded)}
 	img(src="#{photo.path}")
 	div#feedback.feedback
