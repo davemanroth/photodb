@@ -15,18 +15,17 @@ block content
 			p Email <br /> #{user.email}
 		// #bio
 	h2 My groups
-	if(user.groups.length > 0)
-		for group in user.groups
-			.group= group
-	else
-		p Not a member of any groups yet.
-	#group-buttons
-		button#join: | Join a group
-		button#create: | Create a group
-		button#withdraw: | Withdraw from a group
-		#group-input
-			label(for="group") Enter a group name
-			input(type="text" name="group" id="group")
+	#group-listing
+		if(user.groups.length > 0)
+			for group in user.groups
+				a(href="#").group= group
+		else
+			p Not a member of any groups yet.
+	#group-input
+		label(for="group") To create or join a group, please type a name
+		br
+		input(type="text" name="group" id="group-input")
+		input(type="submit" name="submit" id="group-submit" value="Submit")
 	h2 My photos
 	#photo-buttons
 		button: | Add a photo

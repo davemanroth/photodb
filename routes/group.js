@@ -18,6 +18,9 @@ exports.listGroups = function (req, res) {
 	});
 }
 
+exports.addGroup = function (req, res) {
+}
+
 exports.addMembersForm = function (req, res) {
 	res.render('partials/addMembersForm');
 }

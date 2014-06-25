@@ -65,6 +65,7 @@ app.get('/users/:username', user.profile);
 
 // Groups
 app.get('/groups', group.listGroups);
+app.post('/groups/add', group.addGroup);
 app.get('/groups/addMembers', group.addMembersForm);
 
 // Photos
