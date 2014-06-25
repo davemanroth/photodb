@@ -1,7 +1,8 @@
 (function ($) {
 	var list = $('#group-listing');
-	var group = $('#group-input').html();
 	$('#group-submit').on('click', function () {
+		var group = $('#group-input').val();
+//Barebone validation
 		if (group == '') {
 			console.log('Enter a group!');
 		}
@@ -10,7 +11,7 @@
 				url: '/groups/add',
 				type: 'post',
 				data: {group: group},
-				dataType: 'json'
+				dataType: 'json',
 				success: function (resp) {
 					if (resp.error) {
 						console.log(resp.error);
@@ -24,6 +25,7 @@
 			});// ajax
 		}// else
 		var package = function (group) {
-			return '<a href="#" class="group">' group + '</a>';
+			return '<a href="#" class="group">' + group + '</a>';
 		}
+	});
 })(jQuery);
