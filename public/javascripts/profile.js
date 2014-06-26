@@ -17,15 +17,15 @@
 						console.log(resp.error);
 					}
 					else {
-						console.log('Group added!');
+						console.log('To add: ' + group);
 						var newGroup = package(group);
 						list.append(newGroup);
 					}
 				}// success
 			});// ajax
 		}// else
-		var package = function (group) {
-			return '<a href="#" class="group">' + group + '</a>';
-		}
-	});
+	});// click
+	var package = function (group) {
+		return '<a href="#" class="group">' + group + '</a>';
+	}
 })(jQuery);
