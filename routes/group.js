@@ -32,6 +32,7 @@ exports.addGroup = function (req, res) {
 			//console.log('new group added to user model');
 		}
 	});
+	res.json({ok:'ok'});
 }
 
 exports.addMembersForm = function (req, res) {
