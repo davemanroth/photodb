@@ -18,7 +18,9 @@ block content
 	#group-listing
 		if(user.groups.length > 0)
 			for group in user.groups
-				a(href="#").group= group.name
+				.package
+					a(href="#").group= group.name
+					a(href="#").delete x
 		else
 			p Not a member of any groups yet.
 	#group-add

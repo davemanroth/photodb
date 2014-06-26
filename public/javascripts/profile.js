@@ -11,13 +11,11 @@
 				url: '/groups/add',
 				type: 'post',
 				data: {group: group},
-				dataType: 'json',
 				success: function (resp) {
 					if (resp.error) {
 						console.log(resp.error);
 					}
 					else {
-						console.log('To add: ' + group);
 						var newGroup = package(group);
 						list.append(newGroup);
 					}
@@ -26,6 +24,10 @@
 		}// else
 	});// click
 	var package = function (group) {
-		return '<a href="#" class="group">' + group + '</a>';
+		var package = '<div class="package">';
+		package += '<a href="#" class="group">' + group + '</a>';
+		package += '<a href="#" class="delete">x</a>';
+		package += '</div>';
+		return package;
 	}
 })(jQuery);

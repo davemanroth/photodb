@@ -28,11 +28,10 @@ exports.addGroup = function (req, res) {
 			console.log(err);
 		}
 		else {
-			//User.addToArray('groups', req.session.username, group._id);
-			//console.log('new group added to user model');
+			User.addToArray('groups', req.session.username, group._id);
 		}
 	});
-	res.json({ok:'ok'});
+	res.send('');
 }
 
 exports.addMembersForm = function (req, res) {
