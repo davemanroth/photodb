@@ -1,0 +1,27 @@
+extends layout
+
+block content
+	- if (session.username)
+		h1 Welcome back, #{session.username}
+	- else
+		h1 Welcome to the photo site
+	- var loginVis, logoutVis
+	if username
+		- loginVis = 'display:none', logoutVis = 'display:block'
+	else
+		- logoutVis = 'display:none', loginVis = 'display:block'
+
+	div(id="logoutDiv" style="#{logoutVis}")
+		input(id="logout" type="submit" value="Log out")
+	div(id="loginDiv" style="#{loginVis}")
+		label(for="username") Username:
+		br
+		input(type="text" name="username" id="username")
+		br
+		label(for="password") Password:
+		br
+		input(type="password" name="password" id="password")
+		br
+		input(id="login" type="submit" value="Log in")
+
+	script(src="/javascripts/login.js")
