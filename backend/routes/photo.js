@@ -82,10 +82,10 @@ exports.photoSubmit = function (req, res, next) {
 }
 
 // Photo gallery
-exports.allPhotos = function (req, res) {
+exports.photosAll = function (req, res) {
 	Photo.find({}, function (err, photos) {
 		if(!err) {
-			res.render('gallery', {title: 'Photo gallery', photos: photos});
+			res.json({photos: photos});
 		}
 		else {
 			console.log(err);
@@ -94,7 +94,7 @@ exports.allPhotos = function (req, res) {
 }
 
 exports.photoDetail = function (req, res) {
-	var id = req.params.photoid;
+	var id = req.params.id;
 	Photo.findByIdAndUpdate({_id: id}, {$inc: {views: 1} }, function (err, photo) {
 		if(!err) {
 			Photo.findById({_id: photo._id})
@@ -102,7 +102,7 @@ exports.photoDetail = function (req, res) {
 			.exec(function (err, photo) {
 			console.log(photo);
 				if(!err) {
-					res.render('detail', {photo: photo, humanize:humanize});
+					res.json({photo: photo});
 				}
 				else {
 					console.log(err);

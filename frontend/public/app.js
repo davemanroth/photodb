@@ -3,7 +3,11 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl'])
 		$routeProvider
 			.when('/photos/all', {
 				templateUrl: '/partials/photos_all',
-				//controller: 'PhotoListController'
+				controller: 'PhotoListController'
+			})
+			.when('/photos/:id', {
+				templateUrl: '/partials/photos_detail',
+				controller: 'PhotoDetailController'
 			})
 			.otherwise({
 				redirectTo: '/'

@@ -1,1 +1,5 @@
-h2 This is the photo listing
+h1 {{title}} 
+div#photo-thumb.photothumb(ng-repeat="photo in photos")
+	a(ng-href="/photos/{{photo._id}}")
+		img(ng-src="{{photo.thumb}}")
+	p: strong {{photo.title}}
