@@ -64,7 +64,6 @@ app.get('/partials/:name', routes.partials);
 
 
 // Photos
-app.get('/api/addphoto', photo.photoForm);
 app.post('/api/addphoto', photo.photoSubmit);
 app.get('/api/photos_all', photo.photosAll);
 app.get('/api/photos/:id', photo.photoDetail);

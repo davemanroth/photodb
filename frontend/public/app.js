@@ -9,6 +9,10 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl'])
 				templateUrl: '/partials/photos_detail',
 				controller: 'PhotoDetailController'
 			})
+			.when('/photos/add', {
+				templateUrl: '/partials/photos_add',
+				controller: 'PhotoUploadController'
+			})
 			.otherwise({
 				redirectTo: '/'
 			});

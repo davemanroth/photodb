@@ -19,6 +19,11 @@ angular.module('photoCtrl', [])
 			/*
 			*/
 
+// Photo upload
+	.controller('PhotoUploadController', ['$scope', '$http', 
+		function($scope, $http) {}
+	])
+
 // Photo detail
 	.controller('PhotoDetailController', ['$scope', '$http', '$routeParams', 
 		function($scope, $http, $routeParams) {
