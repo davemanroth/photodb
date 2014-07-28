@@ -13,14 +13,10 @@ var thumbName = function (oldName) {
 }
 
 // Form to add a photo
-exports.photoForm = function (req, res) {
+exports.categories = function (req, res) {
 	Category.find({}, function (err, categories) {
 		if (!err) {
-			res.render('addphoto', {
-				title: 'Upload a photo', 
-				categories: categories,
-				userid: req.session.userid
-			});
+			res.json({categories: categories});
 		}
 		else {
 			console.log(err);

@@ -5,13 +5,13 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl'])
 				templateUrl: '/partials/photos_all',
 				controller: 'PhotoListController'
 			})
-			.when('/photos/:id', {
-				templateUrl: '/partials/photos_detail',
-				controller: 'PhotoDetailController'
-			})
 			.when('/photos/add', {
 				templateUrl: '/partials/photos_add',
 				controller: 'PhotoUploadController'
+			})
+			.when('/photos/:id', {
+				templateUrl: '/partials/photos_detail',
+				controller: 'PhotoDetailController'
 			})
 			.otherwise({
 				redirectTo: '/'

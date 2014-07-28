@@ -21,7 +21,19 @@ angular.module('photoCtrl', [])
 
 // Photo upload
 	.controller('PhotoUploadController', ['$scope', '$http', 
-		function($scope, $http) {}
+		function($scope, $http) {
+			$http.get('/api/addphoto')
+				.success( function(data, status, header, config) {
+					$scope.categories = data.categories;
+					$scope.submitPhoto = function() {
+
+					}
+				})
+				.error( function(data, status, header, config) {
+					$scope.categories = '';
+					$scope.error = data.categories;
+				});
+		}
 	])
 
 // Photo detail
@@ -30,11 +42,7 @@ angular.module('photoCtrl', [])
 			$http.get('/api/photos/' + $routeParams.id)
 			.success( function(data, status, header, config) {
 				$scope.photo = data.photo;
-				console.log(data.photo);
 				$scope.processFeedback = function() {
-					var output = 'Liked: ' + $scope.like;
-					output += '\nImproved: ' + $scope.improved;
-					console.log(output);
 				};
 			})
 			.error( function(data, status, header, config) {
