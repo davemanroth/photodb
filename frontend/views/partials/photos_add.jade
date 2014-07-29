@@ -1,7 +1,7 @@
 h1 Upload photo
 label(for="photo") Select your photo
 br
-input(type="file" name="photo" ng-model="photo")
+input(type="file" name="photo" ng-file-select="onFileSelect($file)")
 br
 label(for="title") Enter a title for your photo:
 br

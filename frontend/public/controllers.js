@@ -1,4 +1,4 @@
-angular.module('photoCtrl', [])
+angular.module('photoCtrl', ['angularFileUpload'])
 
 // Photo List
 	.controller('PhotoListController', ['$scope', '$http', 
@@ -20,8 +20,8 @@ angular.module('photoCtrl', [])
 			*/
 
 // Photo upload
-	.controller('PhotoUploadController', ['$scope', '$http', 
-		function($scope, $http) {
+	.controller('PhotoUploadController', ['$scope', '$http', '$upload', 
+		function($scope, $http, $upload) {
 			$http.get('/api/addphoto')
 				.success( function(data, status, header, config) {
 					$scope.categories = data.categories;
