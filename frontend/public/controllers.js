@@ -25,6 +25,9 @@ angular.module('photoCtrl', ['angularFileUpload'])
 			$http.get('/api/addphoto')
 				.success( function(data, status, header, config) {
 					$scope.categories = data.categories;
+					$scope.onFileSelect = function (file) {
+						console.log(file);
+					};
 					$scope.submitPhoto = function() {
 
 					}
