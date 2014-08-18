@@ -26,6 +26,8 @@ exports.categories = function (req, res) {
 
 // Process add photo form, add data to db
 exports.photoSubmit = function (req, res, next) {
+	console.log(req.files);
+	/*
 	var submitted = req.files.photo;
 	var tmpPath = submitted.path;
 	var fullRes = '/photo_uploads/' + submitted.name;
@@ -75,6 +77,7 @@ exports.photoSubmit = function (req, res, next) {
 			console.log(err);
 		}
 	});
+	*/
 }
 
 // Photo gallery

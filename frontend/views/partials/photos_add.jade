@@ -1,7 +1,7 @@
 h1 Upload photo
 label(for="photo") Select your photo
 br
-input(type="file" name="photo" ng-file-select="onFileSelect($file)")
+input(type="file" name="photo" file-model="photo")
 br
 label(for="title") Enter a title for your photo:
 br
@@ -35,11 +35,11 @@ input(type="checkbox" name="flash")
 br
 label(for="writeup") Tell us a little about this photo
 br
-textarea(name="writeup")
+textarea(name="writeup" ng-model="writeup")
 br
 label(for="access") Did you want to restrict viewing access to this photo?
 br
 input(type="checkbox" name="access")
 | Restrict access
 br
-button(ng-onclick="submitPhoto($photo)") Submit photo
+button(ng-click="submitPhoto()") Submit photo

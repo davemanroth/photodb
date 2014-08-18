@@ -1,4 +1,4 @@
-angular.module('photoCtrl', ['angularFileUpload'])
+angular.module('photoCtrl', [])
 
 // Photo List
 	.controller('PhotoListController', ['$scope', '$http', 
@@ -20,16 +20,45 @@ angular.module('photoCtrl', ['angularFileUpload'])
 			*/
 
 // Photo upload
-	.controller('PhotoUploadController', ['$scope', '$http', '$upload', 
-		function($scope, $http, $upload) {
+	.controller('PhotoUploadController', ['$scope', '$http', 
+		function($scope, $http) {
 			$http.get('/api/addphoto')
 				.success( function(data, status, header, config) {
 					$scope.categories = data.categories;
-					$scope.onFileSelect = function (file) {
-						console.log(file);
-					};
-					$scope.submitPhoto = function() {
-
+					$scope.submitPhoto = function () {
+						var data = {
+							photo: $scope.photo,
+							title: $scope.title,
+							category: $scope.category,
+							author: $scope.author,
+							writeup: $scope.writeup,
+							access: $scope.access,
+							camera: $scope.camera,
+							shutter: $scope.shutter,
+							fstop: $scope.fstop,
+							iso: $scope.iso,
+							flash: $scope.flash
+						};
+						$http.post('/api/addphoto', data) 
+							.success( function() {
+								$location.path('/');
+							});
+					/*
+						$http.post('/api/addphoto', data, 
+							{
+								transformRequest: function (data) {
+									var fd = new FormData();
+									angular.forEach(data, function (key, val) {
+										fd.append(key, val);
+									});
+									return fd;
+								},
+								header: {'Content-Type': undefined}
+							})
+							.success( function() {
+								$location.path('/');
+							});
+					*/
 					}
 				})
 				.error( function(data, status, header, config) {
