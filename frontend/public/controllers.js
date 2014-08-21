@@ -39,25 +39,21 @@ angular.module('photoCtrl', [])
 							iso: $scope.iso,
 							flash: $scope.flash
 						};
-						$http.post('/api/addphoto', data) 
-							.success( function() {
-								$location.path('/');
-							});
-					/*
 						$http.post('/api/addphoto', data, 
 							{
 								transformRequest: function (data) {
 									var fd = new FormData();
-									angular.forEach(data, function (key, val) {
-										fd.append(key, val);
-									});
+									for(var key in data) {
+										fd.append(key, data[key]);
+									}
 									return fd;
 								},
-								header: {'Content-Type': undefined}
+								headers: {'Content-Type': undefined}
 							})
 							.success( function() {
-								$location.path('/');
+								$location.path('/photos/all');
 							});
+					/*
 					*/
 					}
 				})

@@ -26,14 +26,17 @@ exports.categories = function (req, res) {
 
 // Process add photo form, add data to db
 exports.photoSubmit = function (req, res, next) {
-	console.log(req.files);
 	/*
+	var photo = req.files.photo;
+	var stuff = [photo.path, photo.name];
+	console.log(stuff);
+	*/
 	var submitted = req.files.photo;
 	var tmpPath = submitted.path;
 	var fullRes = '/photo_uploads/' + submitted.name;
 	var thumb = '/photo_uploads/thumbs/' + thumbName(submitted.name);
-	var fullResDir = './public' + fullRes;
-	var thumbDir = './public' + thumb;
+	var fullResDir = './frontend/public' + fullRes;
+	var thumbDir = './frontend/public' + thumb;
 	
 	var newPhoto = new Photo({
 		title: req.body.title,
@@ -62,7 +65,7 @@ exports.photoSubmit = function (req, res, next) {
 	
 // Move file from temporary upload dir to photo_uploads dir
 	fs.rename(tmpPath, fullResDir, function (err) {
-		if (err) { next(err); }
+		if (err) { next(err); console.log(err); }
 		fs.unlink(tmpPath, function () {
 			console.log('Image uploaded to ' + fullResDir);
 		});
@@ -77,6 +80,7 @@ exports.photoSubmit = function (req, res, next) {
 			console.log(err);
 		}
 	});
+	/*
 	*/
 }
 
