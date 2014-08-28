@@ -1,4 +1,4 @@
-angular.module('photoapp', ['ngRoute', 'photoCtrl'])
+angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl'])
 	.config( function($routeProvider, $locationProvider) {
 		$routeProvider
 			.when('/photos/all', {
@@ -12,6 +12,14 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl'])
 			.when('/photos/:id', {
 				templateUrl: '/partials/photos_detail',
 				controller: 'PhotoDetailController'
+			})
+			.when('/users/signup', {
+				templateUrl: '/partials/signup',
+				controller: 'UserAddController'
+			})
+			.when('/users/:username', {
+				templateUrl: '/partials/user',
+				controller: 'UserController'
 			})
 			.otherwise({
 				redirectTo: '/'

@@ -41,4 +41,5 @@ div#critique-area(ng-if="photo.critiques")
 		p.author - 
 			a(href="/users/{{critique.username}}") {{critique.username}},
 			|  {{critique.date_posted}}
-
+div(ng-show="photo.critiques.length == 0")
+	p No critiques yet

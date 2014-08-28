@@ -15,8 +15,8 @@ mongoose.connect('mongodb://localhost:27017/photodb');
 
 // route files
 var photo = require('./backend/routes/photo');
-/*
 var user = require('./backend/routes/user');
+/*
 var group = require('./backend/routes/group');
 var critique = require('./backend/routes/critique');
 */
@@ -70,13 +70,13 @@ app.get('/api/photos_all', photo.photosAll);
 app.get('/api/photos/:id', photo.photoDetail);
 
 
-/*
 // User
-app.post('/login', user.login);
-app.get('/logout', user.logout);
-app.get('/signup', user.signupForm);
-app.post('/signup', user.signupAction);
-app.get('/users/:username', user.profile);
+app.get('/api/users/:username', user.profile);
+app.post('/api/users/signup', user.signupAction);
+/*
+app.post('/api/login', user.login);
+app.get('/api/logout', user.logout);
+app.get('/api/signup', user.signupForm);
 //app.get('/users', user.allUsers);
 
 // Groups

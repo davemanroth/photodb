@@ -12,7 +12,7 @@ var UserSchema = new Schema({
 	email: {type: String, required: true},
 	first_name: {type: String, required: true},
 	last_name: {type: String, required: true},
-	self_portrait: {type: String, default: '/images/default_portrait.jpg'},
+	self_portrait: {type: String, default: '/assets/images/default_portrait.jpg'},
 	bio: {type: String, required: false},
 	groups: [{type: Schema.Types.ObjectId, ref: 'Group'}],
 	critiques: [{type: String, ref: 'Photo'}],

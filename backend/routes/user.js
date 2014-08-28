@@ -2,6 +2,7 @@
  * User router
  */
 var User = require('../models/user').User;
+var Group = require('../models/group').Group;
 var gm = require('gm').subClass({ imageMagick: true });;
 var fs = require('fs');
 
@@ -35,24 +36,40 @@ exports.signupForm = function (req, res) {
 };
 
 exports.signupAction = function (req, res) {
-	User.create({
+	//console.log([req.files, req.body]);
+	var pic = req.files.pic;
+	var imgUrl = '/photo_uploads/profile_imgs/' + pic.name;
+	var tmpPath = pic.path;
+	var permPath = './frontend/public/' + imgUrl;
+	
+	var newUser = new User({
 		username: req.body.username,
 		password: req.body.password,
 		join_date: Date.now(),
 		email: req.body.email,
 		first_name: req.body.first_name,
 		last_name: req.body.last_name,
+		self_portrait: imgUrl,
 		bio: req.body.bio
-	}, function (err, user) {
-		  console.log(user);
-			if (!err) {
-				console.log("User created: " + user);
-			}
-			else {
-				console.log(err);
-			}
+	});
+
+	newUser.save( function (err, user) {
+		if(!err) {
+			console.log('New user added!');
 		}
-	);
+		else {
+			console.log(err);
+		}
+	});
+
+	fs.rename(tmpPath, permPath, function (err) {
+		if (err) { next(err); console.log(err); }
+		fs.unlink(tmpPath, function () {
+			console.log('Image uploaded to ' + permPath);
+		});
+	});
+	/*
+	*/
 }
 
 /*
@@ -77,7 +94,7 @@ exports.profile = function (req, res) {
 		  .populate('groups', 'name')
 			.exec(function (err, user) {
 		if(!err) {
-			res.render('profile', {user: user[0]});
+			res.json({user: user[0]});
 		}
 		else {
 			console.log(err);
