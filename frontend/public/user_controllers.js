@@ -12,8 +12,8 @@ angular.module('userCtrl', [])
 		}
 	])
 
-	.controller('UserAddController', ['$scope', '$http',
-		function ($scope, $http) {
+	.controller('UserAddController', ['$scope', '$http', '$location',
+		function ($scope, $http, $location) {
 			$scope.addUser = function() {
 				var user = {
 					pic: $scope.profile_image,
@@ -36,7 +36,9 @@ angular.module('userCtrl', [])
 						},
 						headers: {'Content-Type' : undefined}
 					})
-				.success( function() {} );
+				.success( function(data) {
+					$location.path('/users/' + user.username);
+				} );
 			}
 		}
 	]);

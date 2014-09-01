@@ -57,6 +57,7 @@ exports.photoSubmit = function (req, res, next) {
 	newPhoto.save( function (err, photo) {
 		if(!err) {
 			User.addToArray('photos', req.session.username, photo._id);
+			res.send('Successful upload!');
 		}
 		else {
 			console.log(err);

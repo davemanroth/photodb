@@ -20,8 +20,8 @@ angular.module('photoCtrl', [])
 			*/
 
 // Photo upload
-	.controller('PhotoUploadController', ['$scope', '$http', 
-		function($scope, $http) {
+	.controller('PhotoUploadController', ['$scope', '$http', '$location',
+		function($scope, $http, $location) {
 			$http.get('/api/addphoto')
 				.success( function(data, status, header, config) {
 					$scope.categories = data.categories;
@@ -50,7 +50,7 @@ angular.module('photoCtrl', [])
 								},
 								headers: {'Content-Type': undefined}
 							})
-							.success( function() {
+							.success( function(data) {
 								$location.path('/photos/all');
 							});
 					/*
