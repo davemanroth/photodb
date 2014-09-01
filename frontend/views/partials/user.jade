@@ -1,0 +1,34 @@
+h1 {{user.username}}
+p {{error}}
+h2 My profile
+#profile
+	#profile-pic
+		p: img(alt="placeholder image" ng-src="{{user.self_portrait}}")
+	#basics
+		p Username <br /> {{user.username}}
+		p First name <br /> {{user.first_name}}
+		p Last name <br /> {{user.last_name}}
+		p Email <br /> {{user.email}}
+h2 My groups
+#group-listing(ng-if="user.groups.length > 0")
+	div.package(ng-repeat="group in user.groups")
+		a(ng-href="#").group {{group.name}}
+		a(ng-href="#").delete x
+div(ng-show="user.groups.length == 0")
+	p No groups yet
+#group-add
+	label(for="group") To create or join a group, please type a name
+	br
+	input(type="text" name="group" id="group-input")
+	input(type="submit" name="submit" id="group-submit" value="Submit")
+h2 My photos
+#photo-buttons
+	button: | Add a photo
+	button: | Remove a photo
+#user-photos(ng-if="user.photos.length > 0")
+	div#photo-thumb.photothumb(ng-repeat="photo in user.photos")
+		a(ng-href="/photos/{{photo._id}}")
+			img(ng-src="{{photo.thumb}}")
+		p: strong {{photo.title}}
+div(ng-show="user.photos.length == 0")
+	p No photos yet
