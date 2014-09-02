@@ -2,7 +2,7 @@ header
 	h1 {{photo.title}}
 	p
 		a(ng-href="/users/{{photo.author.username}}") {{photo.author.username}}
-	p Uploaded: {{photo.date_uploaded}}
+	p Uploaded: {{photo.date_uploaded | date: 'EEE, MMMM dd, yyyy'}}
 img(ng-src="{{photo.path}}")
 div#feedback.feedback(ng-show="showFeedback")
 	h2 Feedback submission
@@ -40,6 +40,6 @@ div#critique-area(ng-if="photo.critiques")
 		p.question What could be improved?<br /> {{critique.improved}}
 		p.author - 
 			a(href="/users/{{critique.username}}") {{critique.username}},
-			|  {{critique.date_posted}}
+			|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy'}}
 div(ng-show="photo.critiques.length == 0")
 	p No critiques yet

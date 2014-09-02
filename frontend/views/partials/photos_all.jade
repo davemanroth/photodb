@@ -1,5 +1,34 @@
-h1 {{title}} 
-div#photo-thumb.photothumb(ng-repeat="photo in photos")
-	a(ng-href="/photos/{{photo._id}}")
-		img(ng-src="{{photo.thumb}}")
-	p: strong {{photo.title}}
+div.container
+	h1 {{pageTitle}} 
+	button.button(name="filter" ng-click="filterClick=true") Filter
+	label(for="sorting") Sort:  
+	select(name="sorting")
+		option(value="newest to oldest") Newest to oldest
+		option(value="oldest to newest") Oldest to newest
+		option(value="most popular") Popularity
+	div.filterForm(ng-show="filterClick")
+		label(for="photoAuthor") Photographer name:
+		input(type="text" ng-model="photoAuthor")
+		br
+		label(for="photoCategory") Category:
+		select(ng-model="photoCategory" name="photoCategory")
+			option(value="{{category.name}}" ng-repeat="category in categories") {{category.name}}
+		p Camera settings
+		label(for="camera") Camera
+		select(ng-model="photoCamera")
+			option(value="all") All cameras
+			option(value="Canon") Canon
+			option(value="Nikon") Nikon
+			option(value="Sony") Sony
+			option(value="Sigma") Sigma
+			option(value="Leica") Leica
+			option(value="Fuji") Fuji
+			option(value="Samsung") Samsung
+			option(value="iPhone") iPhone
+		button.button(name="close" ng-click="filterClick=false") Close
+	div.row
+		//div.photothumb.col-md-3(ng-repeat="photo in photos | filter:{author:photoAuthor, category:photoCategory}")
+		div.photothumb.col-md-3(ng-repeat="photo in photos | filter:photoFilter")
+			a(ng-href="/photos/{{photo._id}}")
+				img.img-responsive(ng-src="{{photo.thumb}}")
+			p: strong {{photo.title}}

@@ -87,13 +87,22 @@ exports.photoSubmit = function (req, res, next) {
 
 // Photo gallery
 exports.photosAll = function (req, res) {
-	Photo.find({}, function (err, photos) {
-		if(!err) {
-			res.json({photos: photos});
-		}
-		else {
-			console.log(err);
-		}
+	Photo.find({})
+		.populate('author', 'username')
+		.exec(function (err, photos) {
+			if(!err) {
+				Category.find({}, function (err, categories) {
+					if(!err) {
+						res.json({photos: photos, categories: categories});
+					}
+					else {
+						console.log(err);
+					}
+				});
+			}
+			else {
+				console.log(err);
+			}
 	});
 }
 
@@ -104,7 +113,6 @@ exports.photoDetail = function (req, res) {
 			Photo.findById({_id: photo._id})
 			.populate('author', 'username')
 			.exec(function (err, photo) {
-			console.log(photo);
 				if(!err) {
 					res.json({photo: photo});
 				}

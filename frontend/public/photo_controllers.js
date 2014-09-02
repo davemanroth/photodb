@@ -3,12 +3,26 @@ angular.module('photoCtrl', [])
 // Photo List
 	.controller('PhotoListController', ['$scope', '$http', 
 		function($scope, $http) {
-			$scope.title = 'Photo gallery';
+			$scope.pageTitle = 'Photo gallery';
 			/*
 			*/
 			$http.get('/api/photos_all')
 			.success( function(data, status, header, config) {
 				$scope.photos = data.photos;
+				$scope.categories = data.categories;
+				$scope.photoFilter = function (photo) {
+					if(!$scope.photoAuthor && !$scope.photoCategory &&
+						!$scope.photoCamera) {
+						return true;
+					}
+					else {
+						return $scope.photoAuthor == photo.author.username || 
+							$scope.photoCategory == photo.category ||
+							$scope.photoCamera == photo.camera;
+					}
+					/*
+					*/
+				}
 			})
 			.error( function(data, status, header, config) {
 				$scope.photos = 'Error!';

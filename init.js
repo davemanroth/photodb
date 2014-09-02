@@ -68,6 +68,7 @@ app.get('/api/addphoto', photo.categories);
 app.post('/api/addphoto', photo.photoSubmit);
 app.get('/api/photos_all', photo.photosAll);
 app.get('/api/photos/:id', photo.photoDetail);
+app.get('/api/categories', photo.categories);
 
 
 // User
