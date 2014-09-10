@@ -10,18 +10,48 @@ angular.module('photoCtrl', [])
 			.success( function(data, status, header, config) {
 				$scope.photos = data.photos;
 				$scope.categories = data.categories;
-				$scope.photoFilter = function (photo) {
-					if(!$scope.photoAuthor && !$scope.photoCategory &&
-						!$scope.photoCamera) {
+				$scope.filters = data.filters;
+				$scope.nameFilter = function (photo) {
+					if(!$scope.filterAuthor) {
 						return true;
 					}
 					else {
-						return $scope.photoAuthor == photo.author.username || 
-							$scope.photoCategory == photo.category ||
-							$scope.photoCamera == photo.camera;
+						return $scope.filterAuthor == photo.author.username;
 					}
 					/*
 					*/
+				}
+				$scope.cameraFilter = function (photo) {
+					if(!$scope.filterCamera || $scope.filterCamera == '*') {
+						return true;
+					}
+					else {
+						return $scope.filterCamera == photo.camera;
+					}
+				}
+				$scope.shutterFilter = function (photo) {
+					if(!$scope.filterShutter || $scope.filterShutter == '*') {
+						return true;
+					}
+					else {
+						return $scope.filterShutter == photo.shutter;
+					}
+				}
+				$scope.fstopFilter = function (photo) {
+					if(!$scope.filterFstop || $scope.filterFstop == '*') {
+						return true;
+					}
+					else {
+						return $scope.filterFstop == photo.fstop;
+					}
+				}
+				$scope.isoFilter = function (photo) {
+					if(!$scope.filterIso || $scope.filterIso == '*') {
+						return true;
+					}
+					else {
+						return $scope.filterIso == photo.iso;
+					}
 				}
 			})
 			.error( function(data, status, header, config) {

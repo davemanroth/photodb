@@ -7,28 +7,32 @@ div.container
 		option(value="oldest to newest") Oldest to newest
 		option(value="most popular") Popularity
 	div.filterForm(ng-show="filterClick")
-		label(for="photoAuthor") Photographer name:
-		input(type="text" ng-model="photoAuthor")
+		label(for="filterAuthor") Photographer name:
+		input(type="text" ng-model="filterAuthor" placeholder="Enter name")
 		br
-		label(for="photoCategory") Category:
-		select(ng-model="photoCategory" name="photoCategory")
+		label(for="filterCategory") Category:
+		select(ng-model="filterCategory" name="photoCategory")
+			option(value="*" ng-selected="true") All categories
 			option(value="{{category.name}}" ng-repeat="category in categories") {{category.name}}
 		p Camera settings
 		label(for="camera") Camera
-		select(ng-model="photoCamera")
-			option(value="all") All cameras
-			option(value="Canon") Canon
-			option(value="Nikon") Nikon
-			option(value="Sony") Sony
-			option(value="Sigma") Sigma
-			option(value="Leica") Leica
-			option(value="Fuji") Fuji
-			option(value="Samsung") Samsung
-			option(value="iPhone") iPhone
+		select(ng-model="filterCamera")
+			option(value="*" ng-selected="true") All cameras
+			option(value="{{camera}}" ng-repeat="camera in filters.cameras") {{camera}}
+		select(ng-model="filterShutter")
+			option(value="*" ng-selected="true") All shutter speeds
+			option(value="{{shutter}}" ng-repeat="shutter in filters.shutters") {{shutter}}
+		select(ng-model="filterFstop")
+			option(value="*" ng-selected="true") All fStops
+			option(value="{{fstop}}" ng-repeat="fstop in filters.fstops") {{fstop}}
+		select(ng-model="filterIso")
+			option(value="*" ng-selected="true") All ISOs
+			option(value="{{iso}}" ng-repeat="iso in filters.isos") {{iso}}
+		br
 		button.button(name="close" ng-click="filterClick=false") Close
 	div.row
 		//div.photothumb.col-md-3(ng-repeat="photo in photos | filter:{author:photoAuthor, category:photoCategory}")
-		div.photothumb.col-md-3(ng-repeat="photo in photos | filter:photoFilter")
+		div.photothumb.col-md-3(ng-repeat="photo in photos | filter:nameFilter | filter:cameraFilter | filter:shutterFilter | filter:fstopFilter | filter:isoFilter")
 			a(ng-href="/photos/{{photo._id}}")
 				img.img-responsive(ng-src="{{photo.thumb}}")
 			p: strong {{photo.title}}
