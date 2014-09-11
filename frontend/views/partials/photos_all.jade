@@ -11,7 +11,7 @@ div.container
 		input(type="text" ng-model="filterAuthor" placeholder="Enter name")
 		br
 		label(for="filterCategory") Category:
-		select(ng-model="filterCategory" name="photoCategory")
+		select(ng-model="filterCategory" name="photoCategory" multiple)
 			option(value="*" ng-selected="true") All categories
 			option(value="{{category.name}}" ng-repeat="category in categories") {{category.name}}
 		p Camera settings
@@ -32,7 +32,7 @@ div.container
 		button.button(name="close" ng-click="filterClick=false") Close
 	div.row
 		//div.photothumb.col-md-3(ng-repeat="photo in photos | filter:{author:photoAuthor, category:photoCategory}")
-		div.photothumb.col-md-3(ng-repeat="photo in photos | filter:nameFilter | filter:cameraFilter | filter:shutterFilter | filter:fstopFilter | filter:isoFilter")
+		div.photothumb.col-md-3(ng-repeat="photo in photos | filter:nameFilter | filter:catFilter | filter:cameraFilter | filter:shutterFilter | filter:fstopFilter | filter:isoFilter")
 			a(ng-href="/photos/{{photo._id}}")
 				img.img-responsive(ng-src="{{photo.thumb}}")
 			p: strong {{photo.title}}

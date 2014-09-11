@@ -11,6 +11,8 @@ angular.module('photoCtrl', [])
 				$scope.photos = data.photos;
 				$scope.categories = data.categories;
 				$scope.filters = data.filters;
+
+// Photographer
 				$scope.nameFilter = function (photo) {
 					if(!$scope.filterAuthor) {
 						return true;
@@ -21,6 +23,20 @@ angular.module('photoCtrl', [])
 					/*
 					*/
 				}
+				
+// Category
+				$scope.catFilter = function (photo) {
+					if(!$scope.filterCategory || $scope.filterCategory == '*') {
+						return true;
+					}
+					else {
+						var selected = $scope.filterCategory.sort();
+						var actual = photo.category.sort();
+						return filterSelectedCategories(selected, actual);
+					}
+				}
+
+// Camera
 				$scope.cameraFilter = function (photo) {
 					if(!$scope.filterCamera || $scope.filterCamera == '*') {
 						return true;
@@ -29,6 +45,8 @@ angular.module('photoCtrl', [])
 						return $scope.filterCamera == photo.camera;
 					}
 				}
+
+// Shutter
 				$scope.shutterFilter = function (photo) {
 					if(!$scope.filterShutter || $scope.filterShutter == '*') {
 						return true;
@@ -37,6 +55,8 @@ angular.module('photoCtrl', [])
 						return $scope.filterShutter == photo.shutter;
 					}
 				}
+
+// fStop
 				$scope.fstopFilter = function (photo) {
 					if(!$scope.filterFstop || $scope.filterFstop == '*') {
 						return true;
@@ -45,6 +65,8 @@ angular.module('photoCtrl', [])
 						return $scope.filterFstop == photo.fstop;
 					}
 				}
+
+// ISO
 				$scope.isoFilter = function (photo) {
 					if(!$scope.filterIso || $scope.filterIso == '*') {
 						return true;
@@ -58,6 +80,27 @@ angular.module('photoCtrl', [])
 				$scope.photos = 'Error!';
 				$scope.error = data.photos;
 			});
+
+// Category filter helper function
+			function filterSelectedCategories(selected, actual) {
+				if(selected.length > actual.length) {
+					return false;
+				}
+				else if(selected.length == actual.length) {
+					return angular.equals(selected, actual);
+				}
+				else {
+					for(var i = 0; i < selected.length; i++) {
+						var result = false;
+						for(var j = 0; j < actual.length; j++) {
+							if (selected[i] == actual[j]) {
+								result = true;
+							}
+						}
+					}
+					return result;
+				}
+			}
 		}
 	])
 			/*
