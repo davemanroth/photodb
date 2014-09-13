@@ -9,7 +9,7 @@ input(type="text" name="title" ng-model="title")
 br
 label(for="category") Select categories
 br
-select(name="category" multiple)
+select(name="category" ng-model="category" multiple)
 	option(value="{{category.name}}" ng-repeat="category in categories") {{category.name}}
 br
 label(for="camera") Enter your camera make/model

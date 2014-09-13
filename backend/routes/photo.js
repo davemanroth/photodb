@@ -4,30 +4,9 @@
 var Photo = require('../models/photo').Photo;
 var User = require('../models/user').User;
 var Category = require('../models/category').Category;
+var Filters = require('../models/category').Filters;
 var gm = require('gm').subClass({ imageMagick: true });;
 var fs = require('fs');
-var filters = {
-		cameras: [
-			'Canon', 'Nikon', 'Sony', 'iPhone',
-			'Leica', 'Fuji', 'Samsung', 'Nokia',
-			'Fujitsu', 'Pentax', 'Sigma', 'Lumix',
-			'Minolta', 'Kodak', 'Sanyo',
-			'Olympus', 'Konica'],
-		shutters: [
-			'1/8000', '1/4000', '1/2000',
-			'1/1000', '1/500', '1/125',
-			'1/60', '1/30', '1/15', '1/8',
-			'1/4', '1/2', '1', '2', '4', 
-			'6', '8', '10+'],
-		fstops: [
-			'1', '1.2', '1.8', '2',
-			'2.8', '4', '5.6', '8',
-			'11', '16', '22+'],
-		isos: [
-			'50', '100', '200', '400',
-			'800', '1600', '3200', '6400',
-			'12800+']
-	};
 
 var thumbName = function (oldName) {
 	return oldName.split('.').join('_thumb.');
@@ -46,18 +25,21 @@ exports.categories = function (req, res) {
 }
 
 exports.photoEdit = function (req, res) {
+	//console.log(req.body);
+	/*
+	*/
 	Photo.update(
-		{_id: req.params.id},
+		{_id: req.body._id},
 		{
 			title: req.body.title,
-			category: req.body.category,
-			writeup: req.body.writeup,
-			access: req.body.access,
+			//category: req.body.category,
+			//writeup: req.body.writeup,
+			//access: req.body.access,
 			camera: req.body.camera,
 			shutter: req.body.shutter,
 			fstop: req.body.fstop,
 			iso: req.body.iso,
-			flash: req.body.flash
+			//flash: req.body.flash
 		},
 		function(err, numAffected, resp) {
 			if(err) {
@@ -142,7 +124,7 @@ exports.photosAll = function (req, res) {
 			if(!err) {
 				Category.find({}, function (err, categories) {
 					if(!err) {
-						res.json({photos: photos, categories: categories, filters:filters});
+						res.json({photos: photos, categories: categories, filters:Filters});
 					}
 					else {
 						console.log(err);

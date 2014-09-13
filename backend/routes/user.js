@@ -3,6 +3,8 @@
  */
 var User = require('../models/user').User;
 var Group = require('../models/group').Group;
+var Category = require('../models/category').Category;
+var Filters = require('../models/category').Filters;
 var gm = require('gm').subClass({ imageMagick: true });;
 var fs = require('fs');
 
@@ -94,7 +96,7 @@ exports.profile = function (req, res) {
 		  .populate('groups', 'name')
 			.exec(function (err, user) {
 		if(!err) {
-			res.json({user: user[0]});
+			res.json({user: user[0], filters:Filters});
 		}
 		else {
 			console.log(err);

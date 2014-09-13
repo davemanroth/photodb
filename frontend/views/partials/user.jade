@@ -31,13 +31,25 @@ h2 My photos
 			img(ng-src="{{photo.thumb}}")
 		p: strong {{photo.title}}
 		button.button(ng-click="showEdit=true") Edit photo
-		div.photoEdit(ng-show="showEdit")
+		div.photoEdit(ng-show="showEdit" ng-controller="UserPhotoEditController")
+			p {{results}}
 			label(for="title") Photo title: 
 			input(name="title" type="text" ng-model="photo.title" value="photo.title")
 			br
 			label(for="camera") Camera: 
-			select(name="camera")
+			select(name="camera" ng-model="photo.camera")
+				option(value="{{camera}}" ng-selected="camera == photo.camera" ng-repeat="camera in filters.cameras") {{camera}}
+			label(for="shutter") Shutter speed:  
+			select(name="shutter" ng-model="photo.shutter")
+				option(value="{{shutter}}" ng-selected="shutter == photo.shutter" ng-repeat="shutter in filters.shutters") {{shutter}}
+			label(for="fstop") fStop:  
+			select(name="fstop" ng-model="photo.fstop")
+				option(value="{{fstop}}" ng-selected="fstop == photo.fstop" ng-repeat="fstop in filters.fstops") {{fstop}}
+			label(for="iso") ISO:  
+			select(name="iso" ng-model="photo.iso")
+				option(value="{{iso}}" ng-selected="iso == photo.iso" ng-repeat="iso in filters.isos") {{iso}}
 			br
 			button.button(ng-click="showEdit=false") Close
+			button.button(ng-click="updatePhotoEdits()") Update values
 div(ng-show="user.photos.length == 0")
 	p No photos yet

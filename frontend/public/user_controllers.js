@@ -1,10 +1,25 @@
 angular.module('userCtrl', [])
 
+	.controller('UserPhotoEditController', ['$scope', '$http',
+		function($scope, $http) {
+			$scope.updatePhotoEdits = function () {
+				$http.put('/api/editphoto/', $scope.photo) 
+					.success(function(data) {
+						console.log(data);
+					})
+					.error(function(err) {
+						console.log(err);
+					});
+			}//updatePhotoEdits
+		}//controller
+	])
+
 	.controller('UserController', ['$scope', '$http', '$routeParams',
 		function($scope, $http, $routeParams) {
 			$http.get('/api/users/' + $routeParams.username)
 				.success( function(data) {
 					$scope.user = data.user;
+					$scope.filters = data.filters;
 				})
 				.error( function(data) {
 					$scope.error = data.user;
