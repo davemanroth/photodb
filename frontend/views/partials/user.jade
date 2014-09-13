@@ -22,13 +22,22 @@ div(ng-show="user.groups.length == 0")
 	input(type="text" name="group" id="group-input")
 	input(type="submit" name="submit" id="group-submit" value="Submit")
 h2 My photos
-#photo-buttons
+//#photo-buttons
 	button: | Add a photo
 	button: | Remove a photo
 #user-photos(ng-if="user.photos.length > 0")
-	div#photo-thumb.photothumb(ng-repeat="photo in user.photos")
+	div.photothumb(ng-repeat="photo in user.photos")
 		a(ng-href="/photos/{{photo._id}}")
 			img(ng-src="{{photo.thumb}}")
 		p: strong {{photo.title}}
+		button.button(ng-click="showEdit=true") Edit photo
+		div.photoEdit(ng-show="showEdit")
+			label(for="title") Photo title: 
+			input(name="title" type="text" ng-model="photo.title" value="photo.title")
+			br
+			label(for="camera") Camera: 
+			select(name="camera")
+			br
+			button.button(ng-click="showEdit=false") Close
 div(ng-show="user.photos.length == 0")
 	p No photos yet

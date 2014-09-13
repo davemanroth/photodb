@@ -45,8 +45,36 @@ exports.categories = function (req, res) {
 	});
 }
 
+exports.photoEdit = function (req, res) {
+	Photo.update(
+		{_id: req.params.id},
+		{
+			title: req.body.title,
+			category: req.body.category,
+			writeup: req.body.writeup,
+			access: req.body.access,
+			camera: req.body.camera,
+			shutter: req.body.shutter,
+			fstop: req.body.fstop,
+			iso: req.body.iso,
+			flash: req.body.flash
+		},
+		function(err, numAffected, resp) {
+			if(err) {
+				console.log(err);
+			}
+			else {
+				console.log(resp);
+				res.send('Successful update!');
+			}
+		}
+	);
+}
+
+
 // Process add photo form, add data to db
 exports.photoSubmit = function (req, res, next) {
+
 	/*
 	var photo = req.files.photo;
 	var stuff = [photo.path, photo.name];
