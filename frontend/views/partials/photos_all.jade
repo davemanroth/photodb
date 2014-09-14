@@ -1,11 +1,13 @@
 div.container
 	h1 {{pageTitle}} 
 	button.button(name="filter" ng-click="filterClick=true") Filter
+	p {{sortResult}}
 	label(for="sorting") Sort:  
-	select(name="sorting")
-		option(value="newest to oldest") Newest to oldest
-		option(value="oldest to newest") Oldest to newest
-		option(value="most popular") Popularity
+	select(name="sorting" ng-model="sortVal" ng-change="sortPhotos()")
+		option(value="-date_uploaded" ng-selected="true") Most recent submissions
+		option(value="date_uploaded") Oldest submissions
+		option(value="-views") Most viewed
+		option(value="views") Least viewed
 	div.filterForm(ng-show="filterClick")
 		label(for="filterAuthor") Photographer name:
 		input(type="text" ng-model="filterAuthor" placeholder="Enter name")
@@ -32,7 +34,7 @@ div.container
 		button.button(name="close" ng-click="filterClick=false") Close
 	div.row
 		//div.photothumb.col-md-3(ng-repeat="photo in photos | filter:{author:photoAuthor, category:photoCategory}")
-		div.photothumb.col-md-3(ng-repeat="photo in photos | filter:nameFilter | filter:catFilter | filter:cameraFilter | filter:shutterFilter | filter:fstopFilter | filter:isoFilter")
+		div.photothumb.col-md-3(ng-repeat="photo in photos | filter:nameFilter | filter:catFilter | filter:cameraFilter | filter:shutterFilter | filter:fstopFilter | filter:isoFilter | orderBy:sortField:reverse")
 			a(ng-href="/photos/{{photo._id}}")
 				img.img-responsive(ng-src="{{photo.thumb}}")
 			p: strong {{photo.title}}

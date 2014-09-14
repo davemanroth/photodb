@@ -11,6 +11,24 @@ angular.module('photoCtrl', [])
 				$scope.photos = data.photos;
 				$scope.categories = data.categories;
 				$scope.filters = data.filters;
+				$scope.sortField = '-date_uploaded';
+
+				$scope.sortPhotos = function () {
+					var val = $scope.sortVal;
+					/*
+					if(val.search(/-/) != -1 && val.split('_').indexOf('reverse') != -1 &&
+						$scope.reverse) {
+						$scope.reverse = !scope.reverse;
+					}
+						/*
+						val = val.split('_');
+						if(val.indexOf('reverse') != -1) {
+						*/
+
+
+					$scope.sortField = $scope.sortVal;
+					//$scope.reverse = false;
+				}
 
 // Photographer
 				$scope.nameFilter = function (photo) {
