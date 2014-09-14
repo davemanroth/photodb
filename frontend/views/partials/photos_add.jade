@@ -14,19 +14,27 @@ select(name="category" ng-model="category" multiple)
 br
 label(for="camera") Enter your camera make/model
 br
-input(type="text" name="camera" ng-model="camera")
+select(name="camera" ng-model="camera")
+	option(value="" ng-selected="true") -Select camera-
+	option(value="{{camera}}" ng-repeat="camera in filters.cameras.sort()") {{camera}}
 br
-label(for="shutter") Enter your shutter speed
+label(for="shutter") Enter the shutter speed used
 br
-input(type="text" name="shutter" ng-model="shutter")
+select(name="shutter" ng-model="shutter")
+	option(value="" ng-selected="true") -Select shutter-
+	option(value="{{shutter}}" ng-repeat="shutter in filters.shutters") {{shutter}}
 br
-label(for="fstop") Enter your aperture
+label(for="fstop") Enter the aperture used
 br
-input(type="text" name="fstop" ng-model="fstop")
+select(name="fstop" ng-model="fstop")
+	option(value="" ng-selected="true") -Select fstop-
+	option(value="{{fstop}}" ng-repeat="fstop in filters.fstops") {{fstop}}
 br
-label(for="iso") Enter your ISO
+label(for="iso") Enter the ISO used
 br
-input(type="text" name="iso" ng-model="iso")
+select(name="iso" ng-model="iso")
+	option(value="" ng-selected="true") -Select iso-
+	option(value="{{iso}}" ng-repeat="iso in filters.isos") {{iso}}
 br
 label(for="flash") Did you use flash?
 br
@@ -37,7 +45,7 @@ label(for="writeup") Tell us a little about this photo
 br
 textarea(name="writeup" ng-model="writeup")
 br
-label(for="access") Did you want to restrict viewing access to this photo?
+label(for="access") Do you want to restrict viewing access to this photo?
 br
 input(type="checkbox" name="access")
 | Restrict access

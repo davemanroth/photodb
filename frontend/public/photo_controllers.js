@@ -13,24 +13,12 @@ angular.module('photoCtrl', [])
 				$scope.filters = data.filters;
 				$scope.sortField = '-date_uploaded';
 
+// Sorting
 				$scope.sortPhotos = function () {
-					var val = $scope.sortVal;
-					/*
-					if(val.search(/-/) != -1 && val.split('_').indexOf('reverse') != -1 &&
-						$scope.reverse) {
-						$scope.reverse = !scope.reverse;
-					}
-						/*
-						val = val.split('_');
-						if(val.indexOf('reverse') != -1) {
-						*/
-
-
 					$scope.sortField = $scope.sortVal;
-					//$scope.reverse = false;
 				}
 
-// Photographer
+// Filter Photographer
 				$scope.nameFilter = function (photo) {
 					if(!$scope.filterAuthor) {
 						return true;
@@ -42,7 +30,7 @@ angular.module('photoCtrl', [])
 					*/
 				}
 				
-// Category
+// Filter Category
 				$scope.catFilter = function (photo) {
 					if(!$scope.filterCategory || $scope.filterCategory == '*') {
 						return true;
@@ -54,7 +42,7 @@ angular.module('photoCtrl', [])
 					}
 				}
 
-// Camera
+// Filter Camera
 				$scope.cameraFilter = function (photo) {
 					if(!$scope.filterCamera || $scope.filterCamera == '*') {
 						return true;
@@ -64,7 +52,7 @@ angular.module('photoCtrl', [])
 					}
 				}
 
-// Shutter
+// Filter Shutter
 				$scope.shutterFilter = function (photo) {
 					if(!$scope.filterShutter || $scope.filterShutter == '*') {
 						return true;
@@ -74,7 +62,7 @@ angular.module('photoCtrl', [])
 					}
 				}
 
-// fStop
+// Filter fStop
 				$scope.fstopFilter = function (photo) {
 					if(!$scope.filterFstop || $scope.filterFstop == '*') {
 						return true;
@@ -84,7 +72,7 @@ angular.module('photoCtrl', [])
 					}
 				}
 
-// ISO
+// Filter ISO
 				$scope.isoFilter = function (photo) {
 					if(!$scope.filterIso || $scope.filterIso == '*') {
 						return true;
@@ -130,6 +118,7 @@ angular.module('photoCtrl', [])
 			$http.get('/api/addphoto')
 				.success( function(data, status, header, config) {
 					$scope.categories = data.categories;
+					$scope.filters = data.filters;
 					$scope.submitPhoto = function () {
 						var data = {
 							photo: $scope.photo,

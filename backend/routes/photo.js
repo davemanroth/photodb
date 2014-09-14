@@ -16,7 +16,7 @@ var thumbName = function (oldName) {
 exports.categories = function (req, res) {
 	Category.find({}, function (err, categories) {
 		if (!err) {
-			res.json({categories: categories});
+			res.json({categories: categories, filters:Filters});
 		}
 		else {
 			console.log(err);

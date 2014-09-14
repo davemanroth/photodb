@@ -39,7 +39,7 @@ h2 My photos
 				br
 				label(for="camera") Camera: 
 				select(name="camera" ng-model="photo.camera")
-					option(value="{{camera}}" ng-selected="camera == photo.camera" ng-repeat="camera in filters.cameras") {{camera}}
+					option(value="{{camera}}" ng-selected="camera == photo.camera" ng-repeat="camera in filters.cameras.sort()") {{camera}}
 				label(for="shutter") Shutter speed:  
 				select(name="shutter" ng-model="photo.shutter")
 					option(value="{{shutter}}" ng-selected="shutter == photo.shutter" ng-repeat="shutter in filters.shutters") {{shutter}}
