@@ -71,6 +71,8 @@ app.get('/api/photos_all', photo.photosAll);
 app.get('/api/photos/:id', photo.photoDetail);
 app.get('/api/categories', photo.categories);
 
+// Critiques
+app.post('/api/critiques/add', critique.feedbackSubmit);
 
 // User
 app.get('/api/users/:username', user.profile);
@@ -93,7 +95,6 @@ app.get('/photos', photo.allPhotos);
 app.get('/photos/:photoid', photo.photoDetail);
 
 // Critiques
-app.get('/critique/add', critique.feedbackForm);
 app.post('/critique/add', critique.feedbackSubmit);
 */
 app.get('*', routes.index);

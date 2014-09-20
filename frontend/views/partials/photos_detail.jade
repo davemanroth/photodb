@@ -1,45 +1,48 @@
 header
 	h1 {{photo.title}}
+	p {{evaluated}}
 	p
 		a(ng-href="/users/{{photo.author.username}}") {{photo.author.username}}
 	p Uploaded: {{photo.date_uploaded | date: 'EEE, MMMM dd, yyyy'}}
-img(ng-src="{{photo.path}}")
-div#feedback.feedback(ng-show="showFeedback")
-	h2 Feedback submission
-	div#close.close X
-	label(for="like") What do you like about the photo? (limit xxx characters)
-	br
-	textarea#like(name="like" ng-model="like")
-	br
-	label(for="improved") What could be improved? (limit xxx characters)
-	br
-	textarea#improved(name="improved" ng-model="improved")
-	br
-	input(type="checkbox" id="visual") 
-	| Add visual feedback?
-	br
-	button#cancel(ng-click="showSubmit=true; showFeedback=false") Cancel
-	button#submit-feedback(ng-click="processFeedback()") Submit feedback
-div.specs
-	h2 Specifications
-	ul
-		li: | <strong>Camera:</strong> {{photo.camera}}
-		li: | <strong>Shutter:</strong> {{photo.shutter}}
-		li: | <strong>fstop:</strong> {{photo.fstop}}
-		li: | <strong>ISO:</strong> {{photo.iso}}
-div.about
-	h2 About photo
-	p {{photo.writeup}}
-div#critique-submit.critique-submit(ng-show="showSubmit"
-ng-init="showSubmit=true")
-	h2 Feedback
-	button#crit-sub.submit(ng-click="showFeedback=true; showSubmit=false") Submit a critique
-div#critique-area(ng-if="photo.critiques")
-	div.critique(ng-repeat="critique in photo.critiques")
-		p.question What do you like about the photo?<br /> {{critique.like}}
-		p.question What could be improved?<br /> {{critique.improved}}
-		p.author - 
-			a(href="/users/{{critique.username}}") {{critique.username}},
-			|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy'}}
-div(ng-show="photo.critiques.length == 0")
-	p No critiques yet
+div(ng-controller="CritAddController")
+	div(ng-show="visual" ng-model="visual")
+		h2 Visual feedback activated
+	img(ng-src="{{photo.path}}")
+	div.feedback(ng-show="feedbackArea" ng-model="feedbackArea")
+		h2 Feedback submission
+		div#close.close X
+		label(for="like") What do you like about the photo? (limit xxx characters)
+		br
+		textarea#like(name="like" ng-model="like")
+		br
+		label(for="improved") What could be improved? (limit xxx characters)
+		br
+		textarea#improved(name="improved" ng-model="improved")
+		br
+		input(type="checkbox" ng-click="showHideVis($event)") 
+		| Add visual feedback?
+		br
+		button#cancelFeedback.button(ng-click="showHideFeedback($event)") Cancel
+		button.button(ng-click="addFeedback()") Submit feedback
+	div.specs
+		h2 Specifications
+		ul
+			li: | <strong>Camera:</strong> {{photo.camera}}
+			li: | <strong>Shutter:</strong> {{photo.shutter}}
+			li: | <strong>fstop:</strong> {{photo.fstop}}
+			li: | <strong>ISO:</strong> {{photo.iso}}
+	div.about
+		h2 About photo
+		p {{photo.writeup}}
+	div.feedback-submit(ng-show="feedbackOption" ng-model="feedbackOption")
+		h2 Feedback
+		button#showFeedback.button(ng-click="showHideFeedback($event)") Submit a critique
+	div#critique-area(ng-if="photo.critiques")
+		div.critique(ng-repeat="critique in photo.critiques")
+			p.question What do you like about the photo?<br /> {{critique.like}}
+			p.question What could be improved?<br /> {{critique.improved}}
+			p.author - 
+				a(href="/users/{{critique.username}}") {{critique.username}},
+				|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy'}}
+	div(ng-show="photo.critiques.length == 0")
+		p No critiques yet

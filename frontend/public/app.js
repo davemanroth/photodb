@@ -1,4 +1,4 @@
-angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl'])
+angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'critCtrl'])
 	.config( function($routeProvider, $locationProvider) {
 		$routeProvider
 			.when('/photos/all', {
