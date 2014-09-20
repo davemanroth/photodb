@@ -2,6 +2,7 @@ angular.module('feedbackCtrl', [])
 
 	.controller('FeedbackController', ['$scope', '$http', 
 		function ($scope, $http) {
+			$scope.parent = self;
 			$scope.visual, $scope.feedbackArea = false;
 			$scope.feedbackOption = true;
 			$scope.addFeedback = function() {
@@ -29,9 +30,15 @@ angular.module('feedbackCtrl', [])
 	.controller('VisController', ['$scope', 
 		function ($scope) {
 			var canvas = document.getElementById('vis-body');
+			var img = document.getElementById('imgDetail');
 			if (canvas == null) {
 				return;
 			}
+			angular.element(img).on('load', function () {
+				canvas.width = $(this).width();
+				canvas.height = $(this).height();
+			});
+
 			canvas.addEventListener('click', addVis, false);
 
 			function addVis (event) {
