@@ -1,6 +1,6 @@
 angular.module('feedbackCtrl', [])
 
-	.controller('FeedbackAddController', ['$scope', '$http', 
+	.controller('FeedbackController', ['$scope', '$http', 
 		function ($scope, $http) {
 			$scope.visual, $scope.feedbackArea = false;
 			$scope.feedbackOption = true;

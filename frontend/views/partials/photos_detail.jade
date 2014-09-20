@@ -3,25 +3,16 @@ header
 	p
 		a(ng-href="/users/{{photo.author.username}}") {{photo.author.username}}
 	p Uploaded: {{photo.date_uploaded | date: 'EEE, MMMM dd, yyyy'}}
-div(ng-controller="FeedbackAddController")
-	div(ng-include="visual && '/partials/vis_feedback.jade' || ''")
+div(ng-controller="FeedbackController")
+	div(ng-show="visual" ng-model="visual")
+		div.visual-feedback(ng-controller="VisController")
+			div.vis-head
+				h2 Visual feedback
+			canvas#vis-body.vis-body
+	//div(ng-include="visual && '/partials/vis_feedback.jade' || ''")
 	img(ng-src="{{photo.path}}")
-	div.feedback(ng-show="feedbackArea" ng-model="feedbackArea")
-		h2 Feedback submission
-		div#close.close X
-		label(for="like") What do you like about the photo? (limit xxx characters)
-		br
-		textarea#like(name="like" ng-model="like")
-		br
-		label(for="improved") What could be improved? (limit xxx characters)
-		br
-		textarea#improved(name="improved" ng-model="improved")
-		br
-		input(type="checkbox" ng-click="showHideVis($event)") 
-		| Add visual feedback?
-		br
-		button#cancelFeedback.button(ng-click="showHideFeedback($event)") Cancel
-		button.button(ng-click="addFeedback()") Submit feedback
+	//div.feedback(ng-show="feedbackArea" ng-model="feedbackArea")
+	div(ng-include="feedbackArea && '/partials/feedback.jade' || ''")
 	div.specs
 		h2 Specifications
 		ul
