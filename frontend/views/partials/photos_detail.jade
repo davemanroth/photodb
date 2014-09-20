@@ -1,12 +1,10 @@
 header
 	h1 {{photo.title}}
-	p {{evaluated}}
 	p
 		a(ng-href="/users/{{photo.author.username}}") {{photo.author.username}}
 	p Uploaded: {{photo.date_uploaded | date: 'EEE, MMMM dd, yyyy'}}
-div(ng-controller="CritAddController")
-	div(ng-show="visual" ng-model="visual")
-		h2 Visual feedback activated
+div(ng-controller="FeedbackAddController")
+	div(ng-include="visual && '/partials/vis_feedback.jade' || ''")
 	img(ng-src="{{photo.path}}")
 	div.feedback(ng-show="feedbackArea" ng-model="feedbackArea")
 		h2 Feedback submission

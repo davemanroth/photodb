@@ -16,9 +16,9 @@ mongoose.connect('mongodb://localhost:27017/photodb');
 // route files
 var photo = require('./backend/routes/photo');
 var user = require('./backend/routes/user');
+var critique = require('./backend/routes/critique');
 /*
 var group = require('./backend/routes/group');
-var critique = require('./backend/routes/critique');
 */
 /*
 var group = require('./routes/group');
