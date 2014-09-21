@@ -2,7 +2,6 @@ angular.module('feedbackCtrl', [])
 
 	.controller('FeedbackController', ['$scope', '$http', 
 		function ($scope, $http) {
-			$scope.parent = self;
 			$scope.visual, $scope.feedbackArea = false;
 			$scope.feedbackOption = true;
 			$scope.addFeedback = function() {
@@ -30,16 +29,37 @@ angular.module('feedbackCtrl', [])
 	.controller('VisController', ['$scope', 
 		function ($scope) {
 			var canvas = document.getElementById('vis-body');
-			var img = document.getElementById('imgDetail');
+			var img = document.getElementById('img-detail');
+			var canWidth, canHeight = '';
 			if (canvas == null) {
 				return;
 			}
 			angular.element(img).on('load', function () {
-				canvas.width = $(this).width();
-				canvas.height = $(this).height();
+				canWidth = $(this).width();
+				canHeight = $(this).height();
+				setCanvasSize(canWidth, canHeight);
+				/*
+				var ctx2 = canvas.getContext('2d');
+				ctx2.beginPath();
+				ctx2.rect(100, 100, 20, 20);
+				ctx2.fillStyle ="#ff0000";
+				ctx2.fill();
+				*/
 			});
 
 			canvas.addEventListener('click', addVis, false);
+			window.addEventListener('resize', resizeCanvas);
+
+			function resizeCanvas() {
+				var newWidth = angular.element(img).width();
+				var newHeight = angular.element(img).height();
+				setCanvasSize(newWidth, newHeight);
+			}
+
+			function setCanvasSize(canWidth, canHeight) {
+				canvas.width = canWidth;
+				canvas.height = canHeight;
+			}
 
 			function addVis (event) {
 				var OFFSET = 20;
