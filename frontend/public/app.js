@@ -43,5 +43,13 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 				}
 			};
 		}
+	])
+
+	.directive('visFeedback', [
+		function () {
+			return {
+				restrict: 'E'
+			};
+		}
 	]);
 			
