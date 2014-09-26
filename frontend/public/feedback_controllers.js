@@ -28,6 +28,7 @@ angular.module('feedbackCtrl', [])
 
 	.controller('VisController', ['$scope', 
 		function ($scope) {
+			/*
 			var canvas = document.getElementById('vis-body');
 			var img = document.getElementById('img-detail');
 			var canWidth, canHeight = '';
@@ -38,13 +39,11 @@ angular.module('feedbackCtrl', [])
 				canWidth = $(this).width();
 				canHeight = $(this).height();
 				setCanvasSize(canWidth, canHeight);
-				/*
 				var ctx2 = canvas.getContext('2d');
 				ctx2.beginPath();
 				ctx2.rect(100, 100, 20, 20);
 				ctx2.fillStyle ="#ff0000";
 				ctx2.fill();
-				*/
 			});
 
 			canvas.addEventListener('click', addVis, false);
@@ -87,5 +86,6 @@ angular.module('feedbackCtrl', [])
 				ctx.strokeStyle = "black";
 				ctx.stroke();
 			}
+			*/
 		}
 	]);

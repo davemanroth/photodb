@@ -6,9 +6,10 @@ header
 div(ng-controller="FeedbackController")
 	div(ng-show="visual" ng-model="visual")
 		div.visual-feedback(ng-controller="VisController")
-			div.vis-head
-				h2 Visual feedback
-			canvas#vis-body.vis-body
+			visFeedback
+				div.vis-head
+					h2 Visual feedback
+				canvas#vis-body.vis-body
 	img#img-detail.img-responsive(ng-src="{{photo.path}}")
 	div(ng-include="feedbackArea && '/partials/feedback.jade' || ''")
 	div.specs
