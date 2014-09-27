@@ -26,6 +26,23 @@ angular.module('feedbackCtrl', [])
 		}
 	])
 
+	.directive('visFeedback', ['$window',
+		function ($window) {
+			return {
+				restrict: 'E',
+				scope: {canvas: '='},
+				link: function (scope, element, attrs) {
+					var vfm = new VisFeedbackMaker(scope.canvas);
+					var img = angular.element(img);
+					vfm.setSize(img);
+					scope.canvas.on('click', function (e) {
+						vfm.setMark(e);
+					});
+				}
+			};
+		}
+	])
+
 	.controller('VisController', ['$scope', 
 		function ($scope) {
 			/*

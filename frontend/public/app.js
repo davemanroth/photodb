@@ -43,20 +43,7 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 				}
 			};
 		}
-	])
+	]);
 
-	.directive('visFeedback', 
-		function () {
-			return {
-				restrict: 'E',
-				scope: {canvas: '='},
-				link: function (scope, element, attrs) {
-					var vfm = new VisFeedbackMaker(scope.canvas);
-					scope.canvas.on('click', function (e) {
-						vfm.setMark(e);
-					});
-				}
-			};
-		}
-	);
+	
 			
