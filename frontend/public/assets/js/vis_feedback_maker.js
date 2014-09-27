@@ -26,6 +26,10 @@ var VisFeedbackMaker = function (c) {
 		setMark: function (e) {
 			var mouse = getMousePos(e);
 			drawRect(mouse);
+		},
+		setSize: function (width, height) {
+			canvas.width = width;
+			canvas.height = height;
 		}
 	}
 }
