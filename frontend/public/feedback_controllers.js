@@ -26,6 +26,8 @@ angular.module('feedbackCtrl', [])
 		}
 	])
 
+/*
+	*/
 	.directive('visFeedback', 
 		function () {
 			return {
@@ -51,16 +53,40 @@ angular.module('feedbackCtrl', [])
 		}
 	)
 	
+	.directive('comments',
+		function () {
+			return {
+				retrict: 'E',
+				template: '<h2>This is a test</h2>',
+				replace: true
+			}
+		}
+	)
+
+	/*
 	.directive('visComment',
 		function () {
 			return {
 				retrict: 'E',
-				templateUrl: '/partials/comment_box.jade',
-				controller: 'VisController',
+				template: '<h1>This is a test</h1>',
+				//templateUrl: '/partials/commentBox.jade',
+				//template: '<div class="comment-outer absolute"><div class="comment-inner"><h3>Comment</h3><textarea></textarea><button ng-click="cancelComment()">Cancel</button><button ng-click="submitComment()">Submit comment</button></div></div>'
+				replace:true,
+			}
+		}
+	);
+	*/
 
-	.controller('VisController', ['$scope', '$element',
-		function ($scope, $element) {
-			$scope.createComment = function () {
+	.controller('VisController', ['$scope', '$element', '$compile',
+		function ($scope, $element, $compile) {
+			$scope.createCommentBox = function () {
+				var code = '<div class="comment-outer absolute"><div class="comment-inner"><h3>Comment</h3><textarea></textarea><button ng-click="cancelComment()">Cancel</button><button ng-click="submitComment()">Submit comment</button></div></div>';
+				var vc = angular.element(code);
+				$element.find('vis-comments').append($compile(vc)($scope));
+				//$element.find('vis-comments').append( $compile('vis-comment')($scope) );
+			}
+			$scope.test = function () {
+				console.log('This is a test');
 			}
 		}
 	]);

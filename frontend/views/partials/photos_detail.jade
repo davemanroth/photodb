@@ -9,9 +9,8 @@ div(ng-controller="FeedbackController")
 			vis-feedback(ng-controller="VisController")
 				div.vis-head
 					h2 Visual feedback
-				canvas#vis-body.vis-body.absolute(ng-click="createComment()")
-				vis-comment
-				//div#vis-comment.vis-comment(ng-show="showMessage" ng-model="visComment")
+				canvas#vis-body.vis-body.absolute(ng-click="createCommentBox()")
+				comments.vis-comments
 	img#img-detail.img-responsive(ng-src="{{photo.path}}")
 	div(ng-include="feedbackArea && '/partials/feedback.jade' || ''")
 	div.specs

@@ -27,6 +27,7 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 		$locationProvider.html5Mode(true);
 	})
 
+
 	.directive('fileModel', ['$parse',
 		function ($parse) {
 			return {

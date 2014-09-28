@@ -15,3 +15,4 @@ nav ul:after{content:""; display:block; clear:both;}
 .vis-body{background-color:rgba(255, 255, 255, 0.4);}
 .comment-outer{z-index:5; background:#fff;}
 .comment-inner{position:relative; padding:10px 20px;}
+.vis-comments{position:relative; display:block;}

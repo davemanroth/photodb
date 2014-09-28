@@ -65,7 +65,7 @@ var VisFeedbackGenerator = function (c) {
 		setMark: function (e) {
 			var mouse = getMousePos(e);
 			drawRect(mouse);
-			createCommentModule();
+			//createCommentModule();
 		},
 		setSize: function (width, height) {
 			canvas.width = width;
