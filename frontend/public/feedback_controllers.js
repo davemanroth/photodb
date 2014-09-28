@@ -33,25 +33,34 @@ angular.module('feedbackCtrl', [])
 				link: function (scope, element, attrs) {
 					var canvas = document.getElementById('vis-body');
 					var img = document.getElementById('img-detail');
-					var vfm = new VisFeedbackMaker(canvas);
+					var vfg = new VisFeedbackGenerator(canvas);
 
 					img.addEventListener('load', function () {
-						vfm.setSize(img.width, img.height);
+						vfg.setSize(img.width, img.height);
 					});
 
 					window.addEventListener('resize', function () {
-						vfm.setSize(img.width, img.height);
+						vfg.setSize(img.width, img.height);
 					});
 
 					canvas.addEventListener('click', function (e) {
-						vfm.setMark(e);
+						vfg.setMark(e);
 					});
 				}
 			};
 		}
 	)
+	
+	.directive('visComment',
+		function () {
+			return {
+				retrict: 'E',
+				templateUrl: '/partials/comment_box.jade',
+				controller: 'VisController',
 
-	.controller('VisController', ['$scope', 
-		function ($scope) {
+	.controller('VisController', ['$scope', '$element',
+		function ($scope, $element) {
+			$scope.createComment = function () {
+			}
 		}
 	]);

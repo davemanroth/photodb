@@ -11,4 +11,7 @@ nav li{float:left; display:block; padding:5px 10px;}
 nav ul{padding:0;}
 nav ul:after{content:""; display:block; clear:both;}
 
-.vis-body{position:absolute; background-color:rgba(255, 255, 255, 0.4);}
+.absolute{position:absolute;} 
+.vis-body{background-color:rgba(255, 255, 255, 0.4);}
+.comment-outer{z-index:5; background:#fff;}
+.comment-inner{position:relative; padding:10px 20px;}
