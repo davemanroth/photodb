@@ -26,67 +26,25 @@ angular.module('feedbackCtrl', [])
 		}
 	])
 
-/*
-	*/
 	.directive('visFeedback', 
 		function () {
 			return {
+				scope:true,
 				restrict: 'E',
-				link: function (scope, element, attrs) {
-					var canvas = document.getElementById('vis-body');
-					var img = document.getElementById('img-detail');
-					var vfg = new VisFeedbackGenerator(canvas);
-
-					img.addEventListener('load', function () {
-						vfg.setSize(img.width, img.height);
-					});
-
-					window.addEventListener('resize', function () {
-						vfg.setSize(img.width, img.height);
-					});
-
-					canvas.addEventListener('click', function (e) {
-						vfg.setMark(e);
-					});
-				}
-			};
-		}
-	)
-	
-	.directive('comments',
-		function () {
-			return {
-				retrict: 'E',
-				template: '<h2>This is a test</h2>',
-				replace: true
+				replace: true,
+				templateUrl: 'test.html'
+				//template: '<h2>Testing, testing...</h2>'
 			}
 		}
 	)
 
-	/*
-	.directive('visComment',
+	.directive('comments', 
 		function () {
 			return {
-				retrict: 'E',
-				template: '<h1>This is a test</h1>',
-				//templateUrl: '/partials/commentBox.jade',
-				//template: '<div class="comment-outer absolute"><div class="comment-inner"><h3>Comment</h3><textarea></textarea><button ng-click="cancelComment()">Cancel</button><button ng-click="submitComment()">Submit comment</button></div></div>'
-				replace:true,
+				restrict: 'E',
+				template: '<h3>Second test</h3>'
 			}
 		}
 	);
+/*
 	*/
-
-	.controller('VisController', ['$scope', '$element', '$compile',
-		function ($scope, $element, $compile) {
-			$scope.createCommentBox = function () {
-				var code = '<div class="comment-outer absolute"><div class="comment-inner"><h3>Comment</h3><textarea></textarea><button ng-click="cancelComment()">Cancel</button><button ng-click="submitComment()">Submit comment</button></div></div>';
-				var vc = angular.element(code);
-				$element.find('vis-comments').append($compile(vc)($scope));
-				//$element.find('vis-comments').append( $compile('vis-comment')($scope) );
-			}
-			$scope.test = function () {
-				console.log('This is a test');
-			}
-		}
-	]);
