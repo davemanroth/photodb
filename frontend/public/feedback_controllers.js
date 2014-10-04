@@ -26,23 +26,57 @@ angular.module('feedbackCtrl', [])
 		}
 	])
 
+	.controller('VisController', ['$scope', '$element', '$compile', 
+		function ($scope, $element, $compile) {
+			var canvas = document.getElementById('vis-body');
+			var img = document.getElementById('img-detail');
+			var vfg = new VisFeedbackGenerator(canvas);
+
+			img.addEventListener('load', function () {
+				vfg.setSize(img.width, img.height);
+			});
+
+			window.addEventListener('resize', function () {
+				vfg.setSize(img.width, img.height);
+			});
+
+			canvas.addEventListener('click', function (e) {
+				vfg.setMark(e);
+			});
+
+			$scope.createCommentBox = function () {
+				var visCom = $compile('<vis-comment>')($scope);
+				$element.find('vis-comments').append(visCom);
+			}
+		}
+	])
+
 	.directive('visFeedback', 
 		function () {
 			return {
-				scope:true,
 				restrict: 'E',
-				replace: true,
-				templateUrl: 'test.html'
-				//template: '<h2>Testing, testing...</h2>'
+				controller: 'VisController'
 			}
 		}
 	)
 
-	.directive('comments', 
+	.directive('visComments', 
 		function () {
 			return {
 				restrict: 'E',
-				template: '<h3>Second test</h3>'
+			}
+		}
+	)
+
+	.directive('visComment', 
+		function () {
+			return {
+				replace: true,
+				controller: 'VisController',
+				restrict: 'E',
+				templateUrl: '/partials/commentBox.jade',
+				link: function (scope, element, attrs) {
+				}
 			}
 		}
 	);
