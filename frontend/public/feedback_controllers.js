@@ -28,6 +28,7 @@ angular.module('feedbackCtrl', [])
 
 	.controller('VisController', ['$scope', '$element', '$compile', 
 		function ($scope, $element, $compile) {
+			var that = this;
 			var canvas = document.getElementById('vis-body');
 			var img = document.getElementById('img-detail');
 			var vfg = new VisFeedbackGenerator(canvas);
@@ -47,6 +48,16 @@ angular.module('feedbackCtrl', [])
 			$scope.createCommentBox = function () {
 				var visCom = $compile('<vis-comment>')($scope);
 				$element.find('vis-comments').append(visCom);
+				$scope.coords = vfg.getCoords();
+			}
+
+			this.addComment = function (comment) {
+				console.log(comment);
+			}
+
+			this.cancelComment = function () {
+				vfg.removeMark($scope.coords);
+				//console.log($scope.coords);
 			}
 		}
 	])
@@ -75,7 +86,14 @@ angular.module('feedbackCtrl', [])
 				controller: 'VisController',
 				restrict: 'E',
 				templateUrl: '/partials/commentBox.jade',
-				link: function (scope, element, attrs) {
+				link: function (scope, element, attrs, visCtrl) {
+					scope.submitComment = function () {
+						visCtrl.addComment(scope.commentText);
+					}
+
+					scope.cancelComment = function () {
+						visCtrl.cancelComment();
+					}
 				}
 			}
 		}
