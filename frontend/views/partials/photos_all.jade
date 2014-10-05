@@ -33,7 +33,6 @@ div.container
 		br
 		button.button(name="close" ng-click="filterClick=false") Close
 	div.row
-		//div.photothumb.col-md-3(ng-repeat="photo in photos | filter:{author:photoAuthor, category:photoCategory}")
 		div.photothumb.col-md-3(ng-repeat="photo in photos | filter:nameFilter | filter:catFilter | filter:cameraFilter | filter:shutterFilter | filter:fstopFilter | filter:isoFilter | orderBy:sortField:reverse")
 			a(ng-href="/photos/{{photo._id}}")
 				img.img-responsive(ng-src="{{photo.thumb}}")

@@ -164,12 +164,13 @@ angular.module('photoCtrl', [])
 			$http.get('/api/photos/' + $routeParams.id)
 			.success( function(data, status, header, config) {
 				$scope.photo = data.photo;
-				$scope.processFeedback = function() {
-				};
 			})
 			.error( function(data, status, header, config) {
 				$scope.photo = 'Error!';
 				$scope.error = data.photo;
+			});
+			$scope.$on('update_critiques', function (event, newCrit) {
+				$scope.photo.critiques.push(newCrit);
 			});
 		}
 	]);

@@ -28,7 +28,8 @@ exports.feedbackSubmit = function (req, res) {
 				}
 				else {
 					User.addToArray('critiques', req.session.username, photo._id);
-					res.send('Added critique to ' + req.session.username + '\'s account');
+					res.json(photo.critiques.pop());
+					console.log('Added critique to ' + req.session.username + '\'s account');
 				}
 			});
 		}

@@ -26,11 +26,11 @@ div(ng-controller="FeedbackController")
 		h2 Feedback
 		button#showFeedback.button(ng-click="showHideFeedback($event)") Submit a critique
 	div#critique-area(ng-if="photo.critiques")
-		div.critique(ng-repeat="critique in photo.critiques")
+		div.critique(ng-repeat="critique in photo.critiques | orderBy:sortField")
 			p.question What do you like about the photo?<br /> {{critique.like}}
 			p.question What could be improved?<br /> {{critique.improved}}
 			p.author - 
 				a(href="/users/{{critique.username}}") {{critique.username}},
-				|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy'}}
+				|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy, h:m a'}}
 	div(ng-show="photo.critiques.length == 0")
 		p No critiques yet

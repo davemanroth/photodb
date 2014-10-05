@@ -1,7 +1,8 @@
 angular.module('feedbackCtrl', [])
 
-	.controller('FeedbackController', ['$scope', '$http', 
-		function ($scope, $http) {
+	.controller('FeedbackController', ['$scope', '$http', '$routeParams', 
+		function ($scope, $http, $routeParams) {
+			$scope.sortField = '-date_posted';
 			$scope.visual, $scope.feedbackArea = false;
 			$scope.feedbackOption = true;
 			$scope.addFeedback = function() {
@@ -22,6 +23,24 @@ angular.module('feedbackCtrl', [])
 			$scope.showHideVis = function ($event) {
 				var checkbox = $event.target;
 				$scope.visual = checkbox.checked ? true : false;
+			}
+
+			$scope.addFeedback = function (like, improved) {
+				//console.log([like, improved]);
+				var data = {
+					photoid: $routeParams.id,
+					like: like,
+					improved: improved
+				};
+				$http.post('/api/critiques/add', data)
+					.success( function (retData) {
+						$scope.$emit('update_critiques', retData);
+					})
+					.error( function (retData) {
+						//console.log(retData);
+					});
+				/*
+				*/
 			}
 		}
 	])
