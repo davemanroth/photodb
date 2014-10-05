@@ -22,10 +22,10 @@ div(ng-controller="FeedbackController")
 	div.about
 		h2 About photo
 		p {{photo.writeup}}
-	div.feedback-submit(ng-show="feedbackOption" ng-model="feedbackOption")
+	div.feedback-submit(ng-show="feedbackOption")
 		h2 Feedback
 		button#showFeedback.button(ng-click="showHideFeedback($event)") Submit a critique
-	div#critique-area(ng-if="photo.critiques")
+	div#critique-area(ng-if="hasCritiques")
 		div.critique(ng-repeat="critique in photo.critiques | orderBy:sortField")
 			p.question What do you like about the photo?<br /> {{critique.like}}
 			p.question What could be improved?<br /> {{critique.improved}}

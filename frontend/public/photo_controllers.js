@@ -161,16 +161,20 @@ angular.module('photoCtrl', [])
 // Photo detail
 	.controller('PhotoDetailController', ['$scope', '$http', '$routeParams', 
 		function($scope, $http, $routeParams) {
+			$scope.hasCritiques = false;
 			$http.get('/api/photos/' + $routeParams.id)
 			.success( function(data, status, header, config) {
 				$scope.photo = data.photo;
+				$scope.hasCritiques = data.photo.critiques.length > 0;
 			})
 			.error( function(data, status, header, config) {
 				$scope.photo = 'Error!';
 				$scope.error = data.photo;
 			});
+			// Listen for child controller event of adding critique, update view
 			$scope.$on('update_critiques', function (event, newCrit) {
 				$scope.photo.critiques.push(newCrit);
+				$scope.hasCritiques = $scope.photo.critiques.length > 0;
 			});
 		}
 	]);
