@@ -112,6 +112,8 @@ angular.module('feedbackCtrl', [])
 
 					scope.cancelComment = function () {
 						visCtrl.cancelComment();
+						element.remove();
+						scope.$destroy;
 					}
 				}
 			}
