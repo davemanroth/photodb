@@ -45,9 +45,8 @@ angular.module('feedbackCtrl', [])
 		}
 	])
 
-	.controller('VisController', ['$scope', '$element', '$compile', 
-		function ($scope, $element, $compile) {
-			var that = this;
+	.controller('VisController', ['$scope', '$element', 
+		function ($scope, $element) {
 			var canvas = document.getElementById('vis-body');
 			var img = document.getElementById('img-detail');
 			var vfg = new VisFeedbackGenerator(canvas);
@@ -62,12 +61,11 @@ angular.module('feedbackCtrl', [])
 
 			canvas.addEventListener('click', function (e) {
 				vfg.setMark(e);
+				$scope.coords = vfg.getCoords();
 			});
 
 			$scope.createCommentBox = function () {
-				var visCom = $compile('<vis-comment>')($scope);
-				$element.find('vis-comments').append(visCom);
-				$scope.coords = vfg.getCoords();
+				$scope.$broadcast('canvas-click', true);
 			}
 
 			this.addComment = function (comment) {
@@ -76,7 +74,6 @@ angular.module('feedbackCtrl', [])
 
 			this.cancelComment = function () {
 				vfg.removeMark($scope.coords);
-				//console.log($scope.coords);
 			}
 		}
 	])
@@ -91,9 +88,15 @@ angular.module('feedbackCtrl', [])
 	)
 
 	.directive('visComments', 
-		function () {
+		function ($compile) {
 			return {
 				restrict: 'E',
+				link: function (scope, element, attrs, visCtrl) {
+					scope.$on('canvas-click', function (event, click) {
+						var visCom = $compile('<vis-comment>')(scope);
+						element.append(visCom);
+					});
+				}
 			}
 		}
 	)
