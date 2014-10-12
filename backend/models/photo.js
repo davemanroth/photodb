@@ -9,7 +9,7 @@ var Schema = mongoose.Schema;
 var DetailSchema = new Schema({
 	xCoord: {type: Number, required: true},
 	yCoord: {type: Number, required: true},
-	notes: {type: String, required: true}
+	comment: {type: String, required: true}
 });
 var Detail = mongoose.model('Detail', DetailSchema);
 

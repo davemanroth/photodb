@@ -5,6 +5,7 @@ header
 	p Uploaded: {{photo.date_uploaded | date: 'EEE, MMMM dd, yyyy'}}
 div(ng-controller="FeedbackController")
 	div(ng-show="visual" ng-model="visual")
+		input.hidden(type="hidden" ng-model="visData")
 		vis-feedback.visual-feedback
 			div.vis-head
 				h2 Visual feedback

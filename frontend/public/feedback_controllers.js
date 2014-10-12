@@ -5,6 +5,7 @@ angular.module('feedbackCtrl', [])
 			$scope.sortField = '-date_posted';
 			$scope.visual, $scope.feedbackArea = false;
 			$scope.feedbackOption = true;
+			$scope.visData = [];
 
 			$scope.showHideFeedback = function ($event) {
 				var option = $event.target.id;
@@ -26,13 +27,23 @@ angular.module('feedbackCtrl', [])
 				$scope.visual = checkbox.checked ? true : false;
 			}
 
+			$scope.$on('addToVisModel', function (event, data) {
+				$scope.visData.push(data);
+			});
+			/*
+			*/
+
 			$scope.addFeedback = function (feedback) {
+				//console.log($scope.visData);
+				var details = $scope.visData || [];
 				var data = {
 					photoid: $routeParams.id,
 					like: feedback.like,
-					improved: feedback.improved
+					improved: feedback.improved,
+					details: details
 				};
-				//console.log(data);
+				console.log(data);
+				/*
 				$http.post('/api/critiques/add', data)
 					.success( function (retData) {
 				// emit to parent controller so critique appears immediately
@@ -40,7 +51,6 @@ angular.module('feedbackCtrl', [])
 					})
 					.error( function (retData) {
 					});
-				/*
 				*/
 			}
 		}
@@ -70,7 +80,12 @@ angular.module('feedbackCtrl', [])
 			}
 
 			this.addComment = function (comment) {
-				console.log(comment);
+				var visData = {
+					comment:comment,
+					xCoord: $scope.coords.x,
+					yCoord: $scope.coords.y
+				};
+				$scope.$emit('addToVisModel', visData);
 			}
 
 			this.cancelComment = function () {
@@ -92,7 +107,7 @@ angular.module('feedbackCtrl', [])
 		function ($compile) {
 			return {
 				restrict: 'E',
-				link: function (scope, element, attrs, visCtrl) {
+				link: function (scope, element, attrs) {
 					scope.$on('canvas-click', function (event, click) {
 						var visCom = $compile('<vis-comment>')(scope);
 						element.append(visCom);
@@ -106,12 +121,15 @@ angular.module('feedbackCtrl', [])
 		function () {
 			return {
 				replace: true,
-				controller: 'VisController',
+				require: '^visFeedback',
 				restrict: 'E',
 				templateUrl: '/partials/commentBox.jade',
 				link: function (scope, element, attrs, visCtrl) {
 					scope.submitComment = function () {
 						visCtrl.addComment(scope.commentText);
+						scope.commentText = '';
+						element.remove();
+						scope.$destroy;
 					}
 
 					scope.cancelComment = function () {

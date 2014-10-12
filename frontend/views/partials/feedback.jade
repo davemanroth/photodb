@@ -12,5 +12,6 @@ div.feedback-area
 	input(type="checkbox" ng-click="showHideVis($event)") 
 	| Add visual feedback?
 	br
+	input(type="hidden" ng-model="feedback.vis")
 	button#cancelFeedback.button(ng-click="showHideFeedback($event)") Cancel
 	button#addFeedback.button(ng-click="addFeedback(feedback); showHideFeedback($event)") Submit feedback
