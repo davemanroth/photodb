@@ -10,8 +10,11 @@ exports.feedbackForm = function (req, res) {
 }
 */
 
+/*
+*/
 exports.feedbackSubmit = function (req, res) {
 	//console.log(req.body);
+	var details = req.body.details;
 	Photo.findById(req.body.photoid, 'critiques', function (err, photo) {
 		if (err) {
 			console.log(err);
@@ -20,8 +23,21 @@ exports.feedbackSubmit = function (req, res) {
 			photo.critiques.push({
 				username: req.session.username,
 				like: req.body.like,
-				improved: req.body.improved
+				improved: req.body.improved,
+				details: []
 			});
+			// add vis feedback data if there is any
+			/*
+			if (details.length > 0 ) {
+				details.forEach( function (detail) {
+					photo.critiques.details.push({
+						xCord: detail.xCoord,
+						yCord: detail.yCoord,
+						comment: detail.comment
+					});
+				});
+			}
+			*/
 			photo.save(function (err, photo) {
 				if (err) {
 					console.log(err);
@@ -30,6 +46,7 @@ exports.feedbackSubmit = function (req, res) {
 					User.addToArray('critiques', req.session.username, photo._id);
 					res.json(photo.critiques.pop());
 					console.log('Added critique to ' + req.session.username + '\'s account');
+					//console.log(photo.critiques.details);
 				}
 			});
 		}

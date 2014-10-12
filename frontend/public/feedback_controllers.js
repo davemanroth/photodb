@@ -42,8 +42,6 @@ angular.module('feedbackCtrl', [])
 					improved: feedback.improved,
 					details: details
 				};
-				console.log(data);
-				/*
 				$http.post('/api/critiques/add', data)
 					.success( function (retData) {
 				// emit to parent controller so critique appears immediately
@@ -51,6 +49,7 @@ angular.module('feedbackCtrl', [])
 					})
 					.error( function (retData) {
 					});
+				/*
 				*/
 			}
 		}
