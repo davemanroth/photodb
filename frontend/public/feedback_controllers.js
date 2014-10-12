@@ -26,12 +26,13 @@ angular.module('feedbackCtrl', [])
 				$scope.visual = checkbox.checked ? true : false;
 			}
 
-			$scope.addFeedback = function (like, improved) {
+			$scope.addFeedback = function (feedback) {
 				var data = {
 					photoid: $routeParams.id,
-					like: like,
-					improved: improved
+					like: feedback.like,
+					improved: feedback.improved
 				};
+				//console.log(data);
 				$http.post('/api/critiques/add', data)
 					.success( function (retData) {
 				// emit to parent controller so critique appears immediately
