@@ -15,7 +15,7 @@ exports.feedbackForm = function (req, res) {
 exports.feedbackSubmit = function (req, res) {
 	//console.log(req.body);
 	var details = req.body.details;
-	Photo.findById(req.body.photoid, 'critiques', function (err, photo) {
+	Photo.findById(req.body.photoid, 'critiques details', function (err, photo) {
 		if (err) {
 			console.log(err);
 		}
@@ -24,19 +24,19 @@ exports.feedbackSubmit = function (req, res) {
 				username: req.session.username,
 				like: req.body.like,
 				improved: req.body.improved,
-				details: []
 			});
 			// add vis feedback data if there is any
-			/*
 			if (details.length > 0 ) {
 				details.forEach( function (detail) {
-					photo.critiques.details.push({
+					photo.details.push({
+						username: req.session.username,
 						xCord: detail.xCoord,
 						yCord: detail.yCoord,
 						comment: detail.comment
 					});
 				});
 			}
+			/*
 			*/
 			photo.save(function (err, photo) {
 				if (err) {
