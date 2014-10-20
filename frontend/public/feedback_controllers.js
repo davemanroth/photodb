@@ -3,7 +3,7 @@ angular.module('feedbackCtrl', [])
 	.controller('FeedbackController', ['$scope', '$http', '$routeParams', 
 		function ($scope, $http, $routeParams) {
 			$scope.sortField = '-date_posted';
-			$scope.visual, $scope.feedbackArea = false;
+			$scope.visual, $scope.feedbackArea, $scope.visEnabled = false;
 			$scope.feedbackOption = true;
 			$scope.visData = [];
 
@@ -22,9 +22,19 @@ angular.module('feedbackCtrl', [])
 				}
 			}
 
+			$scope.startVis = function ($event) {
+				if ($scope.visEnabled) {
+					var coords = {
+						x: $event.pageX,
+						y: $event.pageY
+					}
+					$scope.$emit('startVis', coords);
+				}
+			}
+
 			$scope.showHideVis = function ($event) {
 				var checkbox = $event.target;
-				$scope.newVis = checkbox.checked ? true : false;
+				$scope.visEnabled = checkbox.checked ? true : false;
 			}
 
 			/*
@@ -56,13 +66,25 @@ angular.module('feedbackCtrl', [])
 
 	.controller('VisController', ['$scope', '$element',
 		function ($scope, $element) {
+			$scope.$on('startVis', function (event, coords) {
+				console.log(coords);
+				$scope.newVis = true;
+			});
+			/*
+			$scope.startVis = function ($event) {
+				console.log($event);
+				$scope.$broadcast('vis-new-click', true);
+			}
+			*/
+		}
+	])
 
 
 	.directive('visFeedback', 
 		function () {
 			return {
 				restrict: 'E',
-				controller: 'VisController'
+				controller: 'VisController',
 			}
 		}
 	)
@@ -70,12 +92,18 @@ angular.module('feedbackCtrl', [])
 	.directive('visNew', 
 		function ($compile) {
 			return {
+				require: '^visFeedback',
 				restrict: 'E',
 				link: function (scope, element, attrs) {
-					scope.$on('vis-new-click', function (event, click) {
-						var visCom = $compile('<vis-comment>')(scope);
-						element.append(visCom);
+					['<vis-marker>', '<vis-comment>'].forEach( function (el) {
+						var newEl = $compile(el)(scope);
+						element.append(newEl);
 					});
+					/*
+					var visCom = $compile('<vis-comment>')(scope);
+					var visCom = $compile('<vis-comment>')(scope);
+					element.append(visCom);
+					*/
 				}
 			}
 		}
@@ -88,20 +116,6 @@ angular.module('feedbackCtrl', [])
 				require: '^visFeedback',
 				restrict: 'E',
 				templateUrl: '/partials/commentBox.jade',
-				link: function (scope, element, attrs, visCtrl) {
-					scope.submitComment = function () {
-						visCtrl.addComment(scope.commentText);
-						scope.commentText = '';
-						element.remove();
-						scope.$destroy;
-					}
-
-					scope.cancelComment = function () {
-						visCtrl.cancelComment();
-						element.remove();
-						scope.$destroy;
-					}
-				}
 			}
 		}
 	)
@@ -109,6 +123,7 @@ angular.module('feedbackCtrl', [])
 	.directive('visMarker',
 		function () {
 			return {
+				require: '^visFeedback',
 				template: 'div.vis-marker.absolute',
 				restrict: 'E'
 			}
@@ -118,6 +133,7 @@ angular.module('feedbackCtrl', [])
 	.directive('visSavedArea',
 		function () {
 			return {
+				require: '^visFeedback',
 				restrict: 'E'
 			}
 		}
@@ -126,10 +142,11 @@ angular.module('feedbackCtrl', [])
 	.directive('visSaved',
 		function () {
 			return {
+				require: '^visFeedback',
 				restrict: 'E'
 			}
 		}
-	)
+	);
 
 
 /*
