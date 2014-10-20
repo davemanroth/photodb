@@ -24,23 +24,22 @@ angular.module('feedbackCtrl', [])
 
 			$scope.showHideVis = function ($event) {
 				var checkbox = $event.target;
-				$scope.visual = checkbox.checked ? true : false;
+				$scope.newVis = checkbox.checked ? true : false;
 			}
 
+			/*
 			$scope.$on('addToVisModel', function (event, data) {
 				$scope.visData.push(data);
 			});
-			/*
 			*/
 
 			$scope.addFeedback = function (feedback) {
 				//console.log($scope.visData);
-				var details = $scope.visData || [];
+				//var details = $scope.visData || [];
 				var data = {
 					photoid: $routeParams.id,
 					like: feedback.like,
 					improved: feedback.improved,
-					details: details
 				};
 				$http.post('/api/critiques/add', data)
 					.success( function (retData) {
@@ -55,6 +54,85 @@ angular.module('feedbackCtrl', [])
 		}
 	])
 
+	.controller('VisController', ['$scope', '$element',
+		function ($scope, $element) {
+
+
+	.directive('visFeedback', 
+		function () {
+			return {
+				restrict: 'E',
+				controller: 'VisController'
+			}
+		}
+	)
+
+	.directive('visNew', 
+		function ($compile) {
+			return {
+				restrict: 'E',
+				link: function (scope, element, attrs) {
+					scope.$on('vis-new-click', function (event, click) {
+						var visCom = $compile('<vis-comment>')(scope);
+						element.append(visCom);
+					});
+				}
+			}
+		}
+	)
+
+	.directive('visComment', 
+		function () {
+			return {
+				replace: true,
+				require: '^visFeedback',
+				restrict: 'E',
+				templateUrl: '/partials/commentBox.jade',
+				link: function (scope, element, attrs, visCtrl) {
+					scope.submitComment = function () {
+						visCtrl.addComment(scope.commentText);
+						scope.commentText = '';
+						element.remove();
+						scope.$destroy;
+					}
+
+					scope.cancelComment = function () {
+						visCtrl.cancelComment();
+						element.remove();
+						scope.$destroy;
+					}
+				}
+			}
+		}
+	)
+
+	.directive('visMarker',
+		function () {
+			return {
+				template: 'div.vis-marker.absolute',
+				restrict: 'E'
+			}
+		}
+	)
+
+	.directive('visSavedArea',
+		function () {
+			return {
+				restrict: 'E'
+			}
+		}
+	)
+
+	.directive('visSaved',
+		function () {
+			return {
+				restrict: 'E'
+			}
+		}
+	)
+
+
+/*
 	.controller('VisController', ['$scope', '$element', 
 		function ($scope, $element) {
 			var canvas = document.getElementById('vis-body');
@@ -140,5 +218,6 @@ angular.module('feedbackCtrl', [])
 			}
 		}
 	);
+	*/
 /*
 	*/
