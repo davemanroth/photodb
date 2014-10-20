@@ -4,10 +4,10 @@ header
 		a(ng-href="/users/{{photo.author.username}}") {{photo.author.username}}
 	p Uploaded: {{photo.date_uploaded | date: 'EEE, MMMM dd, yyyy'}}
 div(ng-controller="FeedbackController")
-	vis-feedback
-		vis-new(ng-if="newVis" ng-model="coords")
+	vis-feedback(ng-show="visEnabled")
+		vis-new(ng-if="newVis")
 		vis-saved-area(ng-if="savedVis")
-	img#img-detail.img-responsive(ng-src="{{photo.path}}" ng-click="startVis($event)")
+	img#img-detail.img-responsive(ng-src="{{photo.path}}")
 	div(ng-include="feedbackArea && '/partials/feedback.jade' || ''")
 	div.specs
 		h2 Specifications

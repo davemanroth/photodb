@@ -75,22 +75,46 @@ angular.module('feedbackCtrl', [])
 				console.log($event);
 				$scope.$broadcast('vis-new-click', true);
 			}
-			*/
 			this.setMarker = function (marker) {
 				var marker = angular.element(marker);
 				var left = $scope.coords.x - marker.width() / 2;
 				var top = $scope.coords.y - marker.height() / 2;
 				marker.css({left: left + 'px', top: top + 'px'});		
 			}
+			*/
 		}
 	])
 
 
 	.directive('visFeedback', 
-		function () {
+		function ($compile) {
 			return {
 				restrict: 'E',
+				template: '<div class="vis-fb absolute"></div>',
 				controller: 'VisController',
+				link: function (scope, element, attr) {
+					var width=0, height=0, img = element.next();
+					var vfb = element.children('.vis-fb');
+
+					img.on('load', function () {
+						width = img.width();
+						height = img.height();
+						vfb.height(height + 'px').width(width + 'px');
+					});
+					
+					//element.firstChild().width(width + 'px').height(height + 'px');
+					vfb.bind('click', function (e) {
+						['<vis-marker>', '<vis-comment>'].forEach( function (el) {
+							var newEl = $compile(el)(scope);
+							element.append(newEl);
+						});
+						var coords = {
+							x: e.pageX,
+							y: e.pageY
+						}
+						scope.$broadcast('setCoords', coords);
+					});
+				}
 			}
 		}
 	)
@@ -100,6 +124,7 @@ angular.module('feedbackCtrl', [])
 			return {
 				require: '^visFeedback',
 				restrict: 'E',
+	/*
 				link: function (scope, element, attrs, visCtrl) {
 					['<vis-marker>', '<vis-comment>'].forEach( function (el) {
 						var newEl = $compile(el)(scope);
@@ -108,12 +133,10 @@ angular.module('feedbackCtrl', [])
 					var marker = element.context.firstChild;
 					//console.log(element.context.firstChild);
 					visCtrl.setMarker(marker);
-					/*
 					var visCom = $compile('<vis-comment>')(scope);
 					var visCom = $compile('<vis-comment>')(scope);
 					element.append(visCom);
 					*/
-				}
 			}
 		}
 	)
@@ -133,9 +156,15 @@ angular.module('feedbackCtrl', [])
 		function () {
 			return {
 				replace: true,
-				require: '^visFeedback',
 				template: '<div class="vis-marker absolute"></div>',
 				restrict: 'E',
+				link: function (scope, element, attrs) {
+					scope.$on('setCoords', function (e, coords) {
+						var left = coords.x - element.width() / 2;
+						var top = coords.y - element.height() / 2;
+						element.css({top: top + 'px', left: left + 'px'});
+					});
+				}
 			}
 		}
 	)
