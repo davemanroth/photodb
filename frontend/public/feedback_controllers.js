@@ -67,8 +67,8 @@ angular.module('feedbackCtrl', [])
 	.controller('VisController', ['$scope', '$element',
 		function ($scope, $element) {
 			$scope.$on('startVis', function (event, coords) {
-				console.log(coords);
 				$scope.newVis = true;
+				$scope.coords = coords;
 			});
 			/*
 			$scope.startVis = function ($event) {
@@ -76,6 +76,12 @@ angular.module('feedbackCtrl', [])
 				$scope.$broadcast('vis-new-click', true);
 			}
 			*/
+			this.setMarker = function (marker) {
+				var marker = angular.element(marker);
+				var left = $scope.coords.x - marker.width() / 2;
+				var top = $scope.coords.y - marker.height() / 2;
+				marker.css({left: left + 'px', top: top + 'px'});		
+			}
 		}
 	])
 
@@ -94,11 +100,14 @@ angular.module('feedbackCtrl', [])
 			return {
 				require: '^visFeedback',
 				restrict: 'E',
-				link: function (scope, element, attrs) {
+				link: function (scope, element, attrs, visCtrl) {
 					['<vis-marker>', '<vis-comment>'].forEach( function (el) {
 						var newEl = $compile(el)(scope);
 						element.append(newEl);
 					});
+					var marker = element.context.firstChild;
+					//console.log(element.context.firstChild);
+					visCtrl.setMarker(marker);
 					/*
 					var visCom = $compile('<vis-comment>')(scope);
 					var visCom = $compile('<vis-comment>')(scope);
@@ -123,9 +132,10 @@ angular.module('feedbackCtrl', [])
 	.directive('visMarker',
 		function () {
 			return {
+				replace: true,
 				require: '^visFeedback',
-				template: 'div.vis-marker.absolute',
-				restrict: 'E'
+				template: '<div class="vis-marker absolute"></div>',
+				restrict: 'E',
 			}
 		}
 	)

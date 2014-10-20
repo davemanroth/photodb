@@ -16,3 +16,4 @@ nav ul:after{content:""; display:block; clear:both;}
 .comment-outer{z-index:5; background:#fff;}
 .comment-inner{position:relative; padding:10px 20px;}
 .vis-comments{position:relative; display:block;}
+.vis-marker{width:30px; height:30px; border:#000 2px solid; background:#ff0000;}

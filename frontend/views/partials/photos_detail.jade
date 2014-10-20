@@ -5,7 +5,7 @@ header
 	p Uploaded: {{photo.date_uploaded | date: 'EEE, MMMM dd, yyyy'}}
 div(ng-controller="FeedbackController")
 	vis-feedback
-		vis-new(ng-if="newVis")
+		vis-new(ng-if="newVis" ng-model="coords")
 		vis-saved-area(ng-if="savedVis")
 	img#img-detail.img-responsive(ng-src="{{photo.path}}" ng-click="startVis($event)")
 	div(ng-include="feedbackArea && '/partials/feedback.jade' || ''")
