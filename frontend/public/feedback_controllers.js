@@ -71,29 +71,20 @@ angular.module('feedbackCtrl', [])
 
 	.controller('VisController', ['$scope', '$element',
 		function ($scope, $element) {
+			this.scope = $scope;
 			this.visStorage = [];
 			$scope.$on('visChecked', function (e, checked) {
 				$scope.newVis = checked ? true : false;
 			});
-			/*
-			$scope.$on('startVis', function (event, coords) {
-				$scope.newVis = true;
-			});
-
 			this.saveVis = function (data) {
 				this.visStorage.push(data);
-				console.log(this.visStorage);
+				$scope.savedVis = true;
 			}
-			$scope.startVis = function ($event) {
-				console.log($event);
-				$scope.$broadcast('vis-new-click', true);
-			}
-			this.setMarker = function (marker) {
-				var marker = angular.element(marker);
-				var left = $scope.coords.x - marker.width() / 2;
-				var top = $scope.coords.y - marker.height() / 2;
-				marker.css({left: left + 'px', top: top + 'px'});		
-			}
+
+			/*
+			$scope.$watch('vfData', function (val) {
+				console.log(val);
+			});
 			*/
 		}
 	])
@@ -105,18 +96,19 @@ angular.module('feedbackCtrl', [])
 				restrict: 'E',
 				controller: 'VisController',
 				link: function (scope, element, attr) {
-						var vc = '<vis-container>';	
-						var width=0, height=0, img = element.siblings('img');
-						vc = $compile(vc)(scope);
-						element.prepend(vc);
-		// match visFeedback's dimensions to photo's
-						img.on('load', function () {
-							width = img.width();
-							height = img.height();
-							vc.height(height + 'px').width(width + 'px');
-						});
-					/*
-					*/
+					var vc = '<vis-container>';	
+					var width=0, height=0, img = element.siblings('img');
+					vc = $compile(vc)(scope);
+					element.prepend(vc);
+	// match visFeedback's dimensions to photo's
+					img.on('load', function () {
+						width = img.width();
+						height = img.height();
+						vc.height(height + 'px').width(width + 'px');
+					});
+
+				/*
+				*/
 				}
 			}
 		}
@@ -130,7 +122,7 @@ angular.module('feedbackCtrl', [])
 				replace: true,
 				link: function (scope, element, attr) {
 					element.bind('click', function (e) {
-						['<vis-marker>', '<vis-comment>'].forEach( function (el) {
+						['<vis-marker class="new-marker">', '<vis-comment>'].forEach( function (el) {
 							var newEl = $compile(el)(scope);
 							element.next().append(newEl);
 						});
@@ -138,7 +130,7 @@ angular.module('feedbackCtrl', [])
 							x: e.pageX,
 							y: e.pageY
 						}
-						scope.$broadcast('setCoords', coords);
+						//scope.$broadcast('setCoords', coords);
 					});
 				}
 			}
@@ -178,6 +170,7 @@ angular.module('feedbackCtrl', [])
 							comment: scope.commentText
 						};
 						visCtrl.saveVis(data);
+						scope.$emit('visData', data);
 						marker.remove();
 						element.remove();
 						scope.$destroy;
@@ -191,7 +184,7 @@ angular.module('feedbackCtrl', [])
 		function () {
 			return {
 				replace: true,
-				template: '<div class="vis-marker absolute"></div>',
+				template: '<a class="vis-marker absolute" href="#"></a>',
 				restrict: 'E',
 				link: function (scope, element, attrs) {
 					scope.$on('setCoords', function (e, coords) {
@@ -199,16 +192,30 @@ angular.module('feedbackCtrl', [])
 						var top = coords.y - element.height() / 2;
 						element.css({top: top + 'px', left: left + 'px'});
 					});
+
+					scope.showComment = function () {
+						console.log('Marker was clicked');
+					}
 				}
 			}
 		}
 	)
 
 	.directive('visSavedArea',
-		function () {
+		function ($compile) {
 			return {
 				require: '^visFeedback',
-				restrict: 'E'
+				restrict: 'E',
+				link: function (scope, element, attrs) {
+					scope.$on('visData', function (e, data) {
+						var saved = '<vis-marker class="saved-marker" ng-click="showComment()">' +
+						'</vis-marker>' +
+						'<div class="absolute comment" ng-model="comment"></div>';
+						saved = $compile(saved)(scope);
+						element.append(saved);
+
+					});
+				}
 			}
 		}
 	);
