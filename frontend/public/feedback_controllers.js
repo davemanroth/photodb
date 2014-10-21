@@ -66,9 +66,15 @@ angular.module('feedbackCtrl', [])
 
 	.controller('VisController', ['$scope', '$element',
 		function ($scope, $element) {
+			this.visStorage = [];
 			$scope.$on('startVis', function (event, coords) {
 				$scope.newVis = true;
 			});
+
+			this.saveVis = function (data) {
+				this.visStorage.push(data);
+				console.log(this.visStorage);
+			}
 			/*
 			$scope.startVis = function ($event) {
 				console.log($event);
@@ -149,7 +155,22 @@ angular.module('feedbackCtrl', [])
 				controller: 'VisController',
 				link: function (scope, element, attrs, visCtrl) {
 					scope.cancelComment = function () {
-						element.prev().remove();
+					// remove the marker
+						var marker = element.prev();
+						marker.remove();
+						element.remove();
+						scope.$destroy;
+					}
+
+					scope.submitComment = function () {
+						var marker = element.prev();
+						var data = {
+							x: marker[0].offsetLeft,
+							y: marker[0].offsetTop,
+							comment: scope.commentText
+						};
+						visCtrl.saveVis(data);
+						marker.remove();
 						element.remove();
 						scope.$destroy;
 					}
