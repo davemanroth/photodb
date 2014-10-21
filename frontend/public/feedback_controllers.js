@@ -68,7 +68,6 @@ angular.module('feedbackCtrl', [])
 		function ($scope, $element) {
 			$scope.$on('startVis', function (event, coords) {
 				$scope.newVis = true;
-				$scope.coords = coords;
 			});
 			/*
 			$scope.startVis = function ($event) {
@@ -96,13 +95,13 @@ angular.module('feedbackCtrl', [])
 					var width=0, height=0, img = element.next();
 					var vfb = element.children('.vis-fb');
 
+// match visFeedback's dimensions to photo's
 					img.on('load', function () {
 						width = img.width();
 						height = img.height();
 						vfb.height(height + 'px').width(width + 'px');
 					});
 					
-					//element.firstChild().width(width + 'px').height(height + 'px');
 					vfb.bind('click', function (e) {
 						['<vis-marker>', '<vis-comment>'].forEach( function (el) {
 							var newEl = $compile(el)(scope);
@@ -145,9 +144,16 @@ angular.module('feedbackCtrl', [])
 		function () {
 			return {
 				replace: true,
-				require: '^visFeedback',
 				restrict: 'E',
 				templateUrl: '/partials/commentBox.jade',
+				controller: 'VisController',
+				link: function (scope, element, attrs, visCtrl) {
+					scope.cancelComment = function () {
+						element.prev().remove();
+						element.remove();
+						scope.$destroy;
+					}
+				}
 			}
 		}
 	)
