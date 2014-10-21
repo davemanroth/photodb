@@ -71,13 +71,12 @@ angular.module('feedbackCtrl', [])
 
 	.controller('VisController', ['$scope', '$element',
 		function ($scope, $element) {
-			this.scope = $scope;
-			this.visStorage = [];
+			var visStorage = [];
 			$scope.$on('visChecked', function (e, checked) {
 				$scope.newVis = checked ? true : false;
 			});
+
 			this.saveVis = function (data) {
-				this.visStorage.push(data);
 				$scope.savedVis = true;
 			}
 
@@ -122,15 +121,18 @@ angular.module('feedbackCtrl', [])
 				replace: true,
 				link: function (scope, element, attr) {
 					element.bind('click', function (e) {
-						['<vis-marker class="new-marker">', '<vis-comment>'].forEach( function (el) {
-							var newEl = $compile(el)(scope);
+						var vm = '<vis-marker class="new-marker">';
+						var vc = '<vis-comment>';
+						var newScope = scope.$new(true);
+						[vm, vc].forEach( function (el) {
+							var newEl = $compile(el)(newScope);
 							element.next().append(newEl);
 						});
 						var coords = {
 							x: e.pageX,
 							y: e.pageY
 						}
-						//scope.$broadcast('setCoords', coords);
+						newScope.$broadcast('setCoords', coords);
 					});
 				}
 			}
@@ -208,10 +210,11 @@ angular.module('feedbackCtrl', [])
 				restrict: 'E',
 				link: function (scope, element, attrs) {
 					scope.$on('visData', function (e, data) {
+						var saveScope = scope.$new(true);
 						var saved = '<vis-marker class="saved-marker" ng-click="showComment()">' +
 						'</vis-marker>' +
 						'<div class="absolute comment" ng-model="comment"></div>';
-						saved = $compile(saved)(scope);
+						saved = $compile(saved)(saveScope);
 						element.append(saved);
 
 					});
