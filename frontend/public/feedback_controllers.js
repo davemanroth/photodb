@@ -3,13 +3,12 @@ angular.module('feedbackCtrl', [])
 	.controller('FeedbackController', ['$scope', '$http', '$routeParams', 
 		function ($scope, $http, $routeParams) {
 			$scope.sortField = '-date_posted';
+			$scope.visStorage = [];
 
 			$scope.visual, $scope.feedbackArea, 
 			$scope.visEnabled, $scope.newVis,
 			$scope.savedVis = false;
 			$scope.feedbackOption = true;
-
-			$scope.visData = [];
 
 			$scope.showHideFeedback = function ($event) {
 				var option = $event.target.id;
@@ -42,20 +41,22 @@ angular.module('feedbackCtrl', [])
 				$scope.$broadcast('visChecked', $scope.visEnabled);
 			}
 
-			/*
-			$scope.$on('addToVisModel', function (event, data) {
-				$scope.visData.push(data);
+			$scope.$watch('visData', function (newData) {
+				if (newData !== undefined) {
+					$scope.visStorage.push(newData);
+					console.log($scope.visStorage);
+				}
 			});
-			*/
 
 			$scope.addFeedback = function (feedback) {
-				//console.log($scope.visData);
-				//var details = $scope.visData || [];
 				var data = {
 					photoid: $routeParams.id,
 					like: feedback.like,
 					improved: feedback.improved,
 				};
+				if ($scope.visStorage.length > 0) {
+					data.visData = $scope.visStorage;
+				}
 				$http.post('/api/critiques/add', data)
 					.success( function (retData) {
 				// emit to parent controller so critique appears immediately
@@ -71,15 +72,21 @@ angular.module('feedbackCtrl', [])
 
 	.controller('VisController', ['$scope', '$element',
 		function ($scope, $element) {
-			var visStorage = [];
 			$scope.$on('visChecked', function (e, checked) {
 				$scope.newVis = checked ? true : false;
 			});
 
-			this.saveVis = function (data) {
-				$scope.savedVis = true;
-			}
+			$scope.$on('visDataAdded', function (e, data) {
+				$scope.visData = data;
+			});
 			/*
+			*/
+
+			/*
+			this.saveVis = function (data) {
+				$scope.visStorage.push(data);
+				console.log($scope.visStorage);
+			}
 			$scope.$watch('vfData', function (val) {
 				console.log(val);
 			});
@@ -170,11 +177,10 @@ angular.module('feedbackCtrl', [])
 							y: marker[0].offsetTop,
 							comment: scope.commentText
 						};
-						visCtrl.saveVis(data);
-						scope.$emit('visData', data);
+						//visCtrl.saveVis(data);
+						scope.$emit('visDataAdded', data);
 						marker.remove();
 						element.remove();
-						scope.$destroy;
 					}
 				}
 			}
@@ -210,7 +216,7 @@ angular.module('feedbackCtrl', [])
 				//require: '^visFeedback',
 				restrict: 'E',
 				link: function (scope, element, attrs) {
-					scope.$on('visData', function (e, data) {
+					scope.$on('visDataAdded', function (e, data) {
 						/*
 						*/
 						var saveScope = scope.$new(true);
@@ -242,93 +248,3 @@ angular.module('feedbackCtrl', [])
 		}
 	);
 
-
-/*
-	.controller('VisController', ['$scope', '$element', 
-		function ($scope, $element) {
-			var canvas = document.getElementById('vis-body');
-			var img = document.getElementById('img-detail');
-			var vfg = new VisFeedbackGenerator(canvas);
-
-			img.addEventListener('load', function () {
-				vfg.setSize(img.width, img.height);
-			});
-
-			window.addEventListener('resize', function () {
-				vfg.setSize(img.width, img.height);
-			});
-
-			canvas.addEventListener('click', function (e) {
-				vfg.setMark(e);
-				$scope.coords = vfg.getCoords();
-			});
-
-			$scope.createCommentBox = function () {
-				$scope.$broadcast('canvas-click', true);
-			}
-
-			this.addComment = function (comment) {
-				var visData = {
-					comment:comment,
-					xCoord: $scope.coords.x,
-					yCoord: $scope.coords.y
-				};
-				$scope.$emit('addToVisModel', visData);
-			}
-
-			this.cancelComment = function () {
-				vfg.removeMark($scope.coords);
-			}
-		}
-	])
-
-	.directive('visFeedback', 
-		function () {
-			return {
-				restrict: 'E',
-				controller: 'VisController'
-			}
-		}
-	)
-
-	.directive('visComments', 
-		function ($compile) {
-			return {
-				restrict: 'E',
-				link: function (scope, element, attrs) {
-					scope.$on('canvas-click', function (event, click) {
-						var visCom = $compile('<vis-comment>')(scope);
-						element.append(visCom);
-					});
-				}
-			}
-		}
-	)
-
-	.directive('visComment', 
-		function () {
-			return {
-				replace: true,
-				require: '^visFeedback',
-				restrict: 'E',
-				templateUrl: '/partials/commentBox.jade',
-				link: function (scope, element, attrs, visCtrl) {
-					scope.submitComment = function () {
-						visCtrl.addComment(scope.commentText);
-						scope.commentText = '';
-						element.remove();
-						scope.$destroy;
-					}
-
-					scope.cancelComment = function () {
-						visCtrl.cancelComment();
-						element.remove();
-						scope.$destroy;
-					}
-				}
-			}
-		}
-	);
-	*/
-/*
-	*/

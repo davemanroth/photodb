@@ -4,7 +4,8 @@ header
 		a(ng-href="/users/{{photo.author.username}}") {{photo.author.username}}
 	p Uploaded: {{photo.date_uploaded | date: 'EEE, MMMM dd, yyyy'}}
 div(ng-controller="FeedbackController")
-	vis-feedback(ng-show="visEnabled")
+	h2(ng-show="visEnabled") Visual feedback
+	vis-feedback(ng-show="visEnabled" ng-model="visData")
 		vis-new(ng-show="newVis")
 		vis-saved-area(ng-show="savedVis" ng-model="savedVis")
 	img#img-detail.img-responsive(ng-src="{{photo.path}}")
@@ -31,12 +32,3 @@ div(ng-controller="FeedbackController")
 				|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy, h:m a'}}
 	div(ng-show="photo.critiques.length == 0")
 		p No critiques yet
-//
-	div(ng-show="visual" ng-model="visual")
-		input.hidden(type="hidden" ng-model="visData")
-			vis-feedback.visual-feedback
-				div.vis-head
-					h2 Visual feedback
-				canvas#vis-body.vis-body.absolute(ng-click="createCommentBox()" ng-model="coords")
-				vis-comments.vis-comments
-
