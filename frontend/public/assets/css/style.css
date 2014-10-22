@@ -19,3 +19,4 @@ nav ul:after{content:""; display:block; clear:both;}
 .vis-marker{width:30px; height:30px; border:#000 2px solid;}
 .new-marker{background:#FFEE00;}
 .saved-marker{background:#FF0000;}
+.comment{background:#fff; padding:2px 8px;}

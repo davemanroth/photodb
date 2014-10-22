@@ -79,9 +79,6 @@ angular.module('feedbackCtrl', [])
 			this.saveVis = function (data) {
 				$scope.savedVis = true;
 			}
-
-
-
 			/*
 			$scope.$watch('vfData', function (val) {
 				console.log(val);
@@ -197,9 +194,11 @@ angular.module('feedbackCtrl', [])
 						element.css({top: top + 'px', left: left + 'px'});
 					});
 
-					scope.showComment = function () {
-						console.log('Marker was clicked');
+					/*
+					scope.showComment = function (show) {
+						console.log(show);
 					}
+					*/
 				}
 			}
 		}
@@ -213,11 +212,27 @@ angular.module('feedbackCtrl', [])
 				link: function (scope, element, attrs) {
 					scope.$on('visData', function (e, data) {
 						var saveScope = scope.$new(true);
-						var saved = '<vis-marker class="saved-marker" ng-click="showComment()">' +
-						'</vis-marker>' +
-						'<div class="absolute comment" ng-model="comment"></div>';
-						saved = $compile(saved)(saveScope);
-						element.append(saved);
+						var mark = '<vis-marker class="saved-marker" ng-click="showComment()" />';
+						var comment = '<div class="absolute comment" ng-show="show" ng-model="show">{{comment}}</div>';
+						mark = $compile(mark)(saveScope);
+						mark.css({top: data.y, left: data.x});
+						comment = $compile(comment)(saveScope);
+						saveScope.show = false;
+						saveScope.comment = data.comment;
+
+						var xOffset = (comment.width() / 2) + (mark.width() / 2);
+						var yOffset = mark.height() + 10; 
+						comment.css({top: data.y + yOffset, left: data.x - xOffset});
+						element.append(mark);
+						angular.forEach([mark, comment], function (el) {
+							element.append(el);
+						});
+						//element.find('a:last').css({top: data.y, left: data.x});
+						/*
+						*/
+						saveScope.showComment = function () {
+							saveScope.show = !saveScope.show;
+						}
 						scope.savedVis="true";
 					});
 				}
