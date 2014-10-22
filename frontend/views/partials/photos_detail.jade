@@ -6,7 +6,7 @@ header
 div(ng-controller="FeedbackController")
 	vis-feedback(ng-show="visEnabled")
 		vis-new(ng-show="newVis")
-		vis-saved-area(ng-show="savedVis")
+		vis-saved-area(ng-show="savedVis" ng-model="savedVis")
 	img#img-detail.img-responsive(ng-src="{{photo.path}}")
 	div(ng-include="feedbackArea && '/partials/feedback.jade' || ''")
 	div.specs

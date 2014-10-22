@@ -80,6 +80,8 @@ angular.module('feedbackCtrl', [])
 				$scope.savedVis = true;
 			}
 
+
+
 			/*
 			$scope.$watch('vfData', function (val) {
 				console.log(val);
@@ -206,7 +208,7 @@ angular.module('feedbackCtrl', [])
 	.directive('visSavedArea',
 		function ($compile) {
 			return {
-				require: '^visFeedback',
+				//require: '^visFeedback',
 				restrict: 'E',
 				link: function (scope, element, attrs) {
 					scope.$on('visData', function (e, data) {
@@ -216,7 +218,7 @@ angular.module('feedbackCtrl', [])
 						'<div class="absolute comment" ng-model="comment"></div>';
 						saved = $compile(saved)(saveScope);
 						element.append(saved);
-
+						scope.savedVis="true";
 					});
 				}
 			}
