@@ -25,16 +25,6 @@ angular.module('feedbackCtrl', [])
 				}
 			}
 
-			$scope.startVis = function ($event) {
-				if ($scope.visEnabled) {
-					var coords = {
-						x: $event.pageX,
-						y: $event.pageY
-					}
-					$scope.$emit('startVis', coords);
-				}
-			}
-
 			$scope.showHideVis = function ($event) {
 				var checkbox = $event.target;
 				$scope.visEnabled = checkbox.checked ? true : false;
@@ -44,7 +34,6 @@ angular.module('feedbackCtrl', [])
 			$scope.$watch('visData', function (newData) {
 				if (newData !== undefined) {
 					$scope.visStorage.push(newData);
-					console.log($scope.visStorage);
 				}
 			});
 

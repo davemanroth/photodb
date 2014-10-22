@@ -13,8 +13,17 @@ exports.feedbackForm = function (req, res) {
 /*
 */
 exports.feedbackSubmit = function (req, res) {
-	//console.log(req.body);
-	var details = req.body.details;
+	/*
+	if (req.body.visData != undefined) {
+		console.log(req.body.visData);
+	}
+	else {
+		console.log('No vis data');
+	}
+	*/
+			/*
+			*/
+	var visData = req.body.visData;
 	Photo.findById(req.body.photoid, 'critiques details', function (err, photo1) {
 		if (err) {
 			console.log(err);
@@ -25,12 +34,12 @@ exports.feedbackSubmit = function (req, res) {
 				like: req.body.like,
 				improved: req.body.improved,
 			});
-			if (details.length > 0 ) {
-				details.forEach( function (detail) {
+			if (visData != undefined) {
+				visData.forEach( function (detail) {
 					photo1.details.push({
-						xCoord: detail.xCoord,
-						yCoord: detail.yCoord,
-						comment: detail.comment,
+						xCoord: detail.x,
+						yCoord: detail.y,
+						comment: detail.comment
 					});
 				});
 			}
@@ -41,11 +50,10 @@ exports.feedbackSubmit = function (req, res) {
 				else {
 					res.json(photo2.critiques.pop());
 					User.addToArray('critiques', req.session.username, photo2._id);
-			/*
-			*/
-					var newCritDets = photo2.critiques.pop();
-					var detsSize = photo2.details.length - 1;
-					console.log(photo2.critiques.lastIndexOf());
+					//var newCritDets = photo2.critiques.pop();
+					//var detsSize = photo2.details.length - 1;
+					//console.log(photo2.critiques.lastIndexOf());
+				}
 			/*
 					for(var i = 0; i < details.length; i++) {
 						photo2.critiques._id(newCritDets._id).details.push(
@@ -60,14 +68,14 @@ exports.feedbackSubmit = function (req, res) {
 							User.addToArray('critiques', req.session.username, photo3._id);
 						}
 					});
-			*/
 				} //if details is not empty
+			*/
 					
 				/*
 					*/
 					//console.log('Added critique to ' + req.session.username + '\'s account');
-			});
-		}
-	});
+			});// photo.save
+		}// else
+	});// Photo.findById
 }
 

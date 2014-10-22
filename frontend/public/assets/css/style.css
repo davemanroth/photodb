@@ -16,7 +16,7 @@ nav ul:after{content:""; display:block; clear:both;}
 .comment-outer{z-index:5; background:#fff;}
 .comment-inner{position:relative; padding:10px 20px;}
 .vis-comments{position:relative; display:block;}
-.vis-marker{width:30px; height:30px; border:#000 2px solid;}
-.new-marker{background:#FFEE00;}
-.saved-marker{background:#FF0000;}
+.vis-marker{width:30px; height:30px; background:none;}
+.new-marker{border:#FFEE00 3px solid;}
+.saved-marker{border:#FF0000 3px solid;}
 .comment{background:#fff; padding:2px 8px;}
