@@ -211,30 +211,32 @@ angular.module('feedbackCtrl', [])
 				restrict: 'E',
 				link: function (scope, element, attrs) {
 					scope.$on('visData', function (e, data) {
+						/*
+						*/
 						var saveScope = scope.$new(true);
 						var mark = '<vis-marker class="saved-marker" ng-click="showComment()" />';
 						var comment = '<div class="absolute comment" ng-show="show" ng-model="show">{{comment}}</div>';
-						mark = $compile(mark)(saveScope);
-						mark.css({top: data.y, left: data.x});
-						comment = $compile(comment)(saveScope);
 						saveScope.show = false;
+						var xOffset = (comment[0].offsetWidth / 2) + (mark[0].offsetWidth / 2);
+						var yOffset = mark[0].offsetHeight + 10; 
+						angular.forEach({mark: mark, comment: comment}, function (val, key) {
+							val = $compile(val)(saveScope);
+							if (key == 'mark') {
+								val.css({top: data.y, left: data.x});
+							}
+							else {
+								val.css({top: data.y + 40, left: data.x});
+							}
+							element.append(val);
+						});// angular.forEach
+
 						saveScope.comment = data.comment;
 
-						var xOffset = (comment.width() / 2) + (mark.width() / 2);
-						var yOffset = mark.height() + 10; 
-						comment.css({top: data.y + yOffset, left: data.x - xOffset});
-						element.append(mark);
-						angular.forEach([mark, comment], function (el) {
-							element.append(el);
-						});
-						//element.find('a:last').css({top: data.y, left: data.x});
-						/*
-						*/
 						saveScope.showComment = function () {
 							saveScope.show = !saveScope.show;
 						}
 						scope.savedVis="true";
-					});
+					});// scope.$on
 				}
 			}
 		}
