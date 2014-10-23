@@ -34,15 +34,20 @@ exports.feedbackSubmit = function (req, res) {
 				like: req.body.like,
 				improved: req.body.improved,
 			});
+			var numCrits = photo1.critiques.length;
+			var newCrit = photo1.critiques[numCrits - 1];
 			if (visData != undefined) {
 				visData.forEach( function (detail) {
 					photo1.details.push({
 						xCoord: detail.x,
 						yCoord: detail.y,
-						comment: detail.comment
+						comment: detail.comment,
+						critique: newCrit._id
 					});
 				});
 			}
+			/*
+			*/
 			photo1.save(function (err, photo2) {
 				if (err) {
 					console.log(err);
@@ -50,30 +55,7 @@ exports.feedbackSubmit = function (req, res) {
 				else {
 					res.json(photo2.critiques.pop());
 					User.addToArray('critiques', req.session.username, photo2._id);
-					//var newCritDets = photo2.critiques.pop();
-					//var detsSize = photo2.details.length - 1;
-					//console.log(photo2.critiques.lastIndexOf());
 				}
-			/*
-					for(var i = 0; i < details.length; i++) {
-						photo2.critiques._id(newCritDets._id).details.push(
-							mongoose.Type.ObjectId(photo2.details[detsSize - i]._id));
-					}
-					photo2.save(function (err, photo3) {
-						if (err) {
-							console.log(err);
-						}
-						else {
-							res.json(photo3.critiques.pop());
-							User.addToArray('critiques', req.session.username, photo3._id);
-						}
-					});
-				} //if details is not empty
-			*/
-					
-				/*
-					*/
-					//console.log('Added critique to ' + req.session.username + '\'s account');
 			});// photo.save
 		}// else
 	});// Photo.findById

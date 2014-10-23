@@ -135,7 +135,7 @@ angular.module('feedbackCtrl', [])
 	)
 
 	.directive('visNew', 
-		function ($compile) {
+		function () {
 			return {
 				require: '^visFeedback',
 				restrict: 'E',
@@ -188,12 +188,6 @@ angular.module('feedbackCtrl', [])
 						var top = coords.y - element.height() / 2;
 						element.css({top: top + 'px', left: left + 'px'});
 					});
-
-					/*
-					scope.showComment = function (show) {
-						console.log(show);
-					}
-					*/
 				}
 			}
 		}
@@ -202,7 +196,6 @@ angular.module('feedbackCtrl', [])
 	.directive('visSavedArea',
 		function ($compile) {
 			return {
-				//require: '^visFeedback',
 				restrict: 'E',
 				link: function (scope, element, attrs) {
 					scope.$on('visDataAdded', function (e, data) {
@@ -214,6 +207,8 @@ angular.module('feedbackCtrl', [])
 						saveScope.show = false;
 						var xOffset = (comment[0].offsetWidth / 2) + (mark[0].offsetWidth / 2);
 						var yOffset = mark[0].offsetHeight + 10; 
+
+						// compile and insert saved marker, comment
 						angular.forEach({mark: mark, comment: comment}, function (val, key) {
 							val = $compile(val)(saveScope);
 							if (key == 'mark') {
