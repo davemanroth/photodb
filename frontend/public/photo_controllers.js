@@ -173,7 +173,7 @@ angular.module('photoCtrl', [])
 			});
 			// Listen for child controller event of adding critique, update view
 			$scope.$on('update_critiques', function (event, newCrit) {
-				$scope.photo.critiques.push(newCrit);
+				$scope.photo.critiques.push(newCrit.critique);
 				$scope.hasCritiques = $scope.photo.critiques.length > 0;
 			});
 		}

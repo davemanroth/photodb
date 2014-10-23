@@ -53,7 +53,12 @@ exports.feedbackSubmit = function (req, res) {
 					console.log(err);
 				}
 				else {
-					res.json(photo2.critiques.pop());
+					var thisCrit = {
+						critique: photo2.critiques.pop(),
+						details: visData
+					}
+					res.json(thisCrit);
+					console.log(thisCrit);
 					User.addToArray('critiques', req.session.username, photo2._id);
 				}
 			});// photo.save
