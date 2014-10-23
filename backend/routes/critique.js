@@ -49,18 +49,28 @@ exports.feedbackSubmit = function (req, res) {
 						visData.forEach( function (detail) {
 							Photo.findOneAndUpdate({ 'critiques._id' : thisCrit._id },
 								{ '$push' : {
-									'critiques.$.details' : detail
+									'critiques.$.details' : 
+										{xCoord: detail.x, yCoord: detail.y, comment: detail.comment}
 									}
 								}, 
 								function (err, photo3) {
-									thisCrit = photo3.critiques.pop();
+									if (err) {
+										console.log(err);
+									}
+									else {
+										thisCrit = photo3.critiques;
+										res.json(thisCrit);
+										console.log(thisCrit);
+									}
 								}
 							);
 						});//forEach
 						
 					}//if visData
-					res.json(thisCrit);
-					console.log(thisCrit);
+					else {
+						res.json(thisCrit);
+						console.log(thisCrit);
+					}
 					User.addToArray('critiques', req.session.username, photo2._id);
 				}// else photo2
 			/*
