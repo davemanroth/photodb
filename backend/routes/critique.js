@@ -47,7 +47,7 @@ exports.feedbackSubmit = function (req, res) {
 					var thisCrit = photo2.critiques.pop();
 					if (visData != undefined) {
 						visData.forEach( function (detail) {
-							photo2.findOneAndUpdate({ 'critiques._id' : thisCrit._id },
+							Photo.findOneAndUpdate({ 'critiques._id' : thisCrit._id },
 								{ '$push' : {
 									'critiques.$.details' : detail
 									}
