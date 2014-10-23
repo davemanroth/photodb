@@ -24,7 +24,7 @@ exports.feedbackSubmit = function (req, res) {
 			/*
 			*/
 	var visData = req.body.visData;
-	Photo.findById(req.body.photoid, 'critiques details', function (err, photo1) {
+	Photo.findById(req.body.photoid, 'critiques', function (err, photo1) {
 		if (err) {
 			console.log(err);
 		}
@@ -34,18 +34,7 @@ exports.feedbackSubmit = function (req, res) {
 				like: req.body.like,
 				improved: req.body.improved,
 			});
-			var numCrits = photo1.critiques.length;
-			var newCrit = photo1.critiques[numCrits - 1];
-			if (visData != undefined) {
-				visData.forEach( function (detail) {
-					photo1.details.push({
-						xCoord: detail.x,
-						yCoord: detail.y,
-						comment: detail.comment,
-						critique: newCrit._id
-					});
-				});
-			}
+			
 			/*
 			*/
 			photo1.save(function (err, photo2) {
@@ -53,16 +42,46 @@ exports.feedbackSubmit = function (req, res) {
 					console.log(err);
 				}
 				else {
+					//var numCrits = photo2.critiques.length;
+					//var newCrit = photo2.critiques[numCrits - 1];
+					var thisCrit = photo2.critiques.pop();
+
+					if (visData != undefined) {
+						visData.forEach( function (detail) {
+							photo2.critiques[details].push({
+								xCoord: detail.x,
+								yCoord: detail.y,
+								comment: detail.comment
+							});
+						});
+						photo2.save(function (err, photo3) {
+							if (err) {
+								console.log(err);
+							}
+							else {
+								thisCrit = photo3.critiqes.pop();
+								res.json(thisCrit);
+								console.log(thisCrit);
+								User.addToArray('critiques', req.session.username, photo3._id);
+							}
+						});// photo2.save
+					}//if visData
+
+					else {
+						res.json(thisCrit);
+						console.log(thisCrit);
+						User.addToArray('critiques', req.session.username, photo3._id);
+					}// else visData
+				}// else photo2
+			/*
+				else {
 					var thisCrit = {
 						critique: photo2.critiques.pop(),
 						details: visData
 					}
-					res.json(thisCrit);
-					console.log(thisCrit);
-					User.addToArray('critiques', req.session.username, photo2._id);
-				}
-			});// photo.save
-		}// else
+					*/
+			});// photo1.save
+		}// else photo1
 	});// Photo.findById
 }
 

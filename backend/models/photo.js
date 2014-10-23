@@ -10,7 +10,6 @@ var DetailSchema = new Schema({
 	xCoord: {type: Number, required: true},
 	yCoord: {type: Number, required: true},
 	comment: {type: String, required: true},
-	critique: {type: Schema.Types.ObjectId, ref: 'Critique'}
 });
 var Detail = mongoose.model('Detail', DetailSchema);
 
@@ -22,6 +21,7 @@ var CritiqueSchema = new Schema({
 	date_posted: {type: Date, default: Date.now},
 	like: {type: String, required: true},
 	improved: {type: String, required: true},
+	details: [DetailSchema]
 });
 var Critique = mongoose.model('Critique', CritiqueSchema);
 
@@ -41,7 +41,6 @@ var PhotoSchema = new Schema({
 	access: {type: Boolean, default: false},
 	views: {type: Number, required: true, default: 0},
 	critiques: [CritiqueSchema],
-	details: [DetailSchema],
 	category: [String],
 }, {collection: 'photos'});	
 
