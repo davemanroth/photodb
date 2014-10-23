@@ -45,33 +45,23 @@ exports.feedbackSubmit = function (req, res) {
 					//var numCrits = photo2.critiques.length;
 					//var newCrit = photo2.critiques[numCrits - 1];
 					var thisCrit = photo2.critiques.pop();
-
 					if (visData != undefined) {
 						visData.forEach( function (detail) {
-							photo2.critiques[details].push({
-								xCoord: detail.x,
-								yCoord: detail.y,
-								comment: detail.comment
-							});
-						});
-						photo2.save(function (err, photo3) {
-							if (err) {
-								console.log(err);
-							}
-							else {
-								thisCrit = photo3.critiqes.pop();
-								res.json(thisCrit);
-								console.log(thisCrit);
-								User.addToArray('critiques', req.session.username, photo3._id);
-							}
-						});// photo2.save
+							photo2.findOneAndUpdate({ 'critiques._id' : thisCrit._id },
+								{ '$push' : {
+									'critiques.$.details' : detail
+									}
+								}, 
+								function (err, photo3) {
+									thisCrit = photo3.critiques.pop();
+								}
+							);
+						});//forEach
+						
 					}//if visData
-
-					else {
-						res.json(thisCrit);
-						console.log(thisCrit);
-						User.addToArray('critiques', req.session.username, photo3._id);
-					}// else visData
+					res.json(thisCrit);
+					console.log(thisCrit);
+					User.addToArray('critiques', req.session.username, photo2._id);
 				}// else photo2
 			/*
 				else {
