@@ -44,10 +44,11 @@ angular.module('feedbackCtrl', [])
 					improved: feedback.improved,
 				};
 				if ($scope.visStorage.length > 0) {
-					data.visData = $scope.visStorage;
+					data.details = $scope.visStorage;
 				}
 				$http.post('/api/critiques/add', data)
 					.success( function (retData) {
+						retData.details = data.details;
 				// emit to parent controller so critique appears immediately
 						$scope.$emit('update_critiques', retData);
 					})
@@ -124,8 +125,8 @@ angular.module('feedbackCtrl', [])
 							element.next().append(newEl);
 						});
 						var coords = {
-							x: e.pageX,
-							y: e.pageY
+							xCoord: e.pageX,
+							yCoord: e.pageY
 						}
 						newScope.$broadcast('setCoords', coords);
 					});
@@ -162,8 +163,8 @@ angular.module('feedbackCtrl', [])
 					scope.submitComment = function () {
 						var marker = element.prev();
 						var data = {
-							x: marker[0].offsetLeft,
-							y: marker[0].offsetTop,
+							xCoord: marker[0].offsetLeft,
+							yCoord: marker[0].offsetTop,
 							comment: scope.commentText
 						};
 						//visCtrl.saveVis(data);
@@ -184,8 +185,8 @@ angular.module('feedbackCtrl', [])
 				restrict: 'E',
 				link: function (scope, element, attrs) {
 					scope.$on('setCoords', function (e, coords) {
-						var left = coords.x - element.width() / 2;
-						var top = coords.y - element.height() / 2;
+						var left = coords.xCoord - element.width() / 2;
+						var top = coords.yCoord - element.height() / 2;
 						element.css({top: top + 'px', left: left + 'px'});
 					});
 				}
@@ -212,10 +213,10 @@ angular.module('feedbackCtrl', [])
 						angular.forEach({mark: mark, comment: comment}, function (val, key) {
 							val = $compile(val)(saveScope);
 							if (key == 'mark') {
-								val.css({top: data.y, left: data.x});
+								val.css({top: data.yCoord, left: data.xCoord});
 							}
 							else {
-								val.css({top: data.y + 40, left: data.x});
+								val.css({top: data.yCoord + 40, left: data.xCoord});
 							}
 							element.append(val);
 						});// angular.forEach

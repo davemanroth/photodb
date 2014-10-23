@@ -14,8 +14,8 @@ exports.feedbackForm = function (req, res) {
 */
 exports.feedbackSubmit = function (req, res) {
 	/*
-	if (req.body.visData != undefined) {
-		console.log(req.body.visData);
+	if (req.body.details != undefined) {
+		console.log(req.body.details);
 	}
 	else {
 		console.log('No vis data');
@@ -23,7 +23,7 @@ exports.feedbackSubmit = function (req, res) {
 	*/
 			/*
 			*/
-	var visData = req.body.visData;
+	var details = req.body.details;
 	Photo.findById(req.body.photoid, 'critiques', function (err, photo1) {
 		if (err) {
 			console.log(err);
@@ -45,39 +45,32 @@ exports.feedbackSubmit = function (req, res) {
 					//var numCrits = photo2.critiques.length;
 					//var newCrit = photo2.critiques[numCrits - 1];
 					var thisCrit = photo2.critiques.pop();
-					if (visData != undefined) {
-						visData.forEach( function (detail) {
+					if (details != undefined) {
+						details.forEach( function (detail) {
 							Photo.findOneAndUpdate({ 'critiques._id' : thisCrit._id },
 								{ '$push' : {
 									'critiques.$.details' : 
-										{xCoord: detail.x, yCoord: detail.y, comment: detail.comment}
+										{xCoord: detail.xCoord, yCoord: detail.yCoord, comment: detail.comment}
 									}
 								}, 
 								function (err, photo3) {
 									if (err) {
 										console.log(err);
 									}
-									else {
-										thisCrit = photo3.critiques;
-										res.json(thisCrit);
-										console.log(thisCrit);
-									}
 								}
 							);
 						});//forEach
 						
-					}//if visData
-					else {
-						res.json(thisCrit);
-						console.log(thisCrit);
-					}
+					}//if details
+					res.json(thisCrit);
+					console.log(thisCrit);
 					User.addToArray('critiques', req.session.username, photo2._id);
 				}// else photo2
 			/*
 				else {
 					var thisCrit = {
 						critique: photo2.critiques.pop(),
-						details: visData
+						details: details
 					}
 					*/
 			});// photo1.save
