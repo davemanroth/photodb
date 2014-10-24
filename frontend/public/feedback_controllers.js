@@ -24,11 +24,10 @@ angular.module('feedbackCtrl', [])
 				}
 			}
 
-			$scope.showHideVis = function ($event) {
+			$scope.showHideVis = function ($event, details) {
 				var checkbox = $event.target;
-				//console.log($event);
 				$scope.visEnabled = checkbox.checked ? true : false;
-				$scope.$broadcast('visChecked', checkbox.name);
+				$scope.$broadcast('visChecked', checkbox, details);
 			}
 
 			$scope.$watch('visData', function (newData) {
@@ -62,8 +61,19 @@ angular.module('feedbackCtrl', [])
 
 	.controller('VisController', ['$scope', '$element',
 		function ($scope, $element) {
-			$scope.$on('visChecked', function (e, checkname) {
-				switch (checkname) {
+			$scope.$on('visChecked', function (e, checkbox, details) {
+// first check if any data is being passed in "details" arg
+				if (details != undefined && details.length > 0) {
+					if (checkbox.checked) {
+						$scope.$emit('visDataAdded', details, saved = true);
+					}
+					else {
+						console.log('Markers need to be removed');
+					}
+				}
+// set vis feedback area to display elements according to which checkbox
+// was activated
+				switch (checkbox.name) {
 					case 'new-vis' :
 						$scope.newVis = !$scope.newVis;
 						$scope.savedVis = false;
@@ -73,12 +83,12 @@ angular.module('feedbackCtrl', [])
 						$scope.newVis = false;
 						break;
 				}
-				/*
-				*/
 			});
 
-			$scope.$on('visDataAdded', function (e, data) {
-				$scope.visData = data;
+			$scope.$on('visDataAdded', function (e, data, saved) {
+				if (!saved) {
+					$scope.visData = data;
+				}
 			});
 			/*
 			*/
@@ -179,7 +189,7 @@ angular.module('feedbackCtrl', [])
 							comment: scope.commentText
 						};
 						//visCtrl.saveVis(data);
-						scope.$emit('visDataAdded', data);
+						scope.$emit('visDataAdded', data, saved = false);
 						marker.remove();
 						element.remove();
 					}
@@ -210,29 +220,38 @@ angular.module('feedbackCtrl', [])
 			return {
 				restrict: 'E',
 				link: function (scope, element, attrs) {
-					scope.$on('visDataAdded', function (e, data) {
+					scope.$on('visDataAdded', function (e, data, saved) {
 						/*
 						*/
 						var saveScope = scope.$new(true);
 						var mark = '<vis-marker class="saved-marker" ng-click="showComment()" />';
 						var comment = '<div class="absolute comment" ng-show="show" ng-model="show">{{comment}}</div>';
+
+						var populateElements = function (data, mark, comment) {
+							// compile and insert saved marker, comment
+							angular.forEach({mark: mark, comment: comment}, function (val, key) {
+								val = $compile(val)(saveScope);
+								if (key == 'mark') {
+									val.css({top: data.yCoord, left: data.xCoord});
+								}
+								else {
+									val.css({top: data.yCoord + 40, left: data.xCoord});
+								}
+								saveScope.comment = data.comment;
+								element.append(val);
+							});// angular.forEach
+						}
+
+						if (saved) {
+							for (var i = 0; i < data.length; i++) {
+								populateElements(data[0], mark, comment);
+							}
+						}
+						else {
+							populateElements(data, mark, comment);
+						}
+
 						saveScope.show = false;
-						var xOffset = (comment[0].offsetWidth / 2) + (mark[0].offsetWidth / 2);
-						var yOffset = mark[0].offsetHeight + 10; 
-
-						// compile and insert saved marker, comment
-						angular.forEach({mark: mark, comment: comment}, function (val, key) {
-							val = $compile(val)(saveScope);
-							if (key == 'mark') {
-								val.css({top: data.yCoord, left: data.xCoord});
-							}
-							else {
-								val.css({top: data.yCoord + 40, left: data.xCoord});
-							}
-							element.append(val);
-						});// angular.forEach
-
-						saveScope.comment = data.comment;
 
 						saveScope.showComment = function () {
 							saveScope.show = !saveScope.show;
