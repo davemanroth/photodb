@@ -74,7 +74,7 @@ angular.module('feedbackCtrl', [])
 						$scope.newVis = false;
 						break;
 				}
-				console.log('newVis: ' + $scope.newVis + ', savedVis: ' + $scope.savedVis);
+				//console.log('newVis: ' + $scope.newVis + ', savedVis: ' + $scope.savedVis);
 
 // first check if any data is being passed in "details" arg
 				if (details != undefined && details.length > 0) {
@@ -82,7 +82,7 @@ angular.module('feedbackCtrl', [])
 						$scope.$emit('visDataAdded', details, saved = true);
 					}
 					else {
-						console.log('Markers need to be removed');
+						$element.find('vis-saved-area').children().remove();
 					}
 				}
 
@@ -225,6 +225,7 @@ angular.module('feedbackCtrl', [])
 				link: function (scope, element, attrs) {
 					scope.$on('visDataAdded', function (e, data, saved) {
 						/*
+						console.log(data);
 						*/
 						var saveScope = scope.$new(true);
 						var mark = '<vis-marker class="saved-marker" ng-click="showComment()" />';
@@ -246,9 +247,9 @@ angular.module('feedbackCtrl', [])
 						}
 
 						if (saved) {
-							for (var i = 0; i < data.length; i++) {
-								populateElements(data[0], mark, comment);
-							}
+							data.forEach( function (el) {
+								populateElements(el, mark, comment);
+							});
 						}
 						else {
 							populateElements(data, mark, comment);
