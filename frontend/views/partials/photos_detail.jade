@@ -31,5 +31,9 @@ div(ng-controller="FeedbackController")
 			p.author - 
 				a(href="/users/{{critique.username}}") {{critique.username}},
 				|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy, h:m a'}}
+			div.vis-toggle(ng-show="critique.details.length > 0")
+				h3 This critique has visual feedback
+				label(for="saved-vis") Click to show visual feedback
+				input(name="saved-vis" type="checkbox" ng-click="showHideVis($event)")
 	div(ng-show="photo.critiques.length == 0")
 		p No critiques yet

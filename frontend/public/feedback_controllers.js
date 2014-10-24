@@ -6,8 +6,7 @@ angular.module('feedbackCtrl', [])
 			$scope.visStorage = [];
 
 			$scope.visual, $scope.feedbackArea, 
-			$scope.visEnabled, $scope.newVis,
-			$scope.savedVis = false;
+			$scope.visEnabled = false;
 			$scope.feedbackOption = true;
 
 			$scope.showHideFeedback = function ($event) {
@@ -27,8 +26,9 @@ angular.module('feedbackCtrl', [])
 
 			$scope.showHideVis = function ($event) {
 				var checkbox = $event.target;
+				//console.log($event);
 				$scope.visEnabled = checkbox.checked ? true : false;
-				$scope.$broadcast('visChecked', $scope.visEnabled);
+				$scope.$broadcast('visChecked', checkbox.name);
 			}
 
 			$scope.$watch('visData', function (newData) {
@@ -62,8 +62,19 @@ angular.module('feedbackCtrl', [])
 
 	.controller('VisController', ['$scope', '$element',
 		function ($scope, $element) {
-			$scope.$on('visChecked', function (e, checked) {
-				$scope.newVis = checked ? true : false;
+			$scope.$on('visChecked', function (e, checkname) {
+				switch (checkname) {
+					case 'new-vis' :
+						$scope.newVis = !$scope.newVis;
+						$scope.savedVis = false;
+						break;
+					case 'saved-vis' :
+						$scope.savedVis = !$scope.savedVis;
+						$scope.newVis = false;
+						break;
+				}
+				/*
+				*/
 			});
 
 			$scope.$on('visDataAdded', function (e, data) {

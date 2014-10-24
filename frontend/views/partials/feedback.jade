@@ -9,7 +9,7 @@ div.feedback-area
 	br
 	textarea#improved(name="improved" ng-model="feedback.improved")
 	br
-	input(type="checkbox" ng-click="showHideVis($event)") 
+	input(name="new-vis" type="checkbox" ng-click="showHideVis($event)") 
 	| Add visual feedback?
 	br
 	input(type="hidden" ng-model="feedback.vis")
