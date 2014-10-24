@@ -48,7 +48,7 @@ angular.module('feedbackCtrl', [])
 				$http.post('/api/critiques/add', data)
 					.success( function (retData) {
 						retData.details = data.details;
-				// emit to parent controller so critique appears immediately
+// emit to parent controller so critique appears immediately
 						$scope.$emit('update_critiques', retData);
 					})
 					.error( function (retData) {
@@ -227,39 +227,48 @@ angular.module('feedbackCtrl', [])
 						/*
 						console.log(data);
 						*/
-						var saveScope = scope.$new(true);
 						var mark = '<vis-marker class="saved-marker" ng-click="showComment()" />';
 						var comment = '<div class="absolute comment" ng-show="show" ng-model="show">{{comment}}</div>';
 
-						var populateElements = function (data, mark, comment) {
+						var populateElements = function (iscope, data, mark, comment) {
 							// compile and insert saved marker, comment
 							angular.forEach({mark: mark, comment: comment}, function (val, key) {
-								val = $compile(val)(saveScope);
+								val = $compile(val)(iscope);
 								if (key == 'mark') {
 									val.css({top: data.yCoord, left: data.xCoord});
 								}
 								else {
 									val.css({top: data.yCoord + 40, left: data.xCoord});
 								}
-								saveScope.comment = data.comment;
+								iscope.comment = data.comment;
 								element.append(val);
 							});// angular.forEach
 						}
 
+// I know it's a bit inelegant but this is the only way I found to avoid scope
+// collision between each saved vis feedback elements while sharing creation
+// functionality for newly created vis feedback elements and recreation of elements 
+// from stored vis feedback data pulled from MongoDb
 						if (saved) {
 							data.forEach( function (el) {
-								populateElements(el, mark, comment);
+								var saveScope = scope.$new(true);
+								populateElements(saveScope, el, mark, comment);
+								saveScope.show = false;
+								saveScope.showComment = function () {
+									saveScope.show = !saveScope.show;
+								}
 							});
 						}
 						else {
-							populateElements(data, mark, comment);
+							var saveScope = scope.$new(true);
+							populateElements(saveScope, data, mark, comment);
+							saveScope.show = false;
+							saveScope.showComment = function () {
+								saveScope.show = !saveScope.show;
+							}
 						}
 
-						saveScope.show = false;
 
-						saveScope.showComment = function () {
-							saveScope.show = !saveScope.show;
-						}
 						scope.savedVis="true";
 					});// scope.$on
 				}
