@@ -62,15 +62,6 @@ angular.module('feedbackCtrl', [])
 	.controller('VisController', ['$scope', '$element',
 		function ($scope, $element) {
 			$scope.$on('visChecked', function (e, checkbox, details) {
-// first check if any data is being passed in "details" arg
-				if (details != undefined && details.length > 0) {
-					if (checkbox.checked) {
-						$scope.$emit('visDataAdded', details, saved = true);
-					}
-					else {
-						console.log('Markers need to be removed');
-					}
-				}
 // set vis feedback area to display elements according to which checkbox
 // was activated
 				switch (checkbox.name) {
@@ -83,6 +74,18 @@ angular.module('feedbackCtrl', [])
 						$scope.newVis = false;
 						break;
 				}
+				console.log('newVis: ' + $scope.newVis + ', savedVis: ' + $scope.savedVis);
+
+// first check if any data is being passed in "details" arg
+				if (details != undefined && details.length > 0) {
+					if (checkbox.checked) {
+						$scope.$emit('visDataAdded', details, saved = true);
+					}
+					else {
+						console.log('Markers need to be removed');
+					}
+				}
+
 			});
 
 			$scope.$on('visDataAdded', function (e, data, saved) {
