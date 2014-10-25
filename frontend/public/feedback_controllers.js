@@ -24,10 +24,10 @@ angular.module('feedbackCtrl', [])
 				}
 			}
 
-			$scope.showHideVis = function ($event, details) {
+			$scope.showHideVis = function ($event, critique) {
 				var checkbox = $event.target;
 				$scope.visEnabled = checkbox.checked ? true : false;
-				$scope.$broadcast('visChecked', checkbox, details);
+				$scope.$broadcast('visChecked', checkbox, critique);
 			}
 
 			$scope.$watch('visData', function (newData) {
@@ -61,7 +61,7 @@ angular.module('feedbackCtrl', [])
 
 	.controller('VisController', ['$scope', '$element',
 		function ($scope, $element) {
-			$scope.$on('visChecked', function (e, checkbox, details) {
+			$scope.$on('visChecked', function (e, checkbox, critique) {
 // set vis feedback area to display elements according to which checkbox
 // was activated
 				switch (checkbox.name) {
@@ -77,12 +77,12 @@ angular.module('feedbackCtrl', [])
 				//console.log('newVis: ' + $scope.newVis + ', savedVis: ' + $scope.savedVis);
 
 // first check if any data is being passed in "details" arg
-				if (details != undefined && details.length > 0) {
+				if (critique != undefined && critique.details != undefined && critique.details.length > 0) {
 					if (checkbox.checked) {
-						$scope.$emit('visDataAdded', details, saved = true);
+						$scope.$emit('visDataAdded', critique, saved = true);
 					}
 					else {
-						$element.find('vis-saved-area').children().remove();
+						$element.find('vis-saved-area').children('.' + critique.username).remove();
 					}
 				}
 
@@ -230,7 +230,7 @@ angular.module('feedbackCtrl', [])
 						var mark = '<vis-marker class="saved-marker" ng-click="showComment()" />';
 						var comment = '<div class="absolute comment" ng-show="show" ng-model="show">{{comment}}</div>';
 
-						var populateElements = function (iscope, data, mark, comment) {
+						var populateElements = function (iscope, data, mark, comment, username) {
 							// compile and insert saved marker, comment
 							angular.forEach({mark: mark, comment: comment}, function (val, key) {
 								val = $compile(val)(iscope);
@@ -239,6 +239,9 @@ angular.module('feedbackCtrl', [])
 								}
 								else {
 									val.css({top: data.yCoord + 40, left: data.xCoord});
+								}
+								if (username) {
+									val.addClass(username);
 								}
 								iscope.comment = data.comment;
 								element.append(val);
@@ -250,9 +253,9 @@ angular.module('feedbackCtrl', [])
 // functionality for newly created vis feedback elements and recreation of elements 
 // from stored vis feedback data pulled from MongoDb
 						if (saved) {
-							data.forEach( function (el) {
+							data.details.forEach( function (el) {
 								var saveScope = scope.$new(true);
-								populateElements(saveScope, el, mark, comment);
+								populateElements(saveScope, el, mark, comment, data.username);
 								saveScope.show = false;
 								saveScope.showComment = function () {
 									saveScope.show = !saveScope.show;
@@ -261,7 +264,7 @@ angular.module('feedbackCtrl', [])
 						}
 						else {
 							var saveScope = scope.$new(true);
-							populateElements(saveScope, data, mark, comment);
+							populateElements(saveScope, data, mark, comment, false);
 							saveScope.show = false;
 							saveScope.showComment = function () {
 								saveScope.show = !saveScope.show;
