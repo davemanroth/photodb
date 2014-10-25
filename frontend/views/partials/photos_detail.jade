@@ -6,7 +6,7 @@ header
 div(ng-controller="FeedbackController")
 	h2(ng-show="visEnabled") Visual feedback
 	vis-feedback(ng-show="visEnabled" ng-model="visData")
-		vis-new(ng-show="newVis")
+		vis-new(ng-show="newVis" ng-model="newVis")
 		vis-saved-area(ng-show="savedVis" ng-model="savedVis")
 	img#img-detail.img-responsive(ng-src="{{photo.path}}")
 	div(ng-include="feedbackArea && '/partials/feedback.jade' || ''")
@@ -24,7 +24,6 @@ div(ng-controller="FeedbackController")
 		h2 Feedback
 		button#showFeedback.button(ng-click="showHideFeedback($event)") Submit a critique
 	div#critique-area(ng-if="hasCritiques")
-		//p {{photo.critiques}}
 		div.critique(ng-repeat="critique in photo.critiques | orderBy:sortField")
 			p.question What do you like about the photo?<br /> {{critique.like}}
 			p.question What could be improved?<br /> {{critique.improved}}

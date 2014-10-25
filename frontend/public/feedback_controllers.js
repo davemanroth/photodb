@@ -11,11 +11,17 @@ angular.module('feedbackCtrl', [])
 
 			$scope.showHideFeedback = function ($event) {
 				var option = $event.target.id;
+// This checkbox variable is a throwaway, only set so we can borrow the same
+// 'visChecked' broadcast event. In this case we're using it to remove
+// all visFeedback elements when either cancel or save is clicked
+				var checkbox = {};
+				checkbox.name = 'cancel-save';
 				switch (option) {
 					case 'addFeedback':
 					case 'cancelFeedback':
 						$scope.feedbackArea = false;
 						$scope.feedbackOption = true;
+						$scope.$broadcast('visChecked', checkbox, false);
 						break;
 					case 'showFeedback':
 						$scope.feedbackArea = true;
@@ -63,7 +69,8 @@ angular.module('feedbackCtrl', [])
 		function ($scope, $element) {
 			$scope.$on('visChecked', function (e, checkbox, critique) {
 // set vis feedback area to display elements according to which checkbox
-// was activated
+// was activated. The 'cancel-save' case is included even though it doesn't
+// technically originate from a checkbox
 				switch (checkbox.name) {
 					case 'new-vis' :
 						$scope.newVis = !$scope.newVis;
@@ -73,15 +80,22 @@ angular.module('feedbackCtrl', [])
 						$scope.savedVis = !$scope.savedVis;
 						$scope.newVis = false;
 						break;
+					case 'cancel-save' :
+						$scope.newVis = false, $scope.savedVis = false;
+						$element.children('vis-new').children().remove();
+						$element.children('vis-saved-area').children().remove();
+						break;
 				}
-				//console.log('newVis: ' + $scope.newVis + ', savedVis: ' + $scope.savedVis);
 
-// first check if any data is being passed in "details" arg
+// first check if critique is defined and if any data is being passed in "details" property
 				if (critique != undefined && critique.details != undefined && critique.details.length > 0) {
 					if (checkbox.checked) {
 						$scope.$emit('visDataAdded', critique, saved = true);
 					}
 					else {
+// remove all vis elements from screen that correspond to feedback's author. I
+// used the author's username as an identifier, implemented as a  class in 
+// the elements 
 						$element.find('vis-saved-area').children('.' + critique.username).remove();
 					}
 				}
@@ -94,16 +108,6 @@ angular.module('feedbackCtrl', [])
 				}
 			});
 			/*
-			*/
-
-			/*
-			this.saveVis = function (data) {
-				$scope.visStorage.push(data);
-				console.log($scope.visStorage);
-			}
-			$scope.$watch('vfData', function (val) {
-				console.log(val);
-			});
 			*/
 		}
 	])
@@ -119,7 +123,7 @@ angular.module('feedbackCtrl', [])
 					var width=0, height=0, img = element.siblings('img');
 					vc = $compile(vc)(scope);
 					element.prepend(vc);
-	// match visFeedback's dimensions to photo's
+// match visFeedback's dimensions to photo's
 					img.on('load', function () {
 						width = img.width();
 						height = img.height();
@@ -177,7 +181,7 @@ angular.module('feedbackCtrl', [])
 				controller: 'VisController',
 				link: function (scope, element, attrs, visCtrl) {
 					scope.cancelComment = function () {
-					// remove the marker
+// remove the marker
 						var marker = element.prev();
 						marker.remove();
 						element.remove();
@@ -191,7 +195,6 @@ angular.module('feedbackCtrl', [])
 							yCoord: marker[0].offsetTop,
 							comment: scope.commentText
 						};
-						//visCtrl.saveVis(data);
 						scope.$emit('visDataAdded', data, saved = false);
 						marker.remove();
 						element.remove();
@@ -231,7 +234,7 @@ angular.module('feedbackCtrl', [])
 						var comment = '<div class="absolute comment" ng-show="show" ng-model="show">{{comment}}</div>';
 
 						var populateElements = function (iscope, data, mark, comment, username) {
-							// compile and insert saved marker, comment
+// compile and insert saved marker, comment
 							angular.forEach({mark: mark, comment: comment}, function (val, key) {
 								val = $compile(val)(iscope);
 								if (key == 'mark') {
