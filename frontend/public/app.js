@@ -1,6 +1,10 @@
 angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 	.config( function($routeProvider, $locationProvider) {
 		$routeProvider
+			.when('/', {
+				templateUrl: '/partials/home',
+				controller: 'HomeController'
+			})
 			.when('/photos/all', {
 				templateUrl: '/partials/photos_all',
 				controller: 'PhotoListController'
