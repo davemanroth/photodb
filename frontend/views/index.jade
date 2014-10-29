@@ -4,7 +4,7 @@ html(ng-app="photoapp")
 		title= title
 		link(rel='stylesheet', href='/assets/css/style.css')
 		link(rel='stylesheet', href='/vendor/bootstrap/dist/css/bootstrap.min.css')
-	body
+	body(ng-controller="LoginController")
 		include includes/header-menu.jade
 		div#mssg.mssg
 		div(ng-view)

@@ -2,8 +2,7 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 	.config( function($routeProvider, $locationProvider) {
 		$routeProvider
 			.when('/', {
-				templateUrl: '/partials/home',
-				controller: 'HomeController'
+				templateUrl: '/partials/home'
 			})
 			.when('/photos/all', {
 				templateUrl: '/partials/photos_all',
@@ -30,6 +29,49 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 			});
 		$locationProvider.html5Mode(true);
 	})
+
+	.controller('LoginController', ['$scope', '$http',
+		function ($scope, $http) {
+			$scope.login = {};
+			$scope.login.error = false;
+			$scope.login.nav = true;
+
+			$scope.login.login = function ($event) {
+				var loc = $event.target.name;
+				switch (loc) {
+					case 'nav-login':
+						$scope.login.navLoginShow = !$scope.login.navLoginShow;
+						break;
+					case 'home-login':
+						$scope.login.homeLoginShow = !$scope.login.homeLoginShow;
+						break;
+				}
+			}
+
+			$scope.login.signIn = function () {
+				var data = {
+					username : $scope.login.username,
+				  password : $scope.login.password
+				}
+				$http.post('/api/users/authenticate', data)
+					.success( function (result) {
+					})
+					.error( function (result) {
+						$scope.login.message = result;
+					});
+			}
+		}
+	])
+
+	.directive('login', 
+		function () {
+			return {
+				replace: true,
+				restrict: 'E',
+				templateUrl: '/partials/login.jade'
+			}
+		}
+	)
 
 
 	.directive('fileModel', ['$parse',

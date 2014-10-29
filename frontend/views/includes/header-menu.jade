@@ -4,5 +4,9 @@ nav
 		li: a(href="/") Home
 		li: a(href="/photos/all") Browse photos
 		li: a(href="/photos/add") Submit a photo
+		li: a(name="nav-login" href="#" ng-show="login.nav" ng-click="login.login($event)") Login
 		- if (session.username)
 			li: a(href="/users/#{session.username}") My stuff
+			li: a(href="/users/logout") Logout
+		- else
+login.absolute(ng-if="login.navLoginShow")

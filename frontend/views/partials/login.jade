@@ -1,0 +1,9 @@
+div(ng-model="login.creds")
+	p(ng-show="login.error") {{login.message}}
+	input(type="text" placeholder="Username" ng-model="login.username")
+	br
+	input(type="password" placeholder="Password" ng-model="login.password")
+	br
+	button(ng-click="login.signIn()") Login
+	br
+	a(href="#") Sign up for new account
