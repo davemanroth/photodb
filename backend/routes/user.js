@@ -30,12 +30,14 @@ exports.login = function (req, res) {
 exports.logout = function (req, res) {
 	delete req.session.username;
 	delete req.session.userid;
-	res.redirect('/');
+	res.json.(true);
 }
 
+/*
 exports.signupForm = function (req, res) {
 	res.render('signup', {title: 'User signup'});
 };
+*/
 
 exports.signupAction = function (req, res) {
 	//console.log([req.files, req.body]);

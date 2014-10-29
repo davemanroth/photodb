@@ -24,14 +24,17 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 				templateUrl: '/partials/user',
 				controller: 'UserController'
 			})
+			.when('/users/logout', {
+				controller: 'LoginController'
+			})
 			.otherwise({
 				redirectTo: '/'
 			});
 		$locationProvider.html5Mode(true);
 	})
 
-	.controller('LoginController', ['$scope', '$http',
-		function ($scope, $http) {
+	.controller('LoginController', ['$scope', '$http', '$location',
+		function ($scope, $http, $location) {
 			$scope.login = {};
 			$scope.login.error = false;
 			$scope.login.nav = true;
@@ -57,9 +60,17 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 					.success( function (result) {
 					})
 					.error( function (result) {
-						$scope.login.message = result;
+						console.log(data);
 					});
 			}
+
+			$http.get('/api/users/logout')
+				.success( function(data) {
+					$location.path('/');
+				})
+				.error( function(data) {
+					console.log(data);
+				});
 		}
 	])
 
