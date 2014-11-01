@@ -1,12 +1,20 @@
 header
-nav
-	ul
-		li: a(href="/") Home
-		li: a(href="/photos/all") Browse photos
-		li: a(href="/photos/add") Submit a photo
-		li: a(name="nav-login" href="#" ng-show="login.nav" ng-click="login.login($event)") Login
-		- if (session.username)
-			li: a(href="/users/#{session.username}") My stuff
-			li: a(href="/users/logout") Logout
-		- else
-login.absolute(ng-if="login.navLoginShow")
+nav.navbar.navbar-default.navbar-fixed-top(role="navigation")
+	div.container-fluid
+		div.navbar-header
+			button.navbar-toggle.collapsed(type="button" data-toggle="collapse" data-target="#navlinks")
+				span.sr-only Menu
+				span.icon-bar
+				span.icon-bar
+				span.icon-bar
+		div#navlinks.collapse.navbar-collapse
+			ul.nav.navbar-nav
+				li.active: a(href="/") Home
+				li: a(href="/photos/all") Browse photos
+				li: a(href="/photos/add") Submit a photo
+				li: a(name="nav-login" href="#" ng-show="login.nav" ng-click="login.login($event)") Login
+				- if (session.username)
+					li: a(href="/users/#{session.username}") My stuff
+					li: a(href="/users/logout") Logout
+				- else
+		login.absolute(ng-if="login.navLoginShow")
