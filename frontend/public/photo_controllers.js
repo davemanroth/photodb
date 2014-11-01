@@ -4,6 +4,7 @@ angular.module('photoCtrl', [])
 	.controller('PhotoListController', ['$scope', '$http', 
 		function($scope, $http) {
 			$scope.pageTitle = 'Photo gallery';
+			$scope.filterClick = false;
 			/*
 			*/
 			$http.get('/api/photos_all')

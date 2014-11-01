@@ -1,36 +1,41 @@
-header
+div.page-header
 	h1 {{photo.title}}
-	p
-		a(ng-href="/users/{{photo.author.username}}") {{photo.author.username}}
-	p Uploaded: {{photo.date_uploaded | date: 'EEE, MMMM dd, yyyy'}}
+p Photographer: 
+	a(ng-href="/users/{{photo.author.username}}") {{photo.author.username}}
+	br
+	| Uploaded: {{photo.date_uploaded | date: 'EEE, MMMM dd, yyyy'}}
 div(ng-controller="FeedbackController")
 	h2(ng-show="visEnabled") Visual feedback
 	vis-feedback(ng-show="visEnabled" ng-model="visData")
 		vis-new(ng-show="newVis" ng-model="newVis")
 		vis-saved-area(ng-show="savedVis" ng-model="savedVis")
-	img#img-detail.img-responsive(ng-src="{{photo.path}}")
+	img.photo-detail.img-responsive(ng-src="{{photo.path}}")
 	div(ng-include="feedbackArea && '/partials/feedback.jade' || ''")
-	div.specs
-		h2 Specifications
-		ul
-			li: | <strong>Camera:</strong> {{photo.camera}}
-			li: | <strong>Shutter:</strong> {{photo.shutter}}
-			li: | <strong>fstop:</strong> {{photo.fstop}}
-			li: | <strong>ISO:</strong> {{photo.iso}}
-	div.about
-		h2 About photo
-		p {{photo.writeup}}
+	div.row.module
+		div.col-sm-4.col-md-3
+			div.specs
+				h2 Specifications
+				ul
+					li: | <strong>Camera:</strong> {{photo.camera}}
+					li: | <strong>Shutter:</strong> {{photo.shutter}}
+					li: | <strong>fstop:</strong> {{photo.fstop}}
+					li: | <strong>ISO:</strong> {{photo.iso}}
+		div.col-sm-6
+			div.about
+				h2 About photo
+				p {{photo.writeup}}
 	div.feedback-submit(ng-show="feedbackOption")
 		h2 Feedback
-		button#showFeedback.button(ng-click="showHideFeedback($event)") Submit a critique
+		button#showFeedback.btn.btn-default(ng-click="showHideFeedback($event)") Submit a critique
 	div#critique-area(ng-if="hasCritiques")
 		div.critique(ng-repeat="critique in photo.critiques | orderBy:sortField")
-			p.question What do you like about the photo?<br /> {{critique.like}}
-			p.question What could be improved?<br /> {{critique.improved}}
-			p.author - 
-				a(href="/users/{{critique.username}}") {{critique.username}},
-				|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy, h:m a'}}
-			div.vis-toggle(ng-show="critique.details.length > 0")
+			div.module
+				p.question What do you like about the photo?<br /> {{critique.like}}
+				p.question What could be improved?<br /> {{critique.improved}}
+				p.author - 
+					a(href="/users/{{critique.username}}") {{critique.username}},
+					|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy, h:m a'}}
+			div.module.vis-toggle(ng-show="critique.details.length > 0")
 				h3 This critique has visual feedback
 				label(for="saved-vis") Click to show visual feedback
 				input(name="saved-vis" type="checkbox" ng-click="showHideVis($event, critique)")

@@ -1,17 +1,16 @@
-div.feedback-area
+div.feedback-area.module
 	h2 Feedback submission
-	div#close.close X
 	label(for="like") What do you like about the photo? (limit xxx characters)
 	br
-	textarea#like(name="like" ng-model="feedback.like")
+	textarea.form-control(name="like" ng-model="feedback.like")
 	br
 	label(for="improved") What could be improved? (limit xxx characters)
 	br
-	textarea#improved(name="improved" ng-model="feedback.improved")
+	textarea.form-control(name="improved" ng-model="feedback.improved")
 	br
 	input(name="new-vis" type="checkbox" ng-click="showHideVis($event)") 
 	| Add visual feedback?
 	br
 	input(type="hidden" ng-model="feedback.vis")
-	button#cancelFeedback.button(ng-click="showHideFeedback($event)") Cancel
-	button#addFeedback.button(ng-click="addFeedback(feedback); showHideFeedback($event)") Submit feedback
+	button#cancelFeedback.btn.btn-default(ng-click="showHideFeedback($event)") Cancel
+	button#addFeedback.btn.btn-default(ng-click="addFeedback(feedback); showHideFeedback($event)") Submit feedback
