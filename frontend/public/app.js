@@ -16,6 +16,10 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 				templateUrl: '/partials/photos_detail',
 				controller: 'PhotoDetailController'
 			})
+			.when('/users/logout', {
+				controller: 'LoginController',
+				redirectTo: '/'
+			})
 			.when('/users/signup', {
 				templateUrl: '/partials/signup',
 				controller: 'UserAddController'
@@ -23,9 +27,6 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 			.when('/users/:username', {
 				templateUrl: '/partials/user',
 				controller: 'UserController'
-			})
-			.when('/users/logout', {
-				controller: 'LoginController'
 			})
 			.otherwise({
 				redirectTo: '/'
@@ -66,7 +67,7 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 
 			$http.get('/api/users/logout')
 				.success( function(data) {
-					$location.path('/');
+					//$location.path('/');
 				})
 				.error( function(data) {
 					console.log(data);

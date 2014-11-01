@@ -30,7 +30,8 @@ exports.login = function (req, res) {
 exports.logout = function (req, res) {
 	delete req.session.username;
 	delete req.session.userid;
-	res.json.(true);
+	console.log('Logout initiated');
+	res.json(true);
 }
 
 /*
