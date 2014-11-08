@@ -1,12 +1,9 @@
 /** overall **/
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+body {padding-top:50px;}
+a {}
 
-a {
-  color: #00B7FF;
-}
+label, select, input{margin-right:5px;}
+.btn-default{margin-right:10px;}
 
 nav li{float:left; display:block; padding:5px 10px;}
 nav ul{padding:0;}
@@ -19,6 +16,7 @@ nav ul:after{content:""; display:block; clear:both;}
 .module h5, .module h6{
 	margin-top:0px;
 }
+
 
 /** photo list **/
 .photothumb{min-height:250px;}
@@ -34,6 +32,8 @@ nav ul:after{content:""; display:block; clear:both;}
 }
 .vis-toggle{background:#eee;}
 
+/** user profile **/
+.photo-edit{z-index:5; background-color:rgba(255, 255, 255, 0.9); width:400px;}
 /*.vis-body{background-color:rgba(255, 255, 255, 0.4);}*/
 .comment-outer{z-index:5; background:#fff;}
 .comment-inner{position:relative; padding:10px 20px;}
