@@ -18,7 +18,6 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 			})
 			.when('/users/logout', {
 				controller: 'LoginController',
-				redirectTo: '/'
 			})
 			.when('/users/signup', {
 				templateUrl: '/partials/signup',
@@ -57,21 +56,28 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 					username : $scope.login.username,
 				  password : $scope.login.password
 				}
+				/*
+				console.log(data);
+					*/
 				$http.post('/api/users/authenticate', data)
 					.success( function (result) {
+						console.log(result);
 					})
 					.error( function (result) {
-						console.log(data);
+						console.log(result);
 					});
 			}
 
-			$http.get('/api/users/logout')
-				.success( function(data) {
-					//$location.path('/');
-				})
-				.error( function(data) {
-					console.log(data);
-				});
+			$scope.login.logout = function () {
+
+				$http.post('/api/users/logout')
+					.success( function(data) {
+						$location.path('/');
+					})
+					.error( function(data) {
+						console.log(data);
+					});
+			}
 		}
 	])
 

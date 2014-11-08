@@ -78,7 +78,7 @@ app.post('/api/critiques/add', critique.feedbackSubmit);
 app.get('/api/users/:username', user.profile);
 app.post('/api/users/signup', user.signupAction);
 app.post('/api/users/authenticate', user.login);
-app.get('/api/users/logout', user.logout);
+app.post('/api/users/logout', user.logout);
 /*
 app.get('/api/signup', user.signupForm);
 //app.get('/users', user.allUsers);
