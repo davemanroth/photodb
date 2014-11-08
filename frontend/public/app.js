@@ -1,5 +1,46 @@
 angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
-	.config( function($routeProvider, $locationProvider) {
+	.config( function($routeProvider, $locationProvider, $httpProvider) {
+
+		// check if the user is connected
+		var checkLoggedin = function ($q, $timeout, $http, $location, $rootScope) {
+			// initialize a new promise
+			var deferred = $q.defer();
+
+			// make AJAX call to check if user is logged in
+			$http.get('/loggedin')
+				.success( function (user) {
+			// Authenticated
+					if (user !== '0') {
+						$timeout(deferred.resolve, 0);
+					}
+					else {
+						$rootScope.message = 'You need to log in';
+						$timeout( function () {
+							deferred.reject();
+						}, 0);
+						$location.url('/');
+					}
+				});
+			return deferred.promise;
+		}
+
+		// Interceptor for AJAX errors
+		$httpProvider.responseInterceptors.push( function ($q, $location) {
+			return function (promise) {
+				return promise.then(
+					function (response) {
+						return response;
+					},
+					function (response) {
+						if (response.status === 401) {
+							$location.url('/');
+						}
+						return $q.reject(response);
+					}
+				);//then
+			}//promise callback
+		});
+
 		$routeProvider
 			.when('/', {
 				templateUrl: '/partials/home'
