@@ -8,6 +8,7 @@ var MongoStore = require('connect-mongo')(express);
 var routes = require('./backend/routes');
 var http = require('http');
 var path = require('path');
+var passport = require('passport');
 
 // db
 var mongoose = require('mongoose');
@@ -24,6 +25,15 @@ var group = require('./backend/routes/group');
 var group = require('./routes/group');
 */
 
+var auth = function (req, res, next) {
+	if (!req.isAuthenticated()) {
+		res.send(401);
+	}
+	else {
+		next();
+	}
+}
+
 var app = express();
 
 // all environments
@@ -35,6 +45,10 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('Ihfe33hlPIBDuhasdh923auhwuf'));
+app.use( express.session({ secret: 'keyboard cat'}) );
+app.use(passport.initialize());
+app.use(passport.session());
+/*
 app.use(express.session({
 	store: new MongoStore({
 		db: 'photodb',
@@ -46,7 +60,7 @@ app.use(function (req, res, next) {
 	res.locals.session = req.session;
 	next();
 });
-
+*/
 app.use(express.static(path.join(__dirname, '/frontend/public')));
 
 // Must go after static paths declared

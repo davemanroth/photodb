@@ -5,8 +5,45 @@ var User = require('../models/user').User;
 var Group = require('../models/group').Group;
 var Category = require('../models/category').Category;
 var Filters = require('../models/category').Filters;
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var gm = require('gm').subClass({ imageMagick: true });;
 var fs = require('fs');
+
+// Strategy used by Passport
+// Taken from jaredhanson's passport-local example on Github
+passport.use( new LocalStrategy( function(username, password, done) {
+	User.findOne({ username: username }, function (err, user) {
+		if (err) {
+			return done(err);
+		}
+		if (!user) {
+			return done(null, false, { message: 'Unknown user ' + username });
+		}
+		user.comparePassword( password, function (err, isMatch) {
+			if (err) {
+				return done(err);
+			}
+			if (isMatch) {
+				return done(null, user);
+			}
+			else {
+				return done(null, false { message: 'Invalid password' });
+			}
+		});//comparePassword
+	});//findOne
+}));//passport.use, LocalStrategy
+
+passport.serializeUser( function (user, done) {
+	done(null, user._id);
+});
+
+passport.deserializeUser( function (id, done) {
+	User.findById(id, function (err, user) {
+		done(err, user);
+	});
+});
+
 
 exports.login = function (req, res) {
 	//console.log(req.body.username);
