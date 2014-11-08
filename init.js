@@ -90,6 +90,7 @@ app.post('/api/critiques/add', critique.feedbackSubmit);
 
 // User
 app.get('/api/users/:username', user.profile);
+app.get('/api/users/loggedin', user.checkLoggedin);
 app.post('/api/users/signup', user.signupAction);
 app.post('/api/users/authenticate', user.login);
 app.post('/api/users/logout', user.logout);

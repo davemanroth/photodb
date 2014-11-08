@@ -7,7 +7,7 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 			var deferred = $q.defer();
 
 			// make AJAX call to check if user is logged in
-			$http.get('/loggedin')
+			$http.get('/api/users/checkLoggedin')
 				.success( function (user) {
 			// Authenticated
 					if (user !== '0') {

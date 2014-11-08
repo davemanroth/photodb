@@ -64,7 +64,11 @@ exports.login = function (req, res, next) {
 
 exports.logout = function (req, res) {
 	req.logout();
-	res.send('logout');
+	res.send('200');
+}
+
+exports.checkLoggedin = function (req, res) {
+	res.send(req.isAuthenticated() ? req.user : '0');
 }
 
 
