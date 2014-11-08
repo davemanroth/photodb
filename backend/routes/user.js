@@ -28,7 +28,7 @@ passport.use( new LocalStrategy( function(username, password, done) {
 				return done(null, user);
 			}
 			else {
-				return done(null, false { message: 'Invalid password' });
+				return done(null, false, { message: 'Invalid password' });
 			}
 		});//comparePassword
 	});//findOne
@@ -109,10 +109,6 @@ exports.signupForm = function (req, res) {
 
 exports.signupAction = function (req, res) {
 	//console.log([req.files, req.body]);
-	var pic = req.files.pic;
-	var imgUrl = '/photo_uploads/profile_imgs/' + pic.name;
-	var tmpPath = pic.path;
-	var permPath = './frontend/public/' + imgUrl;
 	
 	var newUser = new User({
 		username: req.body.username,
@@ -121,9 +117,23 @@ exports.signupAction = function (req, res) {
 		email: req.body.email,
 		first_name: req.body.first_name,
 		last_name: req.body.last_name,
-		self_portrait: imgUrl,
 		bio: req.body.bio
 	});
+
+	if (req.files.pic !== undefined) {
+		var pic = req.files.pic;
+		var imgUrl = '/photo_uploads/profile_imgs/' + pic.name;
+		var tmpPath = pic.path;
+		var permPath = './frontend/public/' + imgUrl;
+		newUser.self_portrait = imgUrl;
+
+		fs.rename(tmpPath, permPath, function (err) {
+			if (err) { next(err); console.log(err); }
+			fs.unlink(tmpPath, function () {
+				console.log('Image uploaded to ' + permPath);
+			});
+		});
+	}
 
 	newUser.save( function (err, user) {
 		if(!err) {
@@ -134,12 +144,7 @@ exports.signupAction = function (req, res) {
 		}
 	});
 
-	fs.rename(tmpPath, permPath, function (err) {
-		if (err) { next(err); console.log(err); }
-		fs.unlink(tmpPath, function () {
-			console.log('Image uploaded to ' + permPath);
-		});
-	});
+	
 	/*
 	*/
 }

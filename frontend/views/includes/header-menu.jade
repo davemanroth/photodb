@@ -13,8 +13,5 @@ nav.navbar.navbar-default.navbar-fixed-top(role="navigation")
 				li: a(href="/photos/all") Browse photos
 				li: a(href="/photos/add") Submit a photo
 				li: a(name="nav-login" href="#" ng-show="login.nav" ng-click="login.login($event)") Login
-				- if (session.username)
-					li: a(href="/users/#{session.username}") My stuff
-					li: a(href="#" ng-click="login.logout()") Logout
-				- else
+				li: a(href="#" ng-click="login.logout()") Logout
 		login.absolute(ng-if="login.navLoginShow")
