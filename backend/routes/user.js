@@ -57,6 +57,7 @@ exports.login = function (req, res, next) {
 			if (err) {
 				return next(err);
 			}
+			//res.locals.user = req.session.user;
 			res.send(200);
 		});
 	})(req, res, next);
