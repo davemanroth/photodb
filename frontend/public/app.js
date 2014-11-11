@@ -62,7 +62,8 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 			})
 			.when('/users/signup', {
 				templateUrl: '/partials/signup',
-				controller: 'UserAddController'
+				controller: 'UserAddController',
+				resolve: { loggedin : checkLoggedin }
 			})
 			.when('/users/:username', {
 				templateUrl: '/partials/user',
@@ -74,7 +75,7 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 		$locationProvider.html5Mode(true);
 	})
 
-	.controller('LoginController', ['$scope', '$http', '$location',
+	.controller('LoginController', ['$scope', '$http', '$location', 
 		function ($scope, $http, $location) {
 			$scope.login = {};
 			$scope.login.error = false;
@@ -102,6 +103,8 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 					*/
 				$http.post('/api/users/authenticate', data)
 					.success( function (result) {
+						/*
+						*/
 						console.log(result);
 					})
 					.error( function (result) {

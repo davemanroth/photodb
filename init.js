@@ -71,6 +71,13 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+/*
+app.use( function (req, res, next) {
+	res.locals.user = req.user;
+	next();
+});
+*/
+
 // routes
 app.get('/', routes.index);
 app.get('/test1/test2', routes.index);
@@ -90,7 +97,7 @@ app.post('/api/critiques/add', critique.feedbackSubmit);
 
 // User
 app.get('/api/users/:username', auth, user.profile);
-app.get('/api/users/loggedin', user.checkLoggedin);
+app.get('/api/users/checkLoggedin', user.checkLoggedin);
 app.post('/api/users/signup', user.signupAction);
 app.post('/api/users/authenticate', user.login);
 app.post('/api/users/logout', user.logout);
@@ -113,6 +120,13 @@ app.get('/photos/:photoid', photo.photoDetail);
 app.post('/critique/add', critique.feedbackSubmit);
 */
 app.get('*', routes.index);
+/*
+app.get('*', function (req, res, next) {
+	if (req.session.user !== undefined) {
+		res.locals.user = req.session.user
+	}
+});
+*/
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
