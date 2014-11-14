@@ -58,6 +58,7 @@ exports.login = function (req, res, next) {
 				return next(err);
 			}
 			res.send(req.user);
+			req.session.username = req.user.username;
 			//res.send(200);
 		});
 	})(req, res, next);
@@ -65,6 +66,7 @@ exports.login = function (req, res, next) {
 
 exports.logout = function (req, res) {
 	req.logout();
+	delete req.session.username;
 	res.send('200');
 }
 
