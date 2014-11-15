@@ -56,11 +56,11 @@ app.use(express.session({
 		port: 27017
 	})
 }));
-*/
 app.use(function (req, res, next) {
 	res.locals.session = req.session;
 	next();
 });
+*/
 app.use(express.static(path.join(__dirname, '/frontend/public')));
 
 // Must go after static paths declared

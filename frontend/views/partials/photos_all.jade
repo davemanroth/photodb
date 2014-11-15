@@ -1,48 +1,49 @@
-div.page-header
-	h1 {{pageTitle}} 
-div.filter-sort.panel
-	div.form-inline
-		div.form-group
-			button.btn.btn-default(type="button" name="filter" ng-click="filterClick=!filterClick") Filter
-			label(for="sorting") Sort:  
-			select.form-control(name="sorting" ng-model="sortVal" ng-change="sortPhotos()")
-				option(value="-date_uploaded" ng-selected="true") Most recent submissions
-				option(value="date_uploaded") Oldest submissions
-				option(value="-views") Most viewed
-				option(value="views") Least viewed
-			div.filterForm.form-inline(ng-show="filterClick")
-				div.form-group
-					label(for="filterAuthor") Photographer name:
-					input(type="text" ng-model="filterAuthor" placeholder="Enter name")
-				div.form-group
-					label(for="filterCategory") Category:
-					select.form-control(ng-model="filterCategory" name="photoCategory" multiple)
-						option(value="*" ng-selected="true") All categories
-						option(value="{{category.name}}" ng-repeat="category in categories") {{category.name}}
-				p Camera settings
-				div.form-group
-					label(for="camera") Camera
-					select.form-control(ng-model="filterCamera")
-						option(value="*" ng-selected="true") All cameras
-						option(value="{{camera}}" ng-repeat="camera in filters.cameras") {{camera}}
-				div.form-group
-					label(for="camera") Shutter speed
-					select.form-control(ng-model="filterShutter")
-						option(value="*" ng-selected="true") All shutter speeds
-						option(value="{{shutter}}" ng-repeat="shutter in filters.shutters") {{shutter}}
-				div.form-group
-					label(for="camera") Aperture
-					select.form-control(ng-model="filterFstop")
-						option(value="*" ng-selected="true") All fStops
-						option(value="{{fstop}}" ng-repeat="fstop in filters.fstops") {{fstop}}
-				div.form-group
-					label(for="camera") ISO
-					select.form-control(ng-model="filterIso")
-						option(value="*" ng-selected="true") All ISOs
-						option(value="{{iso}}" ng-repeat="iso in filters.isos") {{iso}}
-div.row
-	div.col-md-3.col-sm-4(ng-repeat="photo in photos | filter:nameFilter | filter:catFilter | filter:cameraFilter | filter:shutterFilter | filter:fstopFilter | filter:isoFilter | orderBy:sortField:reverse")
-		div.photothumb
-			a.thumbnail(ng-href="/photos/{{photo._id}}")
-				img.img-responsive(ng-src="{{photo.thumb}}")
-			p: strong {{photo.title}}
+div.container
+	div.page-header
+		h1 {{pageTitle}} 
+	div.filter-sort.panel
+		div.form-inline
+			div.form-group
+				button.btn.btn-default(type="button" name="filter" ng-click="filterClick=!filterClick") Filter
+				label(for="sorting") Sort:  
+				select.form-control(name="sorting" ng-model="sortVal" ng-change="sortPhotos()")
+					option(value="-date_uploaded" ng-selected="true") Most recent submissions
+					option(value="date_uploaded") Oldest submissions
+					option(value="-views") Most viewed
+					option(value="views") Least viewed
+				div.filterForm.form-inline(ng-show="filterClick")
+					div.form-group
+						label(for="filterAuthor") Photographer name:
+						input(type="text" ng-model="filterAuthor" placeholder="Enter name")
+					div.form-group
+						label(for="filterCategory") Category:
+						select.form-control(ng-model="filterCategory" name="photoCategory" multiple)
+							option(value="*" ng-selected="true") All categories
+							option(value="{{category.name}}" ng-repeat="category in categories") {{category.name}}
+					p Camera settings
+					div.form-group
+						label(for="camera") Camera
+						select.form-control(ng-model="filterCamera")
+							option(value="*" ng-selected="true") All cameras
+							option(value="{{camera}}" ng-repeat="camera in filters.cameras") {{camera}}
+					div.form-group
+						label(for="camera") Shutter speed
+						select.form-control(ng-model="filterShutter")
+							option(value="*" ng-selected="true") All shutter speeds
+							option(value="{{shutter}}" ng-repeat="shutter in filters.shutters") {{shutter}}
+					div.form-group
+						label(for="camera") Aperture
+						select.form-control(ng-model="filterFstop")
+							option(value="*" ng-selected="true") All fStops
+							option(value="{{fstop}}" ng-repeat="fstop in filters.fstops") {{fstop}}
+					div.form-group
+						label(for="camera") ISO
+						select.form-control(ng-model="filterIso")
+							option(value="*" ng-selected="true") All ISOs
+							option(value="{{iso}}" ng-repeat="iso in filters.isos") {{iso}}
+	div.row
+		div.col-md-3.col-sm-4(ng-repeat="photo in photos | filter:nameFilter | filter:catFilter | filter:cameraFilter | filter:shutterFilter | filter:fstopFilter | filter:isoFilter | orderBy:sortField:reverse")
+			div.photothumb
+				a.thumbnail(ng-href="/photos/{{photo._id}}")
+					img.img-responsive(ng-src="{{photo.thumb}}")
+				p: strong {{photo.title}}

@@ -1,49 +1,50 @@
-div.page-header
-	h1 Upload photo
-div.row
-	div.col-md-7
-		div.form-group
-			label(for="photo") Select your photo
-			input.form-control.input-lg(type="file" name="photo" file-model="photo")
-		div.form-group
-			label(for="title") Enter a title for your photo:
-			input.form-control.input-lg(type="text" name="title" ng-model="title")
-		div.form-group
-			label(for="category") Select categories
-			select.form-control.input-lg(name="category" ng-model="category" multiple)
-				option(value="{{category.name}}" ng-repeat="category in categories") {{category.name}}
-		div.form-group
-			label(for="camera") Enter your camera make/model
-			select.form-control.input-lg(name="camera" ng-model="camera")
-				option(value="" ng-selected="true") -Select camera-
-				option(value="{{camera}}" ng-repeat="camera in filters.cameras.sort()") {{camera}}
-		div.form-group
-			label(for="shutter") Enter the shutter speed used
-			select.form-control.input-lg(name="shutter" ng-model="shutter")
-				option(value="" ng-selected="true") -Select shutter-
-				option(value="{{shutter}}" ng-repeat="shutter in filters.shutters") {{shutter}}
-		div.form-group
-			label(for="fstop") Enter the aperture used
-			select.form-control.input-lg(name="fstop" ng-model="fstop")
-				option(value="" ng-selected="true") -Select fstop-
-				option(value="{{fstop}}" ng-repeat="fstop in filters.fstops") {{fstop}}
-		div.form-group
-			label(for="iso") Enter the ISO used
-			select.form-control.input-lg(name="iso" ng-model="iso")
-				option(value="" ng-selected="true") -Select iso-
-				option(value="{{iso}}" ng-repeat="iso in filters.isos") {{iso}}
-		div.form-group
-			label(for="flash") Did you use flash?
-			br
-			input(type="checkbox" name="flash")
-			| Flash used
-		div.form-group
-			label(for="writeup") Tell us a little about this photo
-			textarea.form-control.input-lg(name="writeup" rows="5" ng-model="writeup")
-		div.form-group
-			label(for="access") Do you want to restrict viewing access to this photo?
-			br
-			input(type="checkbox" name="access")
-			| Restrict access
-		div.form-group
-			button.btn.btn-default.btn-lg(ng-click="submitPhoto()") Submit photo
+div.container
+	div.page-header
+		h1 Upload photo
+	div.row
+		div.col-md-7
+			div.form-group
+				label(for="photo") Select your photo
+				input.form-control.input-lg(type="file" name="photo" file-model="photo")
+			div.form-group
+				label(for="title") Enter a title for your photo:
+				input.form-control.input-lg(type="text" name="title" ng-model="title")
+			div.form-group
+				label(for="category") Select categories
+				select.form-control.input-lg(name="category" ng-model="category" multiple)
+					option(value="{{category.name}}" ng-repeat="category in categories") {{category.name}}
+			div.form-group
+				label(for="camera") Enter your camera make/model
+				select.form-control.input-lg(name="camera" ng-model="camera")
+					option(value="" ng-selected="true") -Select camera-
+					option(value="{{camera}}" ng-repeat="camera in filters.cameras.sort()") {{camera}}
+			div.form-group
+				label(for="shutter") Enter the shutter speed used
+				select.form-control.input-lg(name="shutter" ng-model="shutter")
+					option(value="" ng-selected="true") -Select shutter-
+					option(value="{{shutter}}" ng-repeat="shutter in filters.shutters") {{shutter}}
+			div.form-group
+				label(for="fstop") Enter the aperture used
+				select.form-control.input-lg(name="fstop" ng-model="fstop")
+					option(value="" ng-selected="true") -Select fstop-
+					option(value="{{fstop}}" ng-repeat="fstop in filters.fstops") {{fstop}}
+			div.form-group
+				label(for="iso") Enter the ISO used
+				select.form-control.input-lg(name="iso" ng-model="iso")
+					option(value="" ng-selected="true") -Select iso-
+					option(value="{{iso}}" ng-repeat="iso in filters.isos") {{iso}}
+			div.form-group
+				label(for="flash") Did you use flash?
+				br
+				input(type="checkbox" name="flash")
+				| Flash used
+			div.form-group
+				label(for="writeup") Tell us a little about this photo
+				textarea.form-control.input-lg(name="writeup" rows="5" ng-model="writeup")
+			div.form-group
+				label(for="access") Do you want to restrict viewing access to this photo?
+				br
+				input(type="checkbox" name="access")
+				| Restrict access
+			div.form-group
+				button.btn.btn-default.btn-lg(ng-click="submitPhoto()") Submit photo

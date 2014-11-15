@@ -44,7 +44,7 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 
 		$routeProvider
 			.when('/', {
-				templateUrl: '/partials/home'
+				templateUrl: '/partials/home',
 			})
 			.when('/photos/all', {
 				templateUrl: '/partials/photos_all',
@@ -77,10 +77,20 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 		$locationProvider.html5Mode(true);
 	})
 
+	.run(['$location', '$rootScope', 
+		function ($location, $rootScope) {
+			$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+				$rootScope.bkgrd = $location.url() == '/' ? 'home-bkgrd' : '';
+			});
+		}
+	])
+
 	.controller('LoginController', ['$scope', '$http', '$location', '$rootScope',
 		function ($scope, $http, $location, $rootScope) {
 			$scope.login = {};
 			$scope.login.error, $rootScope.showMessage = false;
+
+			//$scope.bkgrd = $location.url() == '/' ? 'home-bkgrd' : '';
 
 			/*
 				*/

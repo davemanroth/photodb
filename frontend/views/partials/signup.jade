@@ -1,24 +1,25 @@
-h1 Add user
+div.container
+	h1 Add user
 
-label(for="profile_image") Upload a profile photo
-input(type="file" name="profile_image" file-model="profile_image")
-br
-label(for="first_name") Please enter your first name
-input(type="text" name="first_name" ng-model="first_name")
-br
-label(for="last_name") Please enter your last name
-input(type="text" name="last_name" ng-model="last_name")
-br
-label(for="username") Please choose a username
-input(type="text" name="username" ng-model="username")
-br
-label(for="password") Please choose a password
-input(type="password" name="password" ng-model="password")
-br
-label(for="email") Please enter a valid email address
-input(type="text" name="email" ng-model="email")
-br
-label(for="bio") Tell us a little bit about yourself
-textarea(name="bio" ng-model="bio")
-br
-button(ng-click="addUser()") Signup!
+	label(for="profile_image") Upload a profile photo
+	input(type="file" name="profile_image" file-model="profile_image")
+	br
+	label(for="first_name") Please enter your first name
+	input(type="text" name="first_name" ng-model="first_name")
+	br
+	label(for="last_name") Please enter your last name
+	input(type="text" name="last_name" ng-model="last_name")
+	br
+	label(for="username") Please choose a username
+	input(type="text" name="username" ng-model="username")
+	br
+	label(for="password") Please choose a password
+	input(type="password" name="password" ng-model="password")
+	br
+	label(for="email") Please enter a valid email address
+	input(type="text" name="email" ng-model="email")
+	br
+	label(for="bio") Tell us a little bit about yourself
+	textarea(name="bio" ng-model="bio")
+	br
+	button(ng-click="addUser()") Signup!
