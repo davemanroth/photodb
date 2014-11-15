@@ -14,6 +14,7 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 						$timeout(deferred.resolve, 0);
 					}
 					else {
+						$rootScope.showMessage = true;
 						$rootScope.message = 'You need to log in';
 						$timeout( function () {
 							deferred.reject();
@@ -51,7 +52,8 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 			})
 			.when('/photos/add', {
 				templateUrl: '/partials/photos_add',
-				controller: 'PhotoUploadController'
+				controller: 'PhotoUploadController',
+				resolve: { loggedin : checkLoggedin }
 			})
 			.when('/photos/:id', {
 				templateUrl: '/partials/photos_detail',
@@ -62,12 +64,12 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 			})
 			.when('/users/signup', {
 				templateUrl: '/partials/signup',
-				controller: 'UserAddController',
-				resolve: { loggedin : checkLoggedin }
+				controller: 'UserAddController'
 			})
 			.when('/users/:username', {
 				templateUrl: '/partials/user',
-				controller: 'UserController'
+				controller: 'UserController',
+				resolve: { loggedin : checkLoggedin }
 			})
 			.otherwise({
 				redirectTo: '/'
@@ -75,22 +77,31 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 		$locationProvider.html5Mode(true);
 	})
 
-	.controller('LoginController', ['$scope', '$http', '$location', 
-		function ($scope, $http, $location) {
+	.controller('LoginController', ['$scope', '$http', '$location', '$rootScope',
+		function ($scope, $http, $location, $rootScope) {
 			$scope.login = {};
-			$scope.login.error = false;
-			$scope.login.nav = true;
+			$scope.login.error, $rootScope.showMessage = false;
 
-			$scope.login.login = function ($event) {
-				var loc = $event.target.name;
-				switch (loc) {
-					case 'nav-login':
-						$scope.login.navLoginShow = !$scope.login.navLoginShow;
-						break;
-					case 'home-login':
-						$scope.login.homeLoginShow = !$scope.login.homeLoginShow;
-						break;
-				}
+			/*
+				*/
+			if ($scope.login.user === undefined) {
+				$http.get('/api/users/checkLoggedin')
+					.success( function (user) {
+						if (user !== '0') {
+							$scope.login.user = user.username;
+							$scope.login.loggedin = true;
+						}
+						else {
+							$scope.login.loggedin = false;
+						}
+					})
+					.error( function (error) {
+						console.log('Error: ' + error);
+					});
+			}
+
+			$scope.login.showLogin = function () {
+				$scope.login.navLoginShow = !$scope.login.navLoginShow;
 			}
 
 			$scope.login.signIn = function () {
@@ -102,13 +113,15 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 				console.log(data);
 					*/
 				$http.post('/api/users/authenticate', data)
-					.success( function (result) {
+					.success( function (user) {
+						$scope.login.user = user.username;
+						$scope.login.loggedin = true;
+						$scope.login.navLoginShow = false;
 						/*
 						*/
-						console.log(result);
 					})
-					.error( function (result) {
-						console.log(result);
+					.error( function (error) {
+						console.log(error);
 					});
 			}
 
@@ -116,6 +129,8 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 
 				$http.post('/api/users/logout')
 					.success( function(data) {
+						$scope.login.user = undefined;
+						$scope.login.loggedin = false;
 						$location.path('/');
 					})
 					.error( function(data) {

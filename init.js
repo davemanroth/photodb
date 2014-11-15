@@ -96,11 +96,11 @@ app.get('/api/categories', photo.categories);
 app.post('/api/critiques/add', critique.feedbackSubmit);
 
 // User
-app.get('/api/users/:username', auth, user.profile);
 app.get('/api/users/checkLoggedin', user.checkLoggedin);
 app.post('/api/users/signup', user.signupAction);
 app.post('/api/users/authenticate', user.login);
 app.post('/api/users/logout', user.logout);
+app.get('/api/users/:username', auth, user.profile);
 /*
 app.get('/api/signup', user.signupForm);
 //app.get('/users', user.allUsers);

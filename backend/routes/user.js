@@ -74,7 +74,6 @@ exports.checkLoggedin = function (req, res) {
 	res.send(req.isAuthenticated() ? req.user : '0');
 }
 
-
 /*
 exports.login = function (req, res) {
 	//console.log(req.body.username);

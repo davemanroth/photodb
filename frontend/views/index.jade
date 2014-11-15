@@ -7,8 +7,8 @@ html(ng-app="photoapp")
 	body(ng-controller="LoginController")
 		include includes/header-menu.jade
 		div.container
-			div.alert.alert-warning(ng-show="message") {{message}}
-			div(ng-view)
+			div.alert.alert-warning(ng-show="showMessage") {{message}}
+			div(ng-view ng-module="login.user")
 			script(src='/vendor/jquery/dist/jquery.min.js')
 			script(src='/vendor/bootstrap/dist/js/bootstrap.min.js')
 			script(src='/vendor/angular/angular.min.js')
