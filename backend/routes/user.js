@@ -71,44 +71,7 @@ exports.logout = function (req, res) {
 exports.checkLoggedin = function (req, res) {
 	res.send(req.isAuthenticated() ? req.user : '0');
 }
-
-/*
-exports.login = function (req, res) {
-	//console.log(req.body.username);
-	User.find({
-		username: req.body.username,
-		password: req.body.password
-	}, function (err, data) {
-		if (!err) {
-			if (data != '') {
-				req.session.username = data[0].username;
-				req.session.userid = data[0]._id;
-			}
-			res.json(data);
-		}
-		else {
-			console.log('Error: ' + err);
-		}
-	});
-}
-
-exports.logout = function (req, res) {
-	delete req.session.username;
-	delete req.session.userid;
-	req.session.username, req.session.userid = undefined;
-	console.log('Logout initiated');
-	res.json(true);
-}
-*/
-
-/*
-exports.signupForm = function (req, res) {
-	res.render('signup', {title: 'User signup'});
-};
-*/
-
 exports.signupAction = function (req, res) {
-	//console.log([req.files, req.body]);
 	
 	var newUser = new User({
 		username: req.body.username,
@@ -120,7 +83,7 @@ exports.signupAction = function (req, res) {
 		bio: req.body.bio
 	});
 
-	if (req.files.pic !== undefined) {
+	if (req.files && req.files.pic !== undefined) {
 		var pic = req.files.pic;
 		var imgUrl = '/photo_uploads/profile_imgs/' + pic.name;
 		var tmpPath = pic.path;
@@ -138,6 +101,12 @@ exports.signupAction = function (req, res) {
 	newUser.save( function (err, user) {
 		if(!err) {
 			console.log('New user added!');
+			req.logIn(user, function (err) {
+				if (err) {
+					return next(err);
+				}
+				res.send(200);
+			});
 		}
 		else {
 			console.log(err);

@@ -27,11 +27,11 @@ angular.module('userCtrl', [])
 		}
 	])
 
-	.controller('UserAddController', ['$scope', '$http', '$location',
-		function ($scope, $http, $location) {
+	.controller('UserAddController', ['$scope', '$http', '$location', '$rootScope', 
+		function ($scope, $http, $location, $rootScope) {
 			$scope.addUser = function() {
+				var extras = {};
 				var user = {
-					pic: $scope.profile_image,
 					username: $scope.username,
 					password: $scope.password,
 					email: $scope.email,
@@ -40,8 +40,9 @@ angular.module('userCtrl', [])
 					bio: $scope.bio
 				};
 
-				$http.post('/api/users/signup', user, 
-					{
+				if ($scope.profile_image !== undefined) {
+					user.pic = $scope.profile_image;
+					extras = {
 						transformRequest: function (user) {
 							var fd = new FormData();
 							for(var key in user) {
@@ -50,10 +51,21 @@ angular.module('userCtrl', [])
 							return fd;
 						},
 						headers: {'Content-Type' : undefined}
+					};
+				}
+
+				$http.post('/api/users/signup', user, extras)
+					.success( function(data) {
+						console.log(data);
+						$location.path('/users/' + user.username);
+						$scope.login.user = user.username;
+						$scope.login.loggedin = true;
+						console.log([$scope.login.user, $scope.login.loggedin]);
+						$rootScope.message = 'User successfully added!';
 					})
-				.success( function(data) {
-					$location.path('/users/' + user.username);
-				} );
+					.error( function(data) {
+						console.log(data);
+					});
 			}
 		}
 	]);
