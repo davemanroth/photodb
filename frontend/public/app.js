@@ -2,7 +2,7 @@ angular.module('photoapp', ['ngRoute', 'loginCtrl', 'photoCtrl', 'userCtrl', 'fe
 	.config( function($routeProvider, $locationProvider, $httpProvider) {
 
 		// check if the user is connected
-		var checkLoggedin = function ($q, $timeout, $http, $location, messageCenterService, sessServ) {
+		var checkLoggedin = function ($q, $timeout, $http, $location, messageCenterService) {
 						
 			// initialize a new promise
 			var deferred = $q.defer();

@@ -1,6 +1,11 @@
 angular.module('loginCtrl', [])
 
-	.controller('LoginController', ['$scope', '$http', '$location', 'messageCenterService', 
+	.controller('LoginController', 
+		[
+			'$scope', 
+			'$http', 
+			'$location', 
+			'messageCenterService', 
 		function ($scope, $http, $location, messageCenterService) {
 			$scope.login = {};
 

@@ -18,16 +18,7 @@ angular.module('feedbackCtrl', [])
 
 			$scope.showHideFeedback = function ($event) {
 				// First check if the user is logged in
-				if ($scope.login.user === undefined) {
-					var user = sessServ.getUser();
-					if (!user) {
-						messageCenterService.add(
-							'warning',
-							'You need to log in to submit feedback'
-						);
-						return undefined;
-					}
-				}
+				
 				var option = $event.target.id;
 // This checkbox variable is a throwaway, only set so we can borrow the same
 // 'visChecked' broadcast event. In this case we're using it to remove
@@ -42,8 +33,22 @@ angular.module('feedbackCtrl', [])
 						$scope.$broadcast('visChecked', checkbox, false);
 						break;
 					case 'showFeedback':
-						$scope.feedbackArea = true;
-						$scope.feedbackOption = false;
+						$http.get('/api/users/checkLoggedin')
+							.success( function (user) {
+								if (user === '0') {
+									messageCenterService.add(
+										'warning',
+										'You need to log in to submit feedback'
+									);
+								}
+								else {
+									$scope.feedbackArea = true;
+									$scope.feedbackOption = false;
+								}
+							})
+							.error( function (error) {
+								console.log('Error: ' + error);
+							});
 						break;
 				}
 			}
