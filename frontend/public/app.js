@@ -1,8 +1,8 @@
-angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
+angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl', 'MessageCenterModule'])
 	.config( function($routeProvider, $locationProvider, $httpProvider) {
 
 		// check if the user is connected
-		var checkLoggedin = function ($q, $timeout, $http, $location, $rootScope) {
+		var checkLoggedin = function ($q, $timeout, $http, $location) {
 			// initialize a new promise
 			var deferred = $q.defer();
 
@@ -14,8 +14,13 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 						$timeout(deferred.resolve, 0);
 					}
 					else {
-						$rootScope.showMessage = true;
-						$rootScope.message = 'You need to log in';
+						/*
+						messageCenterService.add(
+							'warning', 
+							'You need to log in', 
+							{ timeout : 3000 }
+						);
+						*/
 						$timeout( function () {
 							deferred.reject();
 						}, 0);
@@ -85,15 +90,15 @@ angular.module('photoapp', ['ngRoute', 'photoCtrl', 'userCtrl', 'feedbackCtrl'])
 		}
 	])
 
-	.controller('LoginController', ['$scope', '$http', '$location', '$rootScope',
-		function ($scope, $http, $location, $rootScope) {
+	.controller('LoginController', ['$scope', '$http', '$location', 'messageCenterService', 
+		function ($scope, $http, $location, messageCenterService) {
 			$scope.login = {};
-			$scope.login.error, $rootScope.showMessage = false;
 
 			//$scope.bkgrd = $location.url() == '/' ? 'home-bkgrd' : '';
-
 			/*
 				*/
+			messageCenterService.add('warning', 'You need to log in');
+
 			if ($scope.login.user === undefined) {
 				$http.get('/api/users/checkLoggedin')
 					.success( function (user) {
