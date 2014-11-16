@@ -1,26 +1,33 @@
 angular.module('loginCtrl', [])
 
-	.controller('LoginController', 
-		[
-			'$scope', 
-			'$http', 
-			'$location', 
-			'sessServ',
-			'messageCenterService', 
-
-		function ($scope, $http, $location, sessServ, messageCenterService) {
+	.controller('LoginController', ['$scope', '$http', '$location', 'messageCenterService', 
+		function ($scope, $http, $location, messageCenterService) {
 			$scope.login = {};
+
+			//$scope.bkgrd = $location.url() == '/' ? 'home-bkgrd' : '';
 			/*
+			var mssg = messageCenterService.add(
+				'warning', 
+				'You need to log in'
+			);
 				*/
+			//messageCenterService.mcMessages.push(mssg);
+			//console.log(messageCenterService.mcMessages);
+
 			if ($scope.login.user === undefined) {
-				var user = sessServ.getUser();
-				if (user) {
-					$scope.login.user = user
-					$scope.login.loggedin = true;
-				}
-				else {
-					$scope.login.loggedin = false;
-				}
+				$http.get('/api/users/checkLoggedin')
+					.success( function (user) {
+						if (user !== '0') {
+							$scope.login.user = user.username;
+							$scope.login.loggedin = true;
+						}
+						else {
+							$scope.login.loggedin = false;
+						}
+					})
+					.error( function (error) {
+						console.log('Error: ' + error);
+					});
 			}
 
 			$scope.login.showLogin = function () {

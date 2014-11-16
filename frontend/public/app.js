@@ -1,14 +1,4 @@
-angular.module('photoapp', 
-	[
-		'ngRoute', 
-		'loginCtrl', 
-		'photoCtrl', 
-		'userCtrl', 
-		'feedbackCtrl', 
-		'SessionService',
-		'MessageCenterModule'
-	])
-
+angular.module('photoapp', ['ngRoute', 'loginCtrl', 'photoCtrl', 'userCtrl', 'feedbackCtrl', 'SessionService', 'MessageCenterModule'])
 	.config( function($routeProvider, $locationProvider, $httpProvider) {
 
 		// check if the user is connected
@@ -30,14 +20,15 @@ angular.module('photoapp',
 							deferred.reject();
 						}, 0);
 						$location.url('/');
+						messageCenterService.add(
+							'warning', 
+							'You need to log in to view this area', 
+							{ status : messageCenterService.status.next }
+						);
 						
 					}
 				});
-				messageCenterService.add(
-					'warning', 
-					'You need to log in to view this area', 
-					{ status : messageCenterService.status.next }
-				);
+				
 			return deferred.promise;
 		}
 
