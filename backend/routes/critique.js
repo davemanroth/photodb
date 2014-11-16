@@ -30,7 +30,7 @@ exports.feedbackSubmit = function (req, res) {
 		}
 		else {
 			photo1.critiques.push({
-				username: req.session.username,
+				username: req.user.username,
 				like: req.body.like,
 				improved: req.body.improved,
 			});
@@ -64,7 +64,7 @@ exports.feedbackSubmit = function (req, res) {
 					}//if details
 					res.json(thisCrit);
 					console.log(thisCrit);
-					User.addToArray('critiques', req.session.username, photo2._id);
+					User.addToArray('critiques', req.user.username, photo2._id);
 				}// else photo2
 			/*
 				else {

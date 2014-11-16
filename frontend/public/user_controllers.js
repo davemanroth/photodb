@@ -27,8 +27,8 @@ angular.module('userCtrl', [])
 		}
 	])
 
-	.controller('UserAddController', ['$scope', '$http', '$location', '$rootScope', 
-		function ($scope, $http, $location, $rootScope) {
+	.controller('UserAddController', ['$scope', '$http', '$location',  
+		function ($scope, $http, $location) {
 			$scope.addUser = function() {
 				var extras = {};
 				var user = {
@@ -61,7 +61,6 @@ angular.module('userCtrl', [])
 						$scope.login.user = user.username;
 						$scope.login.loggedin = true;
 						console.log([$scope.login.user, $scope.login.loggedin]);
-						$rootScope.message = 'User successfully added!';
 					})
 					.error( function(data) {
 						console.log(data);
