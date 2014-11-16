@@ -1,15 +1,33 @@
 angular.module('feedbackCtrl', [])
 
-	.controller('FeedbackController', ['$scope', '$http', '$routeParams', 
-		function ($scope, $http, $routeParams) {
+	.controller('FeedbackController', 
+		[
+			'$scope', 
+			'$http', 
+			'$routeParams', 
+			'$location',
+			'sessServ',
+			'messageCenterService', 
+
+		function ($scope, $http, $routeParams, $location, sessServ, messageCenterService) {
 			$scope.sortField = '-date_posted';
 			$scope.visStorage = [];
-
 			$scope.visual, $scope.feedbackArea, 
 			$scope.visEnabled = false;
 			$scope.feedbackOption = true;
 
 			$scope.showHideFeedback = function ($event) {
+				// First check if the user is logged in
+				if ($scope.login.user === undefined) {
+					var user = sessServ.getUser();
+					if (!user) {
+						messageCenterService.add(
+							'warning',
+							'You need to log in to submit feedback'
+						);
+						return undefined;
+					}
+				}
 				var option = $event.target.id;
 // This checkbox variable is a throwaway, only set so we can borrow the same
 // 'visChecked' broadcast event. In this case we're using it to remove
