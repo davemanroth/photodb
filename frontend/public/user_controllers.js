@@ -2,6 +2,10 @@ angular.module('userCtrl', [])
 
 	.controller('UserPhotoEditController', ['$scope', '$http',
 		function($scope, $http) {
+			$scope.isOwner = function (user) {
+				return user === $scope.login.user;
+			}
+
 			$scope.updatePhotoEdits = function () {
 				$http.put('/api/editphoto/', $scope.photo) 
 					.success(function(data) {

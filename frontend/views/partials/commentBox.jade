@@ -1,6 +1,8 @@
-div#comment-outer.comment-outer.absolute(ng-model="visTemp")
-	div.comment-inner
-		h3 Comment
-		textarea(ng-model="commentText")
-		button(ng-click="cancelComment()") Cancel
-		button(ng-click="submitComment()") Submit comment
+div.comment-outer.absolute(ng-model="visTemp")
+	div.panel.panel-default.comment-inner
+		div.panel-heading
+			h3 Comment
+		div.panel-body.form-group
+			textarea.form-control.input-lg(ng-model="commentText")
+			button.btn.btn-default(ng-click="cancelComment()") Cancel
+			button.btn.btn-default(ng-click="submitComment()") Submit comment

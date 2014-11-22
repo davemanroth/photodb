@@ -5,13 +5,17 @@ div.panel.panel-default
 		h3 My profile
 	div.panel-body
 		div.row
-			div.col-sm-4
+			div.col-sm-3
 				p: img.img-responsive(alt="placeholder image" ng-src="{{user.self_portrait}}")
-			div.col-sm-8
+			div.col-sm-4
+				h4 Basic info
 				p Username <br /> {{user.username}}
 				p First name <br /> {{user.first_name}}
 				p Last name <br /> {{user.last_name}}
 				p Email <br /> {{user.email}}
+			div.col-sm-5
+				h4 Bio
+				p {{user.bio}}
 h2 My groups
 #group-listing(ng-if="user.groups.length > 0")
 	div.package(ng-repeat="group in user.groups")
@@ -32,28 +36,29 @@ div.row(ng-if="user.photos.length > 0")
 				img(ng-src="{{photo.thumb}}")
 			p: strong {{photo.title}}
 			div(ng-controller="UserPhotoEditController")
-				button.btn.btn-default(ng-click="showEdit=true") Edit photo
-				div.photo-edit.absolute.module(ng-show="showEdit")
-					div.form-group
-						label(for="title") Photo title: 
-						input.form-control(name="title" type="text" ng-model="photo.title" value="photo.title")
-					div.form-group
-						label(for="camera") Camera: 
-						select.form-control(name="camera" ng-model="photo.camera")
-							option(value="{{camera}}" ng-selected="camera == photo.camera" ng-repeat="camera in filters.cameras.sort()") {{camera}}
-					div.form-group
-						label(for="shutter") Shutter speed:  
-						select.form-control(name="shutter" ng-model="photo.shutter")
-							option(value="{{shutter}}" ng-selected="shutter == photo.shutter" ng-repeat="shutter in filters.shutters") {{shutter}}
-					div.form-group
-						label(for="fstop") fStop:  
-						select.form-control(name="fstop" ng-model="photo.fstop")
-							option(value="{{fstop}}" ng-selected="fstop == photo.fstop" ng-repeat="fstop in filters.fstops") {{fstop}}
-					div.form-group
-						label(for="iso") ISO:  
-						select.form-control(name="iso" ng-model="photo.iso")
-							option(value="{{iso}}" ng-selected="iso == photo.iso" ng-repeat="iso in filters.isos") {{iso}}
-					button.btn.btn-default(ng-click="showEdit=false") Cancel
-					button.btn.btn-default(ng-click="updatePhotoEdits()") Update values
+				div(ng-show="isOwner(user.username)")
+					button.btn.btn-default(ng-click="showEdit=true") Edit photo
+					div.photo-edit.absolute.module(ng-show="showEdit")
+						div.form-group
+							label(for="title") Photo title: 
+							input.form-control(name="title" type="text" ng-model="photo.title" value="photo.title")
+						div.form-group
+							label(for="camera") Camera: 
+							select.form-control(name="camera" ng-model="photo.camera")
+								option(value="{{camera}}" ng-selected="camera == photo.camera" ng-repeat="camera in filters.cameras.sort()") {{camera}}
+						div.form-group
+							label(for="shutter") Shutter speed:  
+							select.form-control(name="shutter" ng-model="photo.shutter")
+								option(value="{{shutter}}" ng-selected="shutter == photo.shutter" ng-repeat="shutter in filters.shutters") {{shutter}}
+						div.form-group
+							label(for="fstop") fStop:  
+							select.form-control(name="fstop" ng-model="photo.fstop")
+								option(value="{{fstop}}" ng-selected="fstop == photo.fstop" ng-repeat="fstop in filters.fstops") {{fstop}}
+						div.form-group
+							label(for="iso") ISO:  
+							select.form-control(name="iso" ng-model="photo.iso")
+								option(value="{{iso}}" ng-selected="iso == photo.iso" ng-repeat="iso in filters.isos") {{iso}}
+						button.btn.btn-default(ng-click="showEdit=false") Cancel
+						button.btn.btn-default(ng-click="updatePhotoEdits()") Update values
 div(ng-show="user.photos.length == 0")
 	p No photos yet
