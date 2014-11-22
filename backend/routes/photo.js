@@ -72,7 +72,7 @@ exports.photoSubmit = function (req, res, next) {
 	var newPhoto = new Photo({
 		title: req.body.title,
 		category: req.body.category,
-		author: req.session.userid,
+		author: req.user._id,
 		path: fullRes,
 		thumb: thumb,
 		writeup: req.body.writeup,
