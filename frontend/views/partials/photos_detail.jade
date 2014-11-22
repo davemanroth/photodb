@@ -9,7 +9,7 @@ div(ng-controller="FeedbackController")
 	vis-feedback(ng-show="visEnabled" ng-model="visData")
 		vis-new(ng-show="newVis" ng-model="newVis")
 		vis-saved-area(ng-show="savedVis" ng-model="savedVis")
-	img.photo-detail.img-responsive(ng-src="{{photo.path}}")
+	img.center.img-responsive.relative(ng-src="{{photo.path}}")
 	div.row(ng-include="feedbackArea && '/partials/feedback.jade' || ''")
 	div.row.module
 		div.col-sm-4.col-md-3

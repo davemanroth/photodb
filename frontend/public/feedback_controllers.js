@@ -151,6 +151,9 @@ angular.module('feedbackCtrl', [])
 						width = img.width();
 						height = img.height();
 						vc.height(height + 'px').width(width + 'px');
+						vc.css({ left : img.offset().left});
+						scope.imgSize = { width : img.width(), height : img.height()};
+						//console.log(img.offset());
 					});
 
 				/*
@@ -164,7 +167,7 @@ angular.module('feedbackCtrl', [])
 		function ($compile) {
 			return {
 				restrict: 'E',
-				template: '<div class="vis-container absolute" ng-show="newVis"></div>',
+				template: '<div class="vis-container absolute" ng-module="imgSize" ng-show="newVis"></div>',
 				replace: true,
 				link: function (scope, element, attr) {
 					element.bind('click', function (e) {
@@ -178,8 +181,13 @@ angular.module('feedbackCtrl', [])
 						var coords = {
 							xCoord: e.pageX,
 							yCoord: e.pageY
-						}
-						newScope.$broadcast('setCoords', coords);
+						};
+						var newCoords = {
+							xCoord : (e.offsetX / scope.imgSize.width) * 100,
+							yCoord : (e.offsetY / scope.imgSize.height) * 100
+						};
+						//console.log(e);
+						newScope.$broadcast('setCoords', newCoords);
 					});
 				}
 			}
@@ -235,9 +243,12 @@ angular.module('feedbackCtrl', [])
 				restrict: 'E',
 				link: function (scope, element, attrs) {
 					scope.$on('setCoords', function (e, coords) {
-						var left = coords.xCoord - element.width() / 2;
-						var top = coords.yCoord - element.height() / 2;
-						element.css({top: top + 'px', left: left + 'px'});
+						//var left = coords.xCoord - element.width() / 2;
+						//var top = coords.yCoord - element.height() / 2;
+						var left = coords.xCoord;
+						var top = coords.yCoord;
+						element.css({top: '25%', left: '25%'});
+						//element.css({top: top + '%', left: left + '%'});
 					});
 				}
 			}
