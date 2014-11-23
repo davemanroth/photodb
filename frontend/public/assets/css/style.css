@@ -70,4 +70,4 @@ nav ul:after{content:""; display:block; clear:both;}
 .vis-marker{width:30px; height:30px; background:none; z-index:101; top:0; left:0;}
 .new-marker{border:#FFEE00 3px solid;}
 .saved-marker{border:#FF0000 3px solid;}
-.comment{background:#fff; padding:2px 8px;}
+.comment{background:#fff; padding:2px 8px; z-index:101;}

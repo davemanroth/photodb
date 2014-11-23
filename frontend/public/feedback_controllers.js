@@ -195,7 +195,7 @@ angular.module('feedbackCtrl', [])
 							xCoord : ( (e.offsetX / scope.imgSize.width) * 100 ) - 2,
 							yCoord : ( (e.offsetY / scope.imgSize.height) * 100 ) - 2
 						};
-						console.log(newCoords);
+						//console.log(newCoords);
 						//console.log([e.offsetX, e.offsetY]);
 						newScope.$broadcast('setCoords', newCoords);
 					});
@@ -288,10 +288,10 @@ angular.module('feedbackCtrl', [])
 							angular.forEach({mark: mark, comment: comment}, function (val, key) {
 								val = $compile(val)(iscope);
 								if (key == 'mark') {
-									val.css({top: data.yCoord, left: data.xCoord});
+									val.css({top: data.yCoord + '%', left: data.xCoord + '%'});
 								}
 								else {
-									val.css({top: data.yCoord + 40, left: data.xCoord});
+									val.css({top: data.yCoord + 6 + '%', left: data.xCoord + '%'});
 								}
 								if (username) {
 									val.addClass(username);
