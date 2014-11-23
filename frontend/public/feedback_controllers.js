@@ -145,22 +145,24 @@ angular.module('feedbackCtrl', [])
 					var vc = '<vis-container>';	
 					var width=0, height=0, img = element.siblings('img');
 					var win = angular.element($window);
+
+					var visResize = function () {
+						width = img.width();
+						height = img.height();
+						element.height(height + 'px').width(width + 'px');
+					}
+
 					vc = $compile(vc)(scope);
 					element.prepend(vc);
 // match visFeedback's dimensions to photo's
 					img.on('load', function () {
-						width = img.width();
-						height = img.height();
-						element.height(height + 'px').width(width + 'px');
-						//element.css({ left : img.offset().left});
+						visResize();
 						scope.imgSize = { width : img.width(), height : img.height()};
 						//console.log(img.offset());
 					});
 
 					win.resize( function () {
-						width = img.width();
-						height = img.height();
-						element.height(height + 'px').width(width + 'px');
+						visResize();
 					});
 
 				/*
@@ -190,10 +192,11 @@ angular.module('feedbackCtrl', [])
 							yCoord: e.pageY
 						};
 						var newCoords = {
-							xCoord : (e.offsetX / scope.imgSize.width) * 100,
-							yCoord : (e.offsetY / scope.imgSize.height) * 100
+							xCoord : ( (e.offsetX / scope.imgSize.width) * 100 ) - 2,
+							yCoord : ( (e.offsetY / scope.imgSize.height) * 100 ) - 2
 						};
-						//console.log(e);
+						console.log(newCoords);
+						//console.log([e.offsetX, e.offsetY]);
 						newScope.$broadcast('setCoords', newCoords);
 					});
 				}
@@ -228,11 +231,19 @@ angular.module('feedbackCtrl', [])
 
 					scope.submitComment = function () {
 						var marker = element.prev();
+						/*
 						var data = {
 							xCoord: marker[0].offsetLeft,
 							yCoord: marker[0].offsetTop,
 							comment: scope.commentText
 						};
+						*/
+						var data = {
+							xCoord: marker[0].style.left.slice(0, -1),
+							yCoord: marker[0].style.top.slice(0, -1),
+							comment: scope.commentText
+						};
+						//console.log(data);
 						scope.$emit('visDataAdded', data, saved = false);
 						marker.remove();
 						element.remove();
@@ -250,12 +261,10 @@ angular.module('feedbackCtrl', [])
 				restrict: 'E',
 				link: function (scope, element, attrs) {
 					scope.$on('setCoords', function (e, coords) {
-						//var left = coords.xCoord - element.width() / 2;
-						//var top = coords.yCoord - element.height() / 2;
+// Subtract 2% from each coordinate so marker appears centered on mouse cursor
 						var left = coords.xCoord;
 						var top = coords.yCoord;
 						element.css({top: top + '%', left: left + '%'});
-						//element.css({top: top + '%', left: left + '%'});
 					});
 				}
 			}
