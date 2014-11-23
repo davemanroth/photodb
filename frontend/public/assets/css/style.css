@@ -62,10 +62,11 @@ nav ul:after{content:""; display:block; clear:both;}
 /** user profile **/
 .photo-edit{z-index:5; background-color:rgba(255, 255, 255, 0.9); width:400px;}
 /*.vis-body{background-color:rgba(255, 255, 255, 0.4);}*/
-.comment-outer{z-index:102;}
+.comment-outer{z-index:102; top:0; left:0;}
 .comment-inner{position:relative; padding:10px 20px;}
 .vis-comments{position:relative; display:block;}
-.vis-container{z-index:100;}
+.vis-container{z-index:100; height:100%;}
+.vis-respond{max-width:100%; max-height:100%; display:block;}
 .vis-marker{width:30px; height:30px; background:none; z-index:101; top:0; left:0;}
 .new-marker{border:#FFEE00 3px solid;}
 .saved-marker{border:#FF0000 3px solid;}

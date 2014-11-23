@@ -137,13 +137,14 @@ angular.module('feedbackCtrl', [])
 
 
 	.directive('visFeedback', 
-		function ($compile) {
+		function ($compile, $window) {
 			return {
 				restrict: 'E',
 				controller: 'VisController',
 				link: function (scope, element, attr) {
 					var vc = '<vis-container>';	
 					var width=0, height=0, img = element.siblings('img');
+					var win = angular.element($window);
 					vc = $compile(vc)(scope);
 					element.prepend(vc);
 // match visFeedback's dimensions to photo's
@@ -154,6 +155,12 @@ angular.module('feedbackCtrl', [])
 						//element.css({ left : img.offset().left});
 						scope.imgSize = { width : img.width(), height : img.height()};
 						//console.log(img.offset());
+					});
+
+					win.resize( function () {
+						width = img.width();
+						height = img.height();
+						element.height(height + 'px').width(width + 'px');
 					});
 
 				/*
@@ -247,7 +254,7 @@ angular.module('feedbackCtrl', [])
 						//var top = coords.yCoord - element.height() / 2;
 						var left = coords.xCoord;
 						var top = coords.yCoord;
-						element.css({top: '100%', left: '100%'});
+						element.css({top: top + '%', left: left + '%'});
 						//element.css({top: top + '%', left: left + '%'});
 					});
 				}
