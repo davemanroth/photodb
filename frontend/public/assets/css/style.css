@@ -71,3 +71,8 @@ nav ul:after{content:""; display:block; clear:both;}
 .new-marker{border:#FFEE00 3px solid;}
 .saved-marker{border:#FF0000 3px solid;}
 .comment{background:#fff; padding:2px 8px; z-index:101;}
+
+@media (max-width: 767px) {
+  .vis-marker{width:4.5%; height:6%;}
+	.saved-marker, .new-marker{border-width:.3%;}
+}

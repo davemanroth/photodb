@@ -291,7 +291,7 @@ angular.module('feedbackCtrl', [])
 									val.css({top: data.yCoord + '%', left: data.xCoord + '%'});
 								}
 								else {
-									val.css({top: data.yCoord + 6 + '%', left: data.xCoord + '%'});
+									val.css({top: data.yCoord + 9 + '%', left: data.xCoord + '%'});
 								}
 								if (username) {
 									val.addClass(username);
