@@ -7,6 +7,7 @@ var Category = require('../models/category').Category;
 var Filters = require('../models/category').Filters;
 var gm = require('gm').subClass({ imageMagick: true });;
 var fs = require('fs');
+var MAX_WIDTH = 1170;
 
 var thumbName = function (oldName) {
 	return oldName.split('.').join('_thumb.');
@@ -69,6 +70,20 @@ exports.photoSubmit = function (req, res, next) {
 	var fullResDir = './frontend/public' + fullRes;
 	var thumbDir = './frontend/public' + thumb;
 	
+	/*
+	gm(tmpPath).size( function (err, size) {
+		if (!err) {
+			//console.log(size);
+			if (size.width > MAX_WIDTH) {
+				gm(tmpPath).resize(MAX_WIDTH);
+			}
+		}
+		else {
+			console.log(err);
+		}
+	});
+	*/
+
 	var newPhoto = new Photo({
 		title: req.body.title,
 		category: req.body.category,
@@ -84,6 +99,7 @@ exports.photoSubmit = function (req, res, next) {
 		iso: req.body.iso,
 		flash: req.body.flash
 	});
+
 
 	newPhoto.save( function (err, photo) {
 		if(!err) {
@@ -112,6 +128,8 @@ exports.photoSubmit = function (req, res, next) {
 			console.log(err);
 		}
 	});
+	/*
+	*/
 	/*
 	*/
 }
