@@ -1,4 +1,4 @@
-angular.module('photoapp', ['ngRoute', 'loginCtrl', 'photoCtrl', 'userCtrl', 'feedbackCtrl', 'SessionService', 'MessageCenterModule'])
+angular.module('photoapp', ['ngRoute', 'loginCtrl', 'photoCtrl', 'userCtrl', 'feedbackCtrl', 'MessageCenterModule'])
 	.config( function($routeProvider, $locationProvider, $httpProvider) {
 
 		// check if the user is connected

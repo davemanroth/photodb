@@ -6,7 +6,6 @@ angular.module('feedbackCtrl', [])
 			'$http', 
 			'$routeParams', 
 			'$location',
-			'sessServ',
 			'messageCenterService', 
 
 		function ($scope, $http, $routeParams, $location, sessServ, messageCenterService) {
