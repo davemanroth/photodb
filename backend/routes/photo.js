@@ -7,7 +7,6 @@ var Category = require('../models/category').Category;
 var Filters = require('../models/category').Filters;
 var gm = require('gm').subClass({ imageMagick: true });;
 var fs = require('fs');
-var MAX_WIDTH = 1170;
 
 var thumbName = function (oldName) {
 	return oldName.split('.').join('_thumb.');
@@ -69,21 +68,9 @@ exports.photoSubmit = function (req, res, next) {
 	var thumb = '/photo_uploads/thumbs/' + thumbName(submitted.name);
 	var fullResDir = './frontend/public' + fullRes;
 	var thumbDir = './frontend/public' + thumb;
+	var MAX_WIDTH = 1170;
 	
-	/*
-	gm(tmpPath).size( function (err, size) {
-		if (!err) {
-			//console.log(size);
-			if (size.width > MAX_WIDTH) {
-				gm(tmpPath).resize(MAX_WIDTH);
-			}
-		}
-		else {
-			console.log(err);
-		}
-	});
-	*/
-
+// First create a model and populate with user submitted values
 	var newPhoto = new Photo({
 		title: req.body.title,
 		category: req.body.category,
@@ -101,35 +88,66 @@ exports.photoSubmit = function (req, res, next) {
 	});
 
 
-	newPhoto.save( function (err, photo) {
-		if(!err) {
-			User.addToArray('photos', req.user.username, photo._id);
-			res.send('Successful upload!');
-		}
-		else {
-			console.log(err);
-		}
-	});
-	
-// Move file from temporary upload dir to photo_uploads dir
-	fs.rename(tmpPath, fullResDir, function (err) {
-		if (err) { next(err); console.log(err); }
-		fs.unlink(tmpPath, function () {
-			console.log('Image uploaded to ' + fullResDir);
-		});
-	});
-
-// Thumbnail creation
-	gm(fullResDir).resize(220, 180).write(thumbDir, function (err) {
+// Now check width of photo, resize if necessary, then rename and 
+// create a thumb of uploaded image
+	gm(tmpPath).size( function (err, size) {
 		if (!err) {
-			console.log('Thumbnail successfully created!');
+			//console.log(size);
+			if (size.width > MAX_WIDTH) {
+				gm(tmpPath).resize(MAX_WIDTH).write( tmpPath, function (err) {
+					if (!err) {
+						console.log('Image successfully resized');
+						renameAndCreateThumb(finalSave);
+					}
+					else {
+						console.log(err);
+					}// resize and write
+				});
+			}
+			else {
+				renameAndCreateThumb(finalSave);
+			}//If width greater than max width
 		}
 		else {
 			console.log(err);
-		}
-	});
-	/*
-	*/
+		}// If no size error
+		
+	});// gm size function
+
+// Rename the uploaded image and create a corresponding thumbnail
+	function renameAndCreateThumb(finalSave) {
+	// Move file from temporary upload dir to photo_uploads dir
+		fs.rename(tmpPath, fullResDir, function (err) {
+			if (err) { next(err); console.log(err); }
+			fs.unlink(tmpPath, function () {
+				console.log('Image uploaded to ' + fullResDir);
+			});
+		});
+
+	// Thumbnail creation
+		gm(fullResDir).resize(220, 180).write(thumbDir, function (err) {
+			if (!err) {
+				console.log('Thumbnail successfully created!');
+				finalSave();
+			}
+			else {
+				console.log(err);
+			}
+		});
+	}
+
+// Save the model into MongoDB and add the new photos to the user's db entry
+	function finalSave() {
+		newPhoto.save( function (err, photo) {
+			if(!err) {
+				User.addToArray('photos', req.user.username, photo._id);
+				res.send('Successful upload!');
+			}
+			else {
+				console.log(err);
+			}
+		});
+	}
 	/*
 	*/
 }
