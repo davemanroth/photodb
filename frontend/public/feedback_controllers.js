@@ -8,7 +8,7 @@ angular.module('feedbackCtrl', [])
 			'$location',
 			'messageCenterService', 
 
-		function ($scope, $http, $routeParams, $location, sessServ, messageCenterService) {
+		function ($scope, $http, $routeParams, $location, messageCenterService) {
 			$scope.sortField = '-date_posted';
 			$scope.visStorage = [];
 			$scope.visual, $scope.feedbackArea, 
@@ -87,14 +87,34 @@ angular.module('feedbackCtrl', [])
 		}
 	])
 
-	.controller('VisController', ['$scope', '$element',
-		function ($scope, $element) {
+	.controller('VisController', 
+		[
+			'$scope', 
+			'$element', 
+			'$window', 
+			'messageCenterService', 
+
+		function ($scope, $element, $window, messageCenterService) {
 			$scope.$on('visChecked', function (e, checkbox, critique) {
 // set vis feedback area to display elements according to which checkbox
 // was activated. The 'cancel-save' case is included even though it doesn't
 // technically originate from a checkbox
 				switch (checkbox.name) {
 					case 'new-vis' :
+						/*
+						if ($window.innerWidth < 992) {
+							$scope.visEnabled =  false;
+							checkbox.checked = false;
+							messageCenterService.add(
+								'warning',
+								'Visual feedback is not allowed at this browser size. ' +
+								'Please make the browser window bigger or use a device ' +
+								'with a larger screen size'
+							);
+						}
+						else {
+						}
+						*/
 						$scope.newVis = !$scope.newVis;
 						$scope.savedVis = false;
 						break;
