@@ -102,6 +102,7 @@ angular.module('feedbackCtrl', [])
 				switch (checkbox.name) {
 					case 'new-vis' :
 						/*
+						*/
 						if ($window.innerWidth < 992) {
 							$scope.visEnabled =  false;
 							checkbox.checked = false;
@@ -113,10 +114,9 @@ angular.module('feedbackCtrl', [])
 							);
 						}
 						else {
+							$scope.newVis = !$scope.newVis;
+							$scope.savedVis = false;
 						}
-						*/
-						$scope.newVis = !$scope.newVis;
-						$scope.savedVis = false;
 						break;
 					case 'saved-vis' :
 						$scope.savedVis = !$scope.savedVis;
