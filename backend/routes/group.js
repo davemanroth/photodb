@@ -9,7 +9,22 @@ exports.listGroups = function (req, res) {
 		.populate('created_by', 'username')
 		.exec(function (err, groups) {
 		if(!err) {
-			res.render('groups', {groups: groups});
+			res.json({groups: groups});
+		}
+		else {
+			console.log(err);
+		}
+	});
+}
+
+exports.listGroup = function (req, res) {
+	var sefname = req.params.sefname;
+	Group.find({sef_name : sefname})
+		.populate('created_by', 'username')
+		.populate('members', 'username')
+		.exec(function (err, group) {
+		if(!err) {
+			res.json({group: group[0]});
 		}
 		else {
 			console.log(err);

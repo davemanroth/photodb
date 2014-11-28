@@ -15,6 +15,7 @@ nav ul:after{content:""; display:block; clear:both;}
 .center{margin:0 auto;}
 .abs-center{left:0; right:0;}
 .full{width:100%; height:100%;}
+.clear-left:after{content:""; display:block;clear:left;}
 
 .module{padding:20px 25px;}
 .module h1, .module h2, 
@@ -56,11 +57,15 @@ nav ul:after{content:""; display:block; clear:both;}
 	-o-border-radius:10px;
 }
 
-/** visual feedback **/
-.vis-toggle{background:#eee;}
+/** groups listing **/
+.group{}
 
 /** user profile **/
 .photo-edit{z-index:5; background-color:rgba(255, 255, 255, 0.9); width:400px;}
+.group-but{float:left; margin-right:3%;}
+
+/** visual feedback **/
+.vis-toggle{background:#eee;}
 /*.vis-body{background-color:rgba(255, 255, 255, 0.4);}*/
 .comment-outer{z-index:102; top:0; left:0;}
 .comment-inner{position:relative; padding:10px 20px;}

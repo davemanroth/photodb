@@ -17,17 +17,21 @@ div.panel.panel-default
 				h4 Bio
 				p {{user.bio}}
 h2 My groups
-#group-listing(ng-if="user.groups.length > 0")
-	div.package(ng-repeat="group in user.groups")
-		a(ng-href="#").group {{group.name}}
-		a(ng-href="#").delete x
-div(ng-show="user.groups.length == 0")
-	p No groups yet
-#group-add
-	label(for="group") To create or join a group, please type a name
-	br
-	input(type="text" name="group" id="group-input")
-	input(type="submit" name="submit" id="group-submit" value="Submit")
+div.row(ng-controller="UserGroupsController")
+	div.col-sm-5
+		div.clear-left(ng-if="user.groups.length > 0")
+			div(ng-repeat="group in user.groups")
+				a.btn.btn-info.btn-sm.group-but(role="button"
+				ng-href="/groups/{{group.sef_name}}") {{group.name}}
+				//a(ng-href="#").delete x
+		div(ng-show="user.groups.length == 0")
+			p No groups yet
+		h3 Add a group
+		div.form-group
+			label(for="group") To create or join a group, please type a name
+			input.form-control.input-lg(type="text" name="group" ng-model="user.group")
+		div.form-group
+			button.btn.btn-default.btn-lg(ng-click="user.addGroup()") Add group
 h2 My photos
 div.row(ng-if="user.photos.length > 0")
 	div.col-md-3.col-sm-4(ng-repeat="photo in user.photos")

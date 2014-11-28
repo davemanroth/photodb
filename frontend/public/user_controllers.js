@@ -31,6 +31,11 @@ angular.module('userCtrl', [])
 		}
 	])
 
+	.controller('UserGroupsController', ['$scope', '$http', '$location',  
+		function ($scope, $http, $location) {
+		}
+	])
+
 	.controller('UserAddController', ['$scope', '$http', '$location',  
 		function ($scope, $http, $location) {
 			$scope.addUser = function() {

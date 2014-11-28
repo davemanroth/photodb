@@ -35,7 +35,7 @@ div(ng-controller="FeedbackController")
 					p.question What could be improved?<br /> {{critique.improved}}
 					p.author - 
 						a(href="/users/{{critique.username}}") {{critique.username}},
-						|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy, h:m a'}}
+						|  {{critique.date_posted | date: 'EEE, MMMM dd, yyyy, h:mm a'}}
 				div.module.vis-toggle(ng-show="critique.details.length > 0")
 					h3 This critique has visual feedback
 					label(for="saved-vis") Click to show visual feedback

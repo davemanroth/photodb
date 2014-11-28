@@ -12,6 +12,7 @@ nav.navbar.navbar-default.navbar-fixed-top(role="navigation")
 				li.active: a(href="/") Home
 				li: a(href="/photos/all") Browse photos
 				li: a(href="/photos/add") Submit a photo
+				li: a(href="/groups/all") Join a group
 				li(ng-show="login.loggedin"): a(href="/users/{{login.user}}") My stuff
 				li(ng-hide="login.loggedin"): a(name="nav-login" href="#" ng-click="login.showLogin()") Login
 				li(ng-show="login.loggedin"): a(href="#" ng-click="login.logout()") Logout

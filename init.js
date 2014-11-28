@@ -18,11 +18,8 @@ mongoose.connect('mongodb://localhost:27017/photodb');
 var photo = require('./backend/routes/photo');
 var user = require('./backend/routes/user');
 var critique = require('./backend/routes/critique');
-/*
 var group = require('./backend/routes/group');
-*/
 /*
-var group = require('./routes/group');
 */
 
 var auth = function (req, res, next) {
@@ -101,24 +98,12 @@ app.post('/api/users/signup', user.signupAction);
 app.post('/api/users/authenticate', user.login);
 app.post('/api/users/logout', user.logout);
 app.get('/api/users/:username', auth, user.profile);
-/*
-app.get('/api/signup', user.signupForm);
-//app.get('/users', user.allUsers);
 
 // Groups
-app.get('/groups', group.listGroups);
-app.post('/groups/add', group.addGroup);
-app.get('/groups/addMembers', group.addMembersForm);
+app.get('/api/groups_all', group.listGroups);
+app.get('/api/groups/:sefname', group.listGroup);
+//app.post('/groups/add', group.addGroup);
 
-// Photos
-app.get('/addphoto', photo.photoForm);
-app.post('/addphoto', photo.photoSubmit);
-app.get('/photos', photo.allPhotos);
-app.get('/photos/:photoid', photo.photoDetail);
-
-// Critiques
-app.post('/critique/add', critique.feedbackSubmit);
-*/
 app.get('*', routes.index);
 /*
 app.get('*', function (req, res, next) {

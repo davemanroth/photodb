@@ -1,0 +1,17 @@
+div.page-header
+	h1 Group listing
+div.row
+	div(ng-repeat="group in groups")
+		div.col-lg-3.col-md-4.col-sm-6
+			div.group
+				h3: a(ng-href="/groups/{{group.sef_name}}") {{group.name}}
+				p: | <strong>Group leader:</strong> 
+					a(ng-href="/users/{{group.created_by.username}}") {{group.created_by.username}}
+					br
+					| <strong>Date created:</strong> 
+					{{group.date_created | date: 'EEE, MMMM dd, yyyy'}}
+					br
+					| <strong>Number of members:</strong> 
+					{{group.members.length}}
+					br
+				button.btn.btn-default(ng-click="group.requestJoin()") Join this group

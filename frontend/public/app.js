@@ -1,4 +1,13 @@
-angular.module('photoapp', ['ngRoute', 'loginCtrl', 'photoCtrl', 'userCtrl', 'feedbackCtrl', 'MessageCenterModule'])
+angular.module('photoapp', 
+	[
+		'ngRoute', 
+		'loginCtrl', 
+		'photoCtrl', 
+		'userCtrl', 
+		'groupCtrl', 
+		'feedbackCtrl', 
+		'MessageCenterModule'
+	])
 	.config( function($routeProvider, $locationProvider, $httpProvider) {
 
 		// check if the user is connected
@@ -52,6 +61,14 @@ angular.module('photoapp', ['ngRoute', 'loginCtrl', 'photoCtrl', 'userCtrl', 'fe
 		$routeProvider
 			.when('/', {
 				templateUrl: '/partials/home',
+			})
+			.when('/groups/all', {
+				templateUrl: '/partials/groups_all',
+				controller: 'GroupListController'
+			})
+			.when('/groups/:sefname', {
+				templateUrl: '/partials/groups_detail',
+				controller: 'GroupDetailController'
 			})
 			.when('/photos/all', {
 				templateUrl: '/partials/photos_all',

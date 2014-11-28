@@ -138,7 +138,7 @@ exports.profile = function (req, res) {
 	var username = req.params.username;
 	User.find({username: username})
 		  .populate('photos')
-		  .populate('groups', 'name')
+		  .populate('groups', 'name sef_name')
 			.exec(function (err, user) {
 		if(!err) {
 			res.json({user: user[0], filters:Filters});

@@ -1,0 +1,10 @@
+div.page-header
+	h1 {{group.name}}
+div.module
+	h3 Group leader
+	a(ng-href="/users/{{group.created_by.username}}") {{group.created_by.username}}
+	h3 Members
+	div(ng-if="group.members.length > 0")
+		ul
+		div(ng-repeat="member in group.members")
+			li: a(ng-href="/users/{{member.username}}") {{member.username}}

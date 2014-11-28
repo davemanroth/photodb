@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 
 var GroupSchema = new Schema({
 	name: {type: String, required: true},
+	sef_name: {type: String, required: true},
 	created_by: {type: Schema.Types.ObjectId, ref:'User'},
 	date_created: {type: Date, default: Date.now},
 	members: [{type: Schema.Types.ObjectId, ref: 'User'}],
