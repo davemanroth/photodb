@@ -31,8 +31,39 @@ angular.module('userCtrl', [])
 		}
 	])
 
-	.controller('UserGroupsController', ['$scope', '$http', '$location',  
-		function ($scope, $http, $location) {
+	.controller('UserGroupsController', 
+		[
+			'$scope', 
+			'$http', 
+			'$location',  
+			'messageCenterService',
+
+		function ($scope, $http, $location, messageCenterService) {
+			$scope.userGroup = {};
+
+			var makeSef = function (name) {
+				var noSpaces = name.toLowerCase().replace(/\s/, '-');
+				var noSpecialChars = noSpaces.replace(/[^-a-z0-9]/g, '');
+				return noSpecialChars;
+			}
+
+			$scope.userGroup.addGroup = function () {
+				var group = {
+					name: $scope.userGroup.groupName,
+					sef_name: makeSef($scope.userGroup.groupName)
+				};
+				$http.post('/api/groups/add', group)
+					.success( function (data) {
+						messageCenterService.add(
+							'success',
+							'New group successfully added',
+							{timeout : 3000}
+						);
+					})
+					.error( function (err) {
+						console.log(err);
+					});
+			}
 		}
 	])
 

@@ -28,10 +28,10 @@ div.row(ng-controller="UserGroupsController")
 			p No groups yet
 		h3 Add a group
 		div.form-group
-			label(for="group") To create or join a group, please type a name
-			input.form-control.input-lg(type="text" name="group" ng-model="user.group")
+			label(for="group") To create a group, please enter a group name
+			input.form-control.input-lg(type="text" name="group" ng-model="userGroup.groupName")
 		div.form-group
-			button.btn.btn-default.btn-lg(ng-click="user.addGroup()") Add group
+			button.btn.btn-default.btn-lg(ng-click="userGropu.addGroup()") Add group
 h2 My photos
 div.row(ng-if="user.photos.length > 0")
 	div.col-md-3.col-sm-4(ng-repeat="photo in user.photos")

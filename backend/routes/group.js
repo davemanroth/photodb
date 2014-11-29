@@ -33,22 +33,22 @@ exports.listGroup = function (req, res) {
 }
 
 exports.addGroup = function (req, res) {
+	/*
+	*/
 	var newGroup = new Group({
-		name: req.body.group,
-		created_by: req.session.userid,
+		name: req.body.name,
+		sef_name: req.body.sef_name,
+		created_by: req.user._id
 	});
-	newGroup.members.push(req.session.userid);
+	newGroup.members.push(req.user._id);
 	newGroup.save(function (err, group) {
 		if (err) {
 			console.log(err);
 		}
 		else {
-			User.addToArray('groups', req.session.username, group._id);
+			User.addToArray('groups', req.user.username, group._id);
+			res.json(group);
 		}
 	});
-	res.send('');
 }
 
-exports.addMembersForm = function (req, res) {
-	res.render('partials/addMembersForm');
-}
