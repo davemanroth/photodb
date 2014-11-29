@@ -18,18 +18,27 @@ div.panel.panel-default
 				p {{user.bio}}
 h2 Groups
 div(ng-controller="UserGroupsController")
-	h3 Join requests
-	div.group-mssgs(ng-if="user.messages.length > 0")
-		ul
-		div(ng-repeat="message in user.messages")
-			li 
-				a(ng-href="/users/{{message.from}}") {{message.from}} 
-				| wants to join 
-				{{message.group}}
-				button.btn.btn-success.btn-sm(ng-click="userGroup.approveDeny(message._id, message.from, message.group, true)") Approve
-				button.btn.btn-warning.btn-sm(ng-click="userGroup.approveDeny(message._id, message.from, message.group, false)") Deny
-	div(ng-show="user.messages.length === 0")
-		p No join requests
+	div(ng-show="isOwner(user.username)")
+		h3 Join requests
+		div.group-mssgs(ng-if="user.messages.length > 0")
+			ul
+			div(ng-repeat="message in user.messages")
+				li 
+					a(ng-href="/users/{{message.from}}") {{message.from}} 
+					| wants to join 
+					{{message.group}}
+					button.btn.btn-success.btn-sm(ng-click="userGroup.approveDeny(message._id, message.from, message.group, true)") Approve
+					button.btn.btn-warning.btn-sm(ng-click="userGroup.approveDeny(message._id, message.from, message.group, false)") Deny
+		div(ng-show="user.messages.length === 0")
+			p No join requests
+		h3 Add a group
+		div.form-group
+			label(for="group") To create a group, please enter a group name
+			div.row
+				div.col-md-5
+					input.form-control.input-lg(type="text" name="group" ng-model="userGroup.groupName")
+		div.form-group
+			button.btn.btn-default(ng-click="userGroup.addGroup()") Add group
 	h3 My groups
 	div.clearfix(ng-if="user.groups.length > 0")
 		div(ng-repeat="group in user.groups")
@@ -38,14 +47,6 @@ div(ng-controller="UserGroupsController")
 			//a(ng-href="#").delete x
 	div(ng-show="user.groups.length === 0")
 		p No groups yet
-	h3 Add a group
-	div.form-group
-		label(for="group") To create a group, please enter a group name
-		div.row
-			div.col-md-5
-				input.form-control.input-lg(type="text" name="group" ng-model="userGroup.groupName")
-	div.form-group
-		button.btn.btn-default(ng-click="userGroup.addGroup()") Add group
 h2 My photos
 div.row(ng-if="user.photos.length > 0")
 	div.col-md-3.col-sm-4(ng-repeat="photo in user.photos")
