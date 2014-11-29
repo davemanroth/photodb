@@ -103,6 +103,7 @@ app.get('/api/users/:username', auth, user.profile);
 app.get('/api/groups_all', group.listGroups);
 app.get('/api/groups/:sefname', group.listGroup);
 app.post('/api/groups/add', group.addGroup);
+app.post('/api/groups/request', group.requestJoin);
 
 app.get('*', routes.index);
 /*

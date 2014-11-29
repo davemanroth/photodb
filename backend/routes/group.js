@@ -32,6 +32,31 @@ exports.listGroup = function (req, res) {
 	});
 }
 
+exports.requestJoin = function (req, res) {
+	//console.log(req.body);
+	User.findById(req.body.creator, 'messages', 
+		function (err, user) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				user.messages.push({
+					from : req.body.requester,
+					group : req.body.sef_group_name
+				});
+				user.save( function (err, savedUser) {
+					if (err) {
+						console.log(err);
+					}
+					else {
+						console.log('Message saved!');
+						res.json({ message : savedUser.messages.pop() });
+					}
+				});
+			}
+	});//User.findById
+}
+
 exports.addGroup = function (req, res) {
 	/*
 	*/

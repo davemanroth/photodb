@@ -37,7 +37,8 @@ angular.module('feedbackCtrl', [])
 								if (user === '0') {
 									messageCenterService.add(
 										'warning',
-										'You need to log in to submit feedback'
+										'You need to log in to submit feedback',
+										{ timeout : 3000 }
 									);
 								}
 								else {

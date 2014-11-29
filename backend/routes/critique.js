@@ -63,16 +63,8 @@ exports.feedbackSubmit = function (req, res) {
 						
 					}//if details
 					res.json(thisCrit);
-					console.log(thisCrit);
 					User.addToArray('critiques', req.user.username, photo2._id);
 				}// else photo2
-			/*
-				else {
-					var thisCrit = {
-						critique: photo2.critiques.pop(),
-						details: details
-					}
-					*/
 			});// photo1.save
 		}// else photo1
 	});// Photo.findById

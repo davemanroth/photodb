@@ -3,7 +3,7 @@ div.page-header
 	div.row
 		p.lead.col-md-9 Below is a listing of all user groups on the website. If you want to join a group, click on the "Join" button and a request will be sent to the group's creator. Once approved, you'll become a member of the group.
 div.row
-	div(ng-repeat="group in groups")
+	div(ng-repeat="group in groupList.groups")
 		div.col-md-4.col-sm-6
 			div.group
 				h3: a(ng-href="/groups/{{group.sef_name}}") {{group.name}}
@@ -16,4 +16,4 @@ div.row
 					| <strong>Number of members:</strong> 
 					{{group.members.length}}
 					br
-				button.btn.btn-default(ng-click="group.requestJoin()") Join this group
+				button.btn.btn-default(ng-click="groupList.requestJoin(group.created_by._id, group.sef_name)") Join this group

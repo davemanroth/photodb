@@ -6,6 +6,12 @@ var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 var Schema = mongoose.Schema;
 
+var MessageSchema = new Schema({
+	from: {type: String, ref: 'User'},
+	group: {type: String, required: true},
+	date_sent: {type: Date, default: Date.now}
+});
+
 var UserSchema = new Schema({
 	username: {type: String, required: true},
 	password: {type: String, required: true},
@@ -21,12 +27,6 @@ var UserSchema = new Schema({
 	photos: [{type: String, ref: 'Photo'}],
 	messages: [MessageSchema],
 }, {collection: 'users'});
-
-var MessageSchema = new Schema({
-	from: {type: String, ref: 'User'},
-	text: {type: String, required: true},
-	date_sent: {type: Date, default: Date.now}
-});
 
 /**
  * Bcrypt middleware

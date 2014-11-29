@@ -16,16 +16,26 @@ div.panel.panel-default
 			div.col-sm-5
 				h4 Bio
 				p {{user.bio}}
-h2 My groups
+h2 Groups
 div.row(ng-controller="UserGroupsController")
 	div.col-sm-5
-		div.clear-left(ng-if="user.groups.length > 0")
+		h3 My groups
+		div.clearfix(ng-if="user.groups.length > 0")
 			div(ng-repeat="group in user.groups")
 				a.btn.btn-info.btn-sm.group-but(role="button"
 				ng-href="/groups/{{group.sef_name}}") {{group.name}}
 				//a(ng-href="#").delete x
-		div(ng-show="user.groups.length == 0")
+		div(ng-show="user.groups.length === 0")
 			p No groups yet
+		h3 Join requests
+		div(ng-if="user.messages.length > 0")
+			div(ng-repeat="message in user.messages")
+				input(type="checkbox" name="{{message.from}}") 
+				{{message.from}} wants to join {{message.group}}
+				br
+			button.btn.btn-default(ng-click="userGroup.approveJoin()") Approve request(s)
+		div(ng-show="user.messages.length === 0")
+			p No join requests
 		h3 Add a group
 		div.form-group
 			label(for="group") To create a group, please enter a group name
