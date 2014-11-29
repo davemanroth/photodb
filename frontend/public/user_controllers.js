@@ -68,6 +68,10 @@ angular.module('userCtrl', [])
 						console.log(err);
 					});
 			}
+
+			$scope.userGroup.approveDeny = function (requester, group, approve) {
+				console.log([requester, group, approve]);
+			}
 		}
 	])
 

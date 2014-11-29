@@ -62,7 +62,8 @@ nav ul:after{content:""; display:block; clear:both;}
 
 /** user profile **/
 .photo-edit{z-index:5; background-color:rgba(255, 255, 255, 0.9); width:400px;}
-.group-but{float:left; margin-right:3%;}
+.group-but{float:left; margin-right:1%;}
+.group-mssgs .btn{margin-left: 1%;}
 
 /** visual feedback **/
 .vis-toggle{background:#eee;}

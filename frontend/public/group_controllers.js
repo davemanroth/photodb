@@ -54,7 +54,6 @@ angular.module('groupCtrl', [])
 										'Your join request has been sent',
 										{ timeout : 3000 }
 									);
-									console.log(data);
 								})
 								.error( function (err) {
 									console.log(err);

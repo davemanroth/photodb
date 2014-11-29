@@ -9,6 +9,7 @@ var Schema = mongoose.Schema;
 var MessageSchema = new Schema({
 	from: {type: String, ref: 'User'},
 	group: {type: String, required: true},
+	text: {type: String},
 	date_sent: {type: Date, default: Date.now}
 });
 
