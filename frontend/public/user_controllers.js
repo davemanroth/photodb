@@ -28,6 +28,9 @@ angular.module('userCtrl', [])
 				.error( function(data) {
 					$scope.error = data.user;
 				});
+			$scope.$on('update_groups', function (e, group) {
+				$scope.user.groups.push(group);
+			});
 		}
 	])
 
@@ -54,6 +57,7 @@ angular.module('userCtrl', [])
 				};
 				$http.post('/api/groups/add', group)
 					.success( function (data) {
+						$scope.$emit('update_groups', data);
 						messageCenterService.add(
 							'success',
 							'New group successfully added',

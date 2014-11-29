@@ -32,7 +32,10 @@ angular.module('photoapp',
 						messageCenterService.add(
 							'warning', 
 							'You need to log in to view this area', 
-							{ status : messageCenterService.status.next }
+							{ 
+								status : messageCenterService.status.next,
+								timeout : 3000
+							}
 						);
 						
 					}
