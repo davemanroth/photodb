@@ -26,8 +26,8 @@ div(ng-controller="UserGroupsController")
 				a(ng-href="/users/{{message.from}}") {{message.from}} 
 				| wants to join 
 				{{message.group}}
-				button.btn.btn-success.btn-sm(ng-click="userGroup.approveDeny(message.from, message.group, true)") Approve
-				button.btn.btn-warning.btn-sm(ng-click="userGroup.approveDeny(message.from, message.group, false)") Deny
+				button.btn.btn-success.btn-sm(ng-click="userGroup.approveDeny(message._id, message.from, message.group, true)") Approve
+				button.btn.btn-warning.btn-sm(ng-click="userGroup.approveDeny(message._id, message.from, message.group, false)") Deny
 	div(ng-show="user.messages.length === 0")
 		p No join requests
 	h3 My groups

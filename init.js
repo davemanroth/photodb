@@ -104,6 +104,7 @@ app.get('/api/groups_all', group.listGroups);
 app.get('/api/groups/:sefname', group.listGroup);
 app.post('/api/groups/add', group.addGroup);
 app.post('/api/groups/request', group.requestJoin);
+app.post('/api/groups/approve-deny', group.approveDeny);
 
 app.get('*', routes.index);
 /*

@@ -32,6 +32,62 @@ exports.listGroup = function (req, res) {
 	});
 }
 
+exports.approveDeny = function (req, res) {
+				/*
+	console.log(req.body);
+				*/
+
+	if (req.body.approved) {
+		Group.find({ sef_name : req.body.group }, 'members',
+			function (err, group) {
+				if (err) {
+					console.log(err);
+				}
+				else {
+					group = group[0];
+					User.find({ username : req.body.requester }, 
+						function (err, user) {
+							if(err) {
+								console.log(err);
+							}
+							else {
+								user = user[0];
+								group.members.push(user._id);
+								group.save( function (err, savedGroup) {
+									if (err) {
+										console.log(err);
+									}
+									else {
+										User.addToArray('groups', user.username, group._id);
+										res.send('200');
+									}
+								});//Save group
+							}
+						});//Add requester to group
+				}
+			});//Find group to add user to
+	}
+
+// Delete message from group creator's profile page
+	User.findById(req.user._id, 'messages',
+		function (err, user) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				user.messages.pull({_id : req.body.mssgid});
+				user.save( function (err, savedUser) {
+					if (err) {
+						console.log(err);
+					}
+					else {
+						console.log('Message successfully deleted');
+					}
+				});//user.save
+			}
+		});//findById
+}
+
 exports.requestJoin = function (req, res) {
 	//console.log(req.body);
 	User.findById(req.body.creator, 'messages', 

@@ -69,8 +69,29 @@ angular.module('userCtrl', [])
 					});
 			}
 
-			$scope.userGroup.approveDeny = function (requester, group, approve) {
-				console.log([requester, group, approve]);
+			$scope.userGroup.approveDeny = function (mssgid, requester, group, approved) {
+				var data = {
+					requester : requester,
+					mssgid : mssgid,
+					group : group,
+					approved : approved
+				};
+				/*
+					*/
+				var verdict = approved ? 'approved' : 'denied';
+				$http.post('/api/groups/approve-deny', data)
+					.success( function (result) {
+						messageCenterService.add(
+							'success',
+							'You have ' + verdict + ' access to ' +
+							requester + ' to ' + group,
+							{timeout : 3000}
+						);
+						console.log(result);
+					})
+					.error( function (err) {
+						console.log(err);
+					});
 			}
 		}
 	])
