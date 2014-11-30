@@ -71,7 +71,8 @@ angular.module('photoapp',
 			})
 			.when('/groups/:sefname', {
 				templateUrl: '/partials/groups_detail',
-				controller: 'GroupDetailController'
+				controller: 'GroupDetailController',
+				resolve: { loggedin : checkLoggedin }
 			})
 			.when('/photos/all', {
 				templateUrl: '/partials/photos_all',
@@ -107,7 +108,8 @@ angular.module('photoapp',
 	.run(['$location', '$rootScope', 
 		function ($location, $rootScope) {
 			$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-				$rootScope.bkgrd = $location.url() == '/' ? 'home-bkgrd' : '';
+				$rootScope.bodyBkgrd = $location.url() == '/' ? 'body-home' : '';
+				$rootScope.wrapperBkgrd = $location.url() == '/' ? 'wrapper-home' : '';
 			});
 		}
 	]);

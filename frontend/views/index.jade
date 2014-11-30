@@ -5,19 +5,21 @@ html(ng-app="photoapp")
 		title= title
 		link(rel='stylesheet', href='/vendor/bootstrap/dist/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/assets/css/style.css')
-	body(ng-controller="LoginController" ng-class="bkgrd")
+	body(ng-controller="LoginController" ng-class="bodyBkgrd")
 		include includes/header-menu.jade
-		div.container
-			mc-messages.message-box
-			div(ng-view)
-			script(src='/vendor/jquery/dist/jquery.min.js')
-			script(src='/vendor/bootstrap/dist/js/bootstrap.min.js')
-			script(src='/vendor/angular/angular.min.js')
-			script(src='/vendor/angular-route/angular-route.min.js')
-			script(src='/vendor/message-center.js')
-			script(src='/app.js')
-			script(src='/login_controller.js')
-			script(src='/photo_controllers.js')
-			script(src='/group_controllers.js')
-			script(src='/user_controllers.js')
-			script(src='/feedback_controllers.js')
+		div.wrapper(ng-class="wrapperBkgrd")
+			div.container
+				mc-messages.message-box
+				div(ng-view)
+		footer
+		script(src='/vendor/jquery/dist/jquery.min.js')
+		script(src='/vendor/bootstrap/dist/js/bootstrap.min.js')
+		script(src='/vendor/angular/angular.min.js')
+		script(src='/vendor/angular-route/angular-route.min.js')
+		script(src='/vendor/message-center.js')
+		script(src='/app.js')
+		script(src='/login_controller.js')
+		script(src='/photo_controllers.js')
+		script(src='/group_controllers.js')
+		script(src='/user_controllers.js')
+		script(src='/feedback_controllers.js')

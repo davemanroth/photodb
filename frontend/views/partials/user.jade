@@ -16,68 +16,70 @@ div.panel.panel-default
 			div.col-sm-5
 				h4 Bio
 				p {{user.bio}}
-h2 Groups
-div(ng-controller="UserGroupsController")
-	div(ng-show="isOwner(user.username)")
-		h3 Join requests
-		div.group-mssgs(ng-if="user.messages.length > 0")
-			ul
-			div(ng-repeat="message in user.messages")
-				li 
-					a(ng-href="/users/{{message.from}}") {{message.from}} 
-					| wants to join 
-					{{message.group}}
-					button.btn.btn-success.btn-sm(ng-click="userGroup.approveDeny(message._id, message.from, message.group, true)") Approve
-					button.btn.btn-warning.btn-sm(ng-click="userGroup.approveDeny(message._id, message.from, message.group, false)") Deny
-		div(ng-show="user.messages.length === 0")
-			p No join requests
-		h3 Add a group
-		div.form-group
-			label(for="group") To create a group, please enter a group name
-			div.row
-				div.col-md-5
-					input.form-control.input-lg(type="text" name="group" ng-model="userGroup.groupName")
-		div.form-group
-			button.btn.btn-default(ng-click="userGroup.addGroup()") Add group
-	h3 My groups
-	div.clearfix(ng-if="user.groups.length > 0")
-		div(ng-repeat="group in user.groups")
-			a.btn.btn-info.btn-sm.group-but(role="button"
-			ng-href="/groups/{{group.sef_name}}") {{group.name}}
-			//a(ng-href="#").delete x
-	div(ng-show="user.groups.length === 0")
-		p No groups yet
-h2 My photos
-div.row(ng-if="user.photos.length > 0")
-	div.col-md-3.col-sm-4(ng-repeat="photo in user.photos")
-		div.photothumb
-			a(ng-href="/photos/{{photo._id}}")
-				img(ng-src="{{photo.thumb}}")
-			p: strong {{photo.title}}
-			div(ng-controller="UserPhotoEditController")
-				div(ng-show="isOwner(user.username)")
-					button.btn.btn-default(ng-click="showEdit=true") Edit photo
-					div.photo-edit.absolute.module(ng-show="showEdit")
-						div.form-group
-							label(for="title") Photo title: 
-							input.form-control(name="title" type="text" ng-model="photo.title" value="photo.title")
-						div.form-group
-							label(for="camera") Camera: 
-							select.form-control(name="camera" ng-model="photo.camera")
-								option(value="{{camera}}" ng-selected="camera == photo.camera" ng-repeat="camera in filters.cameras.sort()") {{camera}}
-						div.form-group
-							label(for="shutter") Shutter speed:  
-							select.form-control(name="shutter" ng-model="photo.shutter")
-								option(value="{{shutter}}" ng-selected="shutter == photo.shutter" ng-repeat="shutter in filters.shutters") {{shutter}}
-						div.form-group
-							label(for="fstop") fStop:  
-							select.form-control(name="fstop" ng-model="photo.fstop")
-								option(value="{{fstop}}" ng-selected="fstop == photo.fstop" ng-repeat="fstop in filters.fstops") {{fstop}}
-						div.form-group
-							label(for="iso") ISO:  
-							select.form-control(name="iso" ng-model="photo.iso")
-								option(value="{{iso}}" ng-selected="iso == photo.iso" ng-repeat="iso in filters.isos") {{iso}}
-						button.btn.btn-default(ng-click="showEdit=false") Cancel
-						button.btn.btn-default(ng-click="updatePhotoEdits()") Update values
-div(ng-show="user.photos.length == 0")
-	p No photos yet
+h2.module Groups
+div.panel.panel-default.module
+	div(ng-controller="UserGroupsController")
+		div(ng-show="isOwner(user.username)")
+			h3 Join requests
+			div.group-mssgs(ng-if="user.messages.length > 0")
+				ul
+				div(ng-repeat="message in user.messages")
+					li 
+						a(ng-href="/users/{{message.from}}") {{message.from}} 
+						| wants to join 
+						{{message.group}}
+						button.btn.btn-success.btn-sm(ng-click="userGroup.approveDeny(message._id, message.from, message.group, true)") Approve
+						button.btn.btn-warning.btn-sm(ng-click="userGroup.approveDeny(message._id, message.from, message.group, false)") Deny
+			div(ng-show="user.messages.length === 0")
+				p No join requests
+			h3 Add a group
+			div.form-group
+				label(for="group") To create a group, please enter a group name
+				div.row
+					div.col-md-5
+						input.form-control.input-lg(type="text" name="group" ng-model="userGroup.groupName")
+			div.form-group
+				button.btn.btn-default(ng-click="userGroup.addGroup()") Add group
+		h3 My groups
+		div.clearfix(ng-if="user.groups.length > 0")
+			div(ng-repeat="group in user.groups")
+				a.btn.btn-info.btn-sm.group-but(role="button"
+				ng-href="/groups/{{group.sef_name}}") {{group.name}}
+				//a(ng-href="#").delete x
+		div(ng-show="user.groups.length === 0")
+			p No groups yet
+div.module
+	h2 My photos
+	div.row(ng-if="user.photos.length > 0")
+		div.col-md-3.col-sm-4(ng-repeat="photo in user.photos")
+			div.photothumb
+				a(ng-href="/photos/{{photo._id}}")
+					img(ng-src="{{photo.thumb}}")
+				p: strong {{photo.title}}
+				div(ng-controller="UserPhotoEditController")
+					div(ng-show="isOwner(user.username)")
+						button.btn.btn-default(ng-click="showEdit=true") Edit photo
+						div.photo-edit.absolute.module(ng-show="showEdit")
+							div.form-group
+								label(for="title") Photo title: 
+								input.form-control(name="title" type="text" ng-model="photo.title" value="photo.title")
+							div.form-group
+								label(for="camera") Camera: 
+								select.form-control(name="camera" ng-model="photo.camera")
+									option(value="{{camera}}" ng-selected="camera == photo.camera" ng-repeat="camera in filters.cameras.sort()") {{camera}}
+							div.form-group
+								label(for="shutter") Shutter speed:  
+								select.form-control(name="shutter" ng-model="photo.shutter")
+									option(value="{{shutter}}" ng-selected="shutter == photo.shutter" ng-repeat="shutter in filters.shutters") {{shutter}}
+							div.form-group
+								label(for="fstop") fStop:  
+								select.form-control(name="fstop" ng-model="photo.fstop")
+									option(value="{{fstop}}" ng-selected="fstop == photo.fstop" ng-repeat="fstop in filters.fstops") {{fstop}}
+							div.form-group
+								label(for="iso") ISO:  
+								select.form-control(name="iso" ng-model="photo.iso")
+									option(value="{{iso}}" ng-selected="iso == photo.iso" ng-repeat="iso in filters.isos") {{iso}}
+							button.btn.btn-default(ng-click="showEdit=false") Cancel
+							button.btn.btn-default(ng-click="updatePhotoEdits()") Update values
+	div(ng-show="user.photos.length == 0")
+		p No photos yet
