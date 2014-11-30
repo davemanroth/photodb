@@ -38,7 +38,7 @@ var PhotoSchema = new Schema({
 	iso: {type: String},
 	flash: {type: Boolean, default: false},
 	writeup: {type: String, required: true},
-	access: {type: Boolean, default: false},
+	groups_restrict: [{type: Schema.Types.ObjectId, ref: 'Group'}],
 	views: {type: Number, required: true, default: 0},
 	critiques: [CritiqueSchema],
 	category: [String],

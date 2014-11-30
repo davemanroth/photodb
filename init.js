@@ -82,8 +82,8 @@ app.get('/partials/:name', routes.partials);
 
 
 // Photos
-app.get('/api/addphoto', photo.categories);
-app.post('/api/addphoto', photo.photoSubmit);
+app.get('/api/addphoto', photo.photoSubmitSetup);
+app.post('/api/addphoto', photo.photoSubmitAction);
 app.put('/api/editphoto', photo.photoEdit);
 app.get('/api/photos_all', photo.photosAll);
 app.get('/api/photos/:id', photo.photoDetail);

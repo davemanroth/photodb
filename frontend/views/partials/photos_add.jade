@@ -43,7 +43,11 @@ div.row
 		div.form-group
 			label(for="access") Do you want to restrict viewing access to this photo?
 			br
-			input(type="checkbox" name="access")
+			input(type="checkbox" name="access" ng-checked="hasGroups" ng-click="checkGroups()")
 			| Restrict access
+		div.form-group(ng-show="hasGroups")
+			label(for="groups") Select the groups that you want to restrict access to:
+			select.form-control.input-lg(name="groups" ng-model="selectedGroups" multiple)
+				option(value="{{group._id}}" ng-repeat="group in groups") {{group.name}}
 		div.form-group
 			button.btn.btn-default.btn-lg(ng-click="submitPhoto()") Submit photo

@@ -114,12 +114,44 @@ angular.module('photoCtrl', [])
 			*/
 
 // Photo upload
-	.controller('PhotoUploadController', ['$scope', '$http', '$location',
-		function($scope, $http, $location) {
+	.controller('PhotoUploadController', 
+		[
+			'$scope', 
+			'$http', 
+			'$location',
+			'messageCenterService',
+
+		function($scope, $http, $location, messageCenterService) {
 			$http.get('/api/addphoto')
-				.success( function(data, status, header, config) {
+				.success( function(data) {
 					$scope.categories = data.categories;
 					$scope.filters = data.filters;
+					$scope.hasGroups = false;
+
+					if (data.groups !== undefined) {
+						$scope.groups = data.groups;
+					}
+					else {
+						$scope.groups = {};
+					}
+
+					$scope.checkGroups = function () {
+						if ($scope.groups.length === 0) {
+							messageCenterService.add(
+								'warning', 
+								'You need to be a member of at least ' +
+								'one group before you can restrict ' +
+								'viewing access.',
+								{ 
+									timeout : 3000
+								}
+							);
+						}
+						else {
+							$scope.hasGroups = !$scope.hasGroups;
+						}
+					}
+
 					$scope.submitPhoto = function () {
 						var data = {
 							photo: $scope.photo,
@@ -127,13 +159,18 @@ angular.module('photoCtrl', [])
 							category: $scope.category,
 							author: $scope.author,
 							writeup: $scope.writeup,
-							access: $scope.access,
 							camera: $scope.camera,
 							shutter: $scope.shutter,
 							fstop: $scope.fstop,
 							iso: $scope.iso,
 							flash: $scope.flash
 						};
+
+						if ($scope.hasGroups && $scope.selectedGroups.length > 0) {
+							data.groups_restrict = $scope.selectedGroups;
+						}
+						/*
+					*/
 						$http.post('/api/addphoto', data, 
 							{
 								transformRequest: function (data) {
@@ -146,15 +183,23 @@ angular.module('photoCtrl', [])
 								headers: {'Content-Type': undefined}
 							})
 							.success( function(data) {
+								messageCenterService.add(
+									'success', 
+									'Your photo was successfully uploaded', 
+									{ 
+										status : messageCenterService.status.next,
+										timeout : 3000
+									}
+								);
 								$location.path('/photos/all');
+							})//post data success
+							.error( function (err) {
+								console.log(err);
 							});
-					/*
-					*/
-					}
-				})
-				.error( function(data, status, header, config) {
-					$scope.categories = '';
-					$scope.error = data.categories;
+					}//submitPhoto
+				})//get('/api/addphoto').success()
+				.error( function(err) {
+					console.log(err);
 				});
 		}
 	])

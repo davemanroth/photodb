@@ -3,6 +3,7 @@
  */
 var Photo = require('../models/photo').Photo;
 var User = require('../models/user').User;
+var Group = require('../models/group').Group;
 var Category = require('../models/category').Category;
 var Filters = require('../models/category').Filters;
 var gm = require('gm').subClass({ imageMagick: true });;
@@ -10,6 +11,35 @@ var fs = require('fs');
 
 var thumbName = function (oldName) {
 	return oldName.split('.').join('_thumb.');
+}
+
+exports.photoSubmitSetup = function (req, res) {
+	Category.find({}, function (err, categories) {
+		if (!err) {
+			var data = {
+				categories : categories,
+				filters : Filters
+			};
+			if (req.user.groups.length > 0) {
+				Group.find({ _id : { $in : req.user.groups } }, 
+					function (err, groups) {
+						if (err) {
+							console.log(err);
+						}
+						else {
+							data.groups = groups;
+							res.json(data);
+						}
+					});//Group.find
+			}//if groups.lenth > 0
+			else {
+				res.json(data);
+			}
+		}
+		else {
+			console.log(err);
+		}
+	});
 }
 
 // Form to add a photo
@@ -55,12 +85,8 @@ exports.photoEdit = function (req, res) {
 
 
 // Process add photo form, add data to db
-exports.photoSubmit = function (req, res, next) {
-
+exports.photoSubmitAction = function (req, res, next) {
 	/*
-	var photo = req.files.photo;
-	var stuff = [photo.path, photo.name];
-	console.log(stuff);
 	*/
 	var submitted = req.files.photo;
 	var tmpPath = submitted.path;
@@ -79,13 +105,22 @@ exports.photoSubmit = function (req, res, next) {
 		thumb: thumb,
 		writeup: req.body.writeup,
 		date_uploaded: Date.now(),
-		access: req.body.access,
 		camera: req.body.camera,
 		shutter: req.body.shutter,
 		fstop: req.body.fstop,
 		iso: req.body.iso,
 		flash: req.body.flash
 	});
+	
+//Check if there are any group restrictions and if so, add
+//them to the group_restrict array field in newPhoto model
+	if (req.body.groups_restrict !== undefined && 
+			req.body.groups_restrict.length > 0) {
+		var grpRst = req.body.groups_restrict;
+		for (var i = 0; i < grpRst.length; i++) {
+			newPhoto.groups_restrict.push(grpRst[i]);
+		}
+	}
 
 
 // Now check width of photo, resize if necessary, then rename and 
