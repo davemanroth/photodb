@@ -86,8 +86,6 @@ exports.photoEdit = function (req, res) {
 
 // Process add photo form, add data to db
 exports.photoSubmitAction = function (req, res, next) {
-	/*
-	*/
 	var submitted = req.files.photo;
 	var tmpPath = submitted.path;
 	var fullRes = '/photo_uploads/' + submitted.name;
@@ -95,11 +93,17 @@ exports.photoSubmitAction = function (req, res, next) {
 	var fullResDir = './frontend/public' + fullRes;
 	var thumbDir = './frontend/public' + thumb;
 	var MAX_WIDTH = 1170;
+
+	var pushArrays = function (str, field) {
+		var arr = str.split(',');
+		for (var i = 0; i < arr.length; i++) {
+			field.push(arr[i]);
+		}
+	}
 	
 // First create a model and populate with user submitted values
 	var newPhoto = new Photo({
 		title: req.body.title,
-		category: req.body.category,
 		author: req.user._id,
 		path: fullRes,
 		thumb: thumb,
@@ -112,15 +116,19 @@ exports.photoSubmitAction = function (req, res, next) {
 		flash: req.body.flash
 	});
 	
+	if (req.body.category.length > 0) {
+		pushArrays(req.body.category, newPhoto.category);
+	}
+	
 //Check if there are any group restrictions and if so, add
 //them to the group_restrict array field in newPhoto model
+	/*
+	*/
 	if (req.body.groups_restrict !== undefined && 
 			req.body.groups_restrict.length > 0) {
-		var grpRst = req.body.groups_restrict;
-		for (var i = 0; i < grpRst.length; i++) {
-			newPhoto.groups_restrict.push(grpRst[i]);
-		}
+		pushArrays(req.body.groups_restrict, newPhoto.groups_restrict);
 	}
+
 
 
 // Now check width of photo, resize if necessary, then rename and 
@@ -189,7 +197,7 @@ exports.photoSubmitAction = function (req, res, next) {
 
 // Photo gallery
 exports.photosAll = function (req, res) {
-	Photo.find({})
+	Photo.find({ groups_restrict : { $size : 0 } })
 		.populate('author', 'username')
 		.exec(function (err, photos) {
 			if(!err) {

@@ -166,11 +166,11 @@ angular.module('photoCtrl', [])
 							flash: $scope.flash
 						};
 
+						/*
+					*/
 						if ($scope.hasGroups && $scope.selectedGroups.length > 0) {
 							data.groups_restrict = $scope.selectedGroups;
 						}
-						/*
-					*/
 						$http.post('/api/addphoto', data, 
 							{
 								transformRequest: function (data) {
