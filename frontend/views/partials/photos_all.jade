@@ -43,6 +43,9 @@ div.filter-sort.panel
 div.row
 	div.col-md-3.col-sm-4(ng-repeat="photo in photos | filter:nameFilter | filter:catFilter | filter:cameraFilter | filter:shutterFilter | filter:fstopFilter | filter:isoFilter | orderBy:sortField:reverse")
 		div.photothumb
-			a.thumbnail(ng-href="/photos/{{photo._id}}")
-				img.img-responsive(ng-src="{{photo.thumb}}")
-			p: strong {{photo.title}}
+			a(ng-href="/photos/{{photo._id}}")
+				img.thumbnail.img-responsive(ng-src="{{photo.thumb}}")
+			p
+				span.title {{photo.title}}
+				br
+				a(ng-href="/users/{{photo.author.username}}") {{photo.author.username}}

@@ -54,7 +54,7 @@ div.module
 		div.col-md-3.col-sm-4(ng-repeat="photo in user.photos")
 			div.photothumb
 				a(ng-href="/photos/{{photo._id}}")
-					img(ng-src="{{photo.thumb}}")
+					img.img-responsive.thumbnail(ng-src="{{photo.thumb}}")
 				p: strong {{photo.title}}
 				div(ng-controller="UserPhotoEditController")
 					div(ng-show="isOwner(user.username)")

@@ -1,10 +1,22 @@
 div.page-header
-	h1 {{group.name}}
+	h1 {{groupDetail.group.name}}
 div.module
-	h3 Group leader
-	a(ng-href="/users/{{group.created_by.username}}") {{group.created_by.username}}
-	h3 Members
-	div(ng-if="group.members.length > 0")
+	h2 Group leader
+	a(ng-href="/users/{{groupDetail.group.created_by.username}}") {{groupDetail.group.created_by.username}}
+div.module
+	h2 Members
+	div(ng-if="groupDetail.group.members.length > 0")
 		ul
-		div(ng-repeat="member in group.members")
+		div(ng-repeat="member in groupDetail.group.members")
 			li: a(ng-href="/users/{{member.username}}") {{member.username}}
+div.module
+	h2 Member photos
+	div.row(ng-if="groupDetail.photos.length > 0")
+		div.col-md-3.col-sm-4(ng-repeat="photo in groupDetail.photos")
+			div.photothumb
+				a(ng-href="/photos/{{photo._id}}")
+					img.thumbnail.img-responsive(ng-src="{{photo.thumb}}")
+				p 
+					span.title {{photo.title}}
+					br
+					a(ng-href="/users/{{photo.author.username}}") {{photo.author.username}}

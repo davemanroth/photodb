@@ -1,9 +1,11 @@
 angular.module('groupCtrl', [])
 	.controller('GroupDetailController', ['$scope', '$http', '$routeParams',
 		function ($scope, $http, $routeParams) {
+			$scope.groupDetail = {};
 			$http.get('/api/groups/' + $routeParams.sefname)
 				.success( function (data) {
-					$scope.group = data.group;
+					$scope.groupDetail.group = data.group;
+					$scope.groupDetail.photos = data.photos;
 				})
 				.error( function (err) {
 					console.log(err);

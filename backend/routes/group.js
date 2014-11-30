@@ -3,6 +3,7 @@
  */
 var Group = require('../models/group').Group;
 var User = require('../models/user').User;
+var Photo = require('../models/photo').Photo;
 
 exports.listGroups = function (req, res) {
 	Group.find()
@@ -19,17 +20,33 @@ exports.listGroups = function (req, res) {
 
 exports.listGroup = function (req, res) {
 	var sefname = req.params.sefname;
+	//First find the correct group
 	Group.find({sef_name : sefname})
 		.populate('created_by', 'username')
 		.populate('members', 'username')
 		.exec(function (err, group) {
 		if(!err) {
-			res.json({group: group[0]});
+			group = group[0];
+			var ids = [];
+			for(var i = 0; i < group.members.length; i++) {
+				ids.push(group.members[i]._id);
+			}
+			//Next, aggregate all photos from members of group
+			Photo.find({ author : {$in : ids } })
+				.populate('author', 'username')
+				.exec( function (err, photos) {
+					if (err) {
+						console.log(err);
+					}
+					else {
+						res.json({ group: group, photos: photos });
+					}
+				});//Photo.find
 		}
 		else {
 			console.log(err);
 		}
-	});
+	});//Group.find
 }
 
 exports.approveDeny = function (req, res) {
