@@ -1,5 +1,6 @@
 div.page-header
 	h1 {{groupDetail.group.name}}
+	p Created: {{groupDetail.group.date_created | date: 'EEE, MMMM dd, yyyy'}}
 div.module
 	h2 Group leader
 	a(ng-href="/users/{{groupDetail.group.created_by.username}}") {{groupDetail.group.created_by.username}}
