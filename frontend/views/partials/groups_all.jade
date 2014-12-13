@@ -16,4 +16,4 @@ div.row
 					| <strong>Number of members:</strong> 
 					{{group.members.length}}
 					br
-				button.btn.btn-default(ng-click="groupList.requestJoin(group.created_by._id, group.sef_name)") Join this group
+				button.btn.btn-default(ng-click="groupList.requestJoin(group.created_by._id, group.sef_name)" ng-if="login.loggedin") Join this group
