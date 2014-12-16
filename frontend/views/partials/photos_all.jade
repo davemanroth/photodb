@@ -3,9 +3,9 @@ div.page-header
 div.filter-sort.panel
 	div.form-inline
 		div.form-group
-			button.btn.btn-default(type="button" name="filter" ng-click="filterClick=!filterClick") Filter
+			button.btn.btn-default.btn-lg(type="button" name="filter" ng-click="filterClick=!filterClick") Filter
 			label(for="sorting") Sort:  
-			select.form-control(name="sorting" ng-model="sortVal" ng-change="sortPhotos()")
+			select.form-control.input-lg(name="sorting" ng-model="sortVal" ng-change="sortPhotos()")
 				option(value="-date_uploaded" ng-selected="true") Most recent submissions
 				option(value="date_uploaded") Oldest submissions
 				option(value="-views") Most viewed
