@@ -6,7 +6,10 @@ div.row
 	div(ng-repeat="group in groupList.groups")
 		div.col-md-4.col-sm-6
 			div.group
-				h3: a(ng-href="/groups/{{group.sef_name}}") {{group.name}}
+				div(ng-if="groupList.isMemberOf(group)")
+					h3: a(ng-href="/groups/{{group.sef_name}}") {{group.name}}
+				div(ng-hide="groupList.isMemberOf(group)")
+					h3 {{group.name}}
 				p: | <strong>Group leader:</strong> 
 					a(ng-href="/users/{{group.created_by.username}}") {{group.created_by.username}}
 					br

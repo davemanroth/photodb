@@ -29,6 +29,10 @@ angular.module('groupCtrl', [])
 					console.log(err);
 				});
 
+			$scope.groupList.isMemberOf = function (group) {
+				return false;
+			}
+
 			$scope.groupList.requestJoin = function (creator, sef_name) {
 				var joinInfo = {
 					creator : creator,

@@ -1,5 +1,5 @@
 header
-nav.navbar.navbar-default.navbar-fixed-top(role="navigation")
+nav.navbar.navbar-default.navbar-fixed-top(role="navigation" ng-model="login.user")
 	div.container-fluid
 		div.navbar-header
 			button.navbar-toggle.collapsed(type="button" data-toggle="collapse" data-target="#navlinks")
@@ -13,7 +13,7 @@ nav.navbar.navbar-default.navbar-fixed-top(role="navigation")
 				li: a(href="/photos/all") Photo gallery
 				li: a(href="/photos/add") Submit a photo
 				li: a(href="/groups/all") User groups
-				li(ng-show="login.loggedin"): a(href="/users/{{login.user}}") My profile
+				li(ng-show="login.loggedin"): a(href="/users/{{login.username}}") My profile
 				li(ng-hide="login.loggedin"): a(name="nav-login" href="#" ng-click="login.showLogin()") Login
 				li(ng-show="login.loggedin"): a(href="#" ng-click="login.logout()") Logout
 		login.absolute(ng-if="login.navLoginShow")

@@ -23,7 +23,8 @@ angular.module('loginCtrl', [])
 				$http.get('/api/users/checkLoggedin')
 					.success( function (user) {
 						if (user !== '0') {
-							$scope.login.user = user.username;
+							$scope.login.user = user;
+							$scope.login.username = user.username;
 							$scope.login.loggedin = true;
 						}
 						else {
