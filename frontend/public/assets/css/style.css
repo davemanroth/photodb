@@ -11,10 +11,11 @@ label, select, input{margin-right:5px;}
 nav li{display:block; padding:5px 10px;}
 nav ul{padding:0;}
 nav ul:after{content:""; display:block; clear:both;}
-.navbar-default{background-color:rgba(41, 50, 64, .9); border:none;}
+.navbar-default{background-color:rgba(41, 50, 64, .9); border:none; padding:5px 18px;}
 .navbar-default .navbar-nav > li > a {color:#D8DFEB; font-size:1.2em;}
 .navbar-default .navbar-nav > li > a:hover, 
 .navbar-default .navbar-nav > li > a:focus{color:#fff;}
+.logo{margin-right:30px;}
 
 .absolute{position:absolute;} 
 .relative{position:relative;} 
@@ -99,4 +100,6 @@ nav ul:after{content:""; display:block; clear:both;}
 	.photothumb .thumbnail{}
   .vis-marker{width:4.5%; height:6%;}
 	.saved-marker, .new-marker{border-width:.3%;}
+	.navbar-default{padding:0;}
+	.navbar-brand{padding:8px;}
 }
