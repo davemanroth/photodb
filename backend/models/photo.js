@@ -45,4 +45,4 @@ var PhotoSchema = new Schema({
 }, {collection: 'photos'});	
 
 var Photo = mongoose.model('Photo', PhotoSchema);
-module.exports = {Photo: Photo};;
+module.exports = {Photo: Photo};
