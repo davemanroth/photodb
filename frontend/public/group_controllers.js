@@ -30,7 +30,12 @@ angular.module('groupCtrl', [])
 				});
 
 			$scope.groupList.isMemberOf = function (group) {
-				return false;
+				if ($scope.login.user === undefined) {
+					return false;
+				}
+				var userGroups = $scope.login.user.groups;
+				return ( (userGroups.length > 0) &&
+					       (userGroups.indexOf(group._id) !== -1) );
 			}
 
 			$scope.groupList.requestJoin = function (creator, sef_name) {

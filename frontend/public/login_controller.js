@@ -8,22 +8,12 @@ angular.module('loginCtrl', [])
 			'messageCenterService', 
 		function ($scope, $http, $location, messageCenterService) {
 			$scope.login = {};
-
-			//$scope.bkgrd = $location.url() == '/' ? 'home-bkgrd' : '';
-			/*
-			var mssg = messageCenterService.add(
-				'warning', 
-				'You need to log in'
-			);
-				*/
-			//messageCenterService.mcMessages.push(mssg);
-			//console.log(messageCenterService.mcMessages);
-
 			if ($scope.login.user === undefined) {
 				$http.get('/api/users/checkLoggedin')
 					.success( function (user) {
 						if (user !== '0') {
 							$scope.login.user = user;
+							$scope.login.username = user.username;
 							$scope.login.name = ', ' + user.username;
 							$scope.login.loggedin = true;
 						}
@@ -50,7 +40,8 @@ angular.module('loginCtrl', [])
 					*/
 				$http.post('/api/users/authenticate', data)
 					.success( function (user) {
-						$scope.login.user = user.username;
+						$scope.login.user = user;
+						$scope.login.username = user.username;
 						$scope.login.name = ', ' + user.username;
 						$scope.login.loggedin = true;
 						$scope.login.navLoginShow = false;
