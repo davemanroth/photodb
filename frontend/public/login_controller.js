@@ -24,7 +24,7 @@ angular.module('loginCtrl', [])
 					.success( function (user) {
 						if (user !== '0') {
 							$scope.login.user = user;
-							$scope.login.username = user.username;
+							$scope.login.name = ', ' + user.username;
 							$scope.login.loggedin = true;
 						}
 						else {
@@ -51,6 +51,7 @@ angular.module('loginCtrl', [])
 				$http.post('/api/users/authenticate', data)
 					.success( function (user) {
 						$scope.login.user = user.username;
+						$scope.login.name = ', ' + user.username;
 						$scope.login.loggedin = true;
 						$scope.login.navLoginShow = false;
 						/*
@@ -66,6 +67,7 @@ angular.module('loginCtrl', [])
 				$http.post('/api/users/logout')
 					.success( function(data) {
 						$scope.login.user = undefined;
+						$scope.login.name = undefined;
 						$scope.login.loggedin = false;
 						$location.path('/');
 					})
