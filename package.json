@@ -12,7 +12,7 @@
     "gm": "^1.16.0",
     "shortid": "^2.0.0",
     "mongodb": "1.4.2",
-    "mongoose": "3.8.x",
+    "mongoose": "5.8.x",
     "bcrypt": "^0.8.x",
     "passport": "^0.2.1",
     "passport-local": "^1.0.x"
