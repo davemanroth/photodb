@@ -1,3 +1,4 @@
 .*.swp
 .*.swo
 #*/photo_uploads/*
+node_modules
